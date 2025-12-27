@@ -550,6 +550,86 @@
             cursor: not-allowed;
         }
 
+        /* Receive Amount Section */
+        .receive-section {
+            margin-bottom: 16px;
+            padding: 16px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+        }
+
+        .receive-header {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .receive-main-amount {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .receive-usd {
+            font-size: 10px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .receive-breakdown {
+            padding: 12px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            margin-bottom: 12px;
+        }
+
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 9px;
+        }
+
+        .breakdown-label {
+            color: var(--text-muted);
+        }
+
+        .breakdown-value {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .breakdown-total {
+            border-top: 1px solid var(--border);
+            margin-top: 8px;
+            padding-top: 8px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+        }
+
+        .breakdown-label-total {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .breakdown-value-total {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .receive-savings {
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+            font-size: 9px;
+            color: var(--success);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
         /* Features */
         .features {
             padding: 30px 0;
@@ -1237,11 +1317,32 @@
                 <button class="btn-bridge" style="margin-bottom: 16px;" onclick="handleAmount()">FIND BEST ROUTES</button>
 
                 <!-- You will receive section -->
-                <div id="receiveAmount" style="display: none; margin-bottom: 16px; padding: 16px; background: var(--bg); border: 1px solid var(--border);">
-                    <div style="font-size: 10px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">YOU WILL RECEIVE</div>
-                    <div style="font-size: 24px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px;" id="receiveAmountValue">0.00 ETH</div>
-                    <div style="font-size: 10px; color: var(--text-muted);" id="receiveAmountUSD">≈ $0.00 USD</div>
-                    <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 9px; color: var(--success); display: flex; align-items: center; gap: 6px;">
+                <div id="receiveAmount" class="receive-section" style="display: none;">
+                    <div class="receive-header">YOU WILL RECEIVE</div>
+                    <div class="receive-main-amount" id="receiveAmountValue">0.00 ETH</div>
+                    <div class="receive-usd" id="receiveAmountUSD">≈ $0.00 USD</div>
+                    
+                    <!-- Breakdown details -->
+                    <div class="receive-breakdown">
+                        <div class="breakdown-row">
+                            <span class="breakdown-label">SENT:</span>
+                            <span class="breakdown-value" id="sentAmount">0.00 ETH</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-label">BRIDGE FEE:</span>
+                            <span class="breakdown-value" id="bridgeFeeAmount">-$0.00</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-label">SLIPPAGE (0.1%):</span>
+                            <span class="breakdown-value" id="slippageAmount">-$0.00</span>
+                        </div>
+                        <div class="breakdown-total">
+                            <span class="breakdown-label-total">TOTAL RECEIVED:</span>
+                            <span class="breakdown-value-total" id="totalReceived">0.00 ETH</span>
+                        </div>
+                    </div>
+                    
+                    <div class="receive-savings">
                         <span>✓</span>
                         <span id="savingsText">SAVE $0.00 VS OTHER PLATFORMS</span>
                     </div>
@@ -1604,8 +1705,11 @@
             // Subtract bridge fee
             const afterFeeUSD = amountUSD - selectedFeeUSD;
             
+            // Calculate slippage amount
+            const slippageUSD = afterFeeUSD * slippage;
+            
             // Apply slippage
-            const afterSlippageUSD = afterFeeUSD * (1 - slippage);
+            const afterSlippageUSD = afterFeeUSD - slippageUSD;
             
             // Convert to destination token
             const receiveAmount = afterSlippageUSD / toChain.price;
@@ -1614,11 +1718,23 @@
             const savings = (competitorFeeUSD - selectedFeeUSD).toFixed(2);
             const savingsPercent = ((competitorFeeUSD - selectedFeeUSD) / competitorFeeUSD * 100).toFixed(0);
             
-            // Update display
+            // Update main display
             document.getElementById('receiveAmountValue').textContent = 
-                `${receiveAmount.toFixed(4)} ${toChain.symbol}`;
+                `${receiveAmount.toFixed(6)} ${toChain.symbol}`;
             document.getElementById('receiveAmountUSD').textContent = 
                 `≈ $${afterSlippageUSD.toFixed(2)} USD`;
+            
+            // Update breakdown
+            document.getElementById('sentAmount').textContent = 
+                `${amountFloat.toFixed(4)} ${fromChain.symbol} ($${amountUSD.toFixed(2)})`;
+            document.getElementById('bridgeFeeAmount').textContent = 
+                `-$${selectedFeeUSD.toFixed(2)}`;
+            document.getElementById('slippageAmount').textContent = 
+                `-$${slippageUSD.toFixed(2)}`;
+            document.getElementById('totalReceived').textContent = 
+                `${receiveAmount.toFixed(6)} ${toChain.symbol}`;
+            
+            // Update savings
             document.getElementById('savingsText').textContent = 
                 `SAVE $${savings} (${savingsPercent}% CHEAPER)`;
         }
@@ -1911,8 +2027,11 @@
             // Subtract bridge fee from USD amount
             const afterFeeUSD = amountUSD - bestFeeUSD;
             
+            // Calculate slippage amount
+            const slippageUSD = afterFeeUSD * slippage;
+            
             // Apply slippage
-            const afterSlippageUSD = afterFeeUSD * (1 - slippage);
+            const afterSlippageUSD = afterFeeUSD - slippageUSD;
             
             // Convert to destination token
             const receiveAmount = afterSlippageUSD / toChain.price;
@@ -1921,11 +2040,23 @@
             const savings = (competitorFeeUSD - bestFeeUSD).toFixed(2);
             const savingsPercent = ((competitorFeeUSD - bestFeeUSD) / competitorFeeUSD * 100).toFixed(0);
             
-            // Update display
+            // Update main display
             document.getElementById('receiveAmountValue').textContent = 
-                `${receiveAmount.toFixed(4)} ${toChain.symbol}`;
+                `${receiveAmount.toFixed(6)} ${toChain.symbol}`;
             document.getElementById('receiveAmountUSD').textContent = 
                 `≈ $${afterSlippageUSD.toFixed(2)} USD`;
+            
+            // Update breakdown
+            document.getElementById('sentAmount').textContent = 
+                `${amountFloat.toFixed(4)} ${fromChain.symbol} ($${amountUSD.toFixed(2)})`;
+            document.getElementById('bridgeFeeAmount').textContent = 
+                `-$${bestFeeUSD}`;
+            document.getElementById('slippageAmount').textContent = 
+                `-$${slippageUSD.toFixed(2)}`;
+            document.getElementById('totalReceived').textContent = 
+                `${receiveAmount.toFixed(6)} ${toChain.symbol}`;
+            
+            // Update savings
             document.getElementById('savingsText').textContent = 
                 `SAVE $${savings} (${savingsPercent}% CHEAPER)`;
         }
