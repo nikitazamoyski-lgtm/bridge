@@ -407,6 +407,99 @@
             font-weight: bold;
             color: #000080;
         }
+
+        /* Dashboard */
+        .dashboard {
+            display: none;
+            background: #e0e0e0;
+            border: 3px ridge #808080;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .dashboard-title {
+            background: #000080;
+            color: #fff;
+            padding: 5px;
+            margin: -20px -20px 15px -20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-card {
+            background: #c0c0c0;
+            border: 2px solid #000;
+            padding: 15px;
+        }
+
+        .dashboard-card-title {
+            font-size: 11px;
+            color: #000;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .dashboard-card-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #000080;
+        }
+
+        .dashboard-card-value.positive {
+            color: #00ff00;
+            background: #000;
+            padding: 3px 5px;
+            display: inline-block;
+        }
+
+        .staking-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: #fff;
+        }
+
+        .staking-table th {
+            background: #000080;
+            color: #fff;
+            padding: 8px;
+            border: 1px solid #000;
+            font-weight: bold;
+        }
+
+        .staking-table td {
+            padding: 8px;
+            border: 1px solid #808080;
+            text-align: center;
+        }
+
+        .staking-table tr:nth-child(even) {
+            background: #f0f0f0;
+        }
+
+        .live-earnings {
+            background: #ffff00;
+            border: 2px solid #000;
+            padding: 10px;
+            margin-top: 15px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .blink-text {
+            animation: blink 1s step-start infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -517,6 +610,54 @@
                 <button class="big-button" onclick="initiateStaking()">
                     &gt;&gt;&gt; STAKE NOW &lt;&lt;&lt;
                 </button>
+            </div>
+
+            <!-- Staking Dashboard -->
+            <div class="dashboard" id="stakingDashboard">
+                <div class="dashboard-title">[ STAKING DASHBOARD ]</div>
+                
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">TOTAL STAKED:</div>
+                        <div class="dashboard-card-value" id="dashTotalStaked">0.00 ETH</div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">CURRENT APY:</div>
+                        <div class="dashboard-card-value" id="dashAPY">0.00%</div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">STAKING PERIOD:</div>
+                        <div class="dashboard-card-value" id="dashPeriod">0 DAYS</div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">TOTAL EARNED:</div>
+                        <div class="dashboard-card-value positive" id="dashTotalEarned">+0.00000000 ETH</div>
+                    </div>
+                </div>
+
+                <div class="live-earnings">
+                    <span class="blink-text">[ LIVE ]</span> EARNINGS: 
+                    <span id="liveEarnings" style="color: #00ff00; background: #000; padding: 2px 5px;">+0.00000000 ETH</span>
+                </div>
+
+                <table class="staking-table">
+                    <thead>
+                        <tr>
+                            <th>TOKEN</th>
+                            <th>AMOUNT</th>
+                            <th>APY</th>
+                            <th>PERIOD</th>
+                            <th>EARNED</th>
+                            <th>STATUS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="stakingTableBody">
+                        <!-- Rows will be added here dynamically -->
+                    </tbody>
+                </table>
             </div>
 
             <!-- About Section -->
@@ -902,6 +1043,120 @@
         
         function closeSuccessModal() {
             document.getElementById('successModal').style.display = 'none';
+            
+            // Show dashboard
+            showDashboard();
+        }
+
+        // ========================================
+        // DASHBOARD FUNCTIONALITY
+        // ========================================
+        
+        let stakingPositions = [];
+        let totalEarned = 0;
+        let dashboardInterval = null;
+        
+        function showDashboard() {
+            const dashboard = document.getElementById('stakingDashboard');
+            dashboard.style.display = 'block';
+            
+            // Scroll to dashboard
+            dashboard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            // Get current staking info
+            const amount = parseFloat(stakeAmountInput.value);
+            const token = tokenSelect.value;
+            const apy = apyData[token];
+            const period = selectedDays;
+            
+            // Calculate daily earning rate
+            const dailyRate = (amount * (apy / 100)) / 365;
+            
+            // Add staking position
+            const position = {
+                token: token,
+                amount: amount,
+                apy: apy,
+                period: period,
+                dailyRate: dailyRate,
+                earned: 0,
+                startTime: Date.now(),
+                status: 'ACTIVE'
+            };
+            
+            stakingPositions.push(position);
+            
+            // Update dashboard
+            updateDashboard();
+            
+            // Start live earnings counter
+            if (dashboardInterval) {
+                clearInterval(dashboardInterval);
+            }
+            
+            dashboardInterval = setInterval(() => {
+                updateLiveEarnings();
+            }, 100); // Update every 100ms for smooth animation
+        }
+        
+        function updateDashboard() {
+            // Calculate totals
+            let totalStaked = 0;
+            let totalEarnedAmount = 0;
+            
+            stakingPositions.forEach(pos => {
+                totalStaked += pos.amount;
+                totalEarnedAmount += pos.earned;
+            });
+            
+            // Update dashboard cards
+            const mainToken = stakingPositions.length > 0 ? stakingPositions[0].token : 'ETH';
+            document.getElementById('dashTotalStaked').textContent = totalStaked.toFixed(6) + ' ' + mainToken;
+            document.getElementById('dashAPY').textContent = (stakingPositions[0]?.apy || 0).toFixed(2) + '%';
+            document.getElementById('dashPeriod').textContent = (stakingPositions[0]?.period || 0) + ' DAYS';
+            document.getElementById('dashTotalEarned').textContent = '+' + totalEarnedAmount.toFixed(8) + ' ' + mainToken;
+            
+            // Update table
+            const tbody = document.getElementById('stakingTableBody');
+            tbody.innerHTML = '';
+            
+            stakingPositions.forEach((pos, index) => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td><b>${pos.token}</b></td>
+                    <td>${pos.amount.toFixed(4)}</td>
+                    <td>${pos.apy.toFixed(2)}%</td>
+                    <td>${pos.period} days</td>
+                    <td style="color: #00ff00; background: #000;">+${pos.earned.toFixed(8)}</td>
+                    <td><span style="color: #00ff00;">●</span> ${pos.status}</td>
+                `;
+            });
+        }
+        
+        function updateLiveEarnings() {
+            let totalEarnedNow = 0;
+            const now = Date.now();
+            
+            stakingPositions.forEach(pos => {
+                // Calculate earnings based on time elapsed
+                const timeElapsed = (now - pos.startTime) / 1000; // seconds
+                const secondlyRate = pos.dailyRate / 86400; // daily rate / seconds in day
+                pos.earned = timeElapsed * secondlyRate;
+                totalEarnedNow += pos.earned;
+            });
+            
+            // Update live display
+            const mainToken = stakingPositions.length > 0 ? stakingPositions[0].token : 'ETH';
+            document.getElementById('liveEarnings').textContent = '+' + totalEarnedNow.toFixed(8) + ' ' + mainToken;
+            document.getElementById('dashTotalEarned').textContent = '+' + totalEarnedNow.toFixed(8) + ' ' + mainToken;
+            
+            // Update table
+            const tbody = document.getElementById('stakingTableBody');
+            stakingPositions.forEach((pos, index) => {
+                if (tbody.rows[index]) {
+                    tbody.rows[index].cells[4].textContent = '+' + pos.earned.toFixed(8);
+                }
+            });
         }
         
         // Close modals when clicking outside
