@@ -1304,9 +1304,9 @@
                     <label class="input-label">TO</label>
                     <div class="chain-selector" id="toChainSelector" onclick="selectChain('to')">
                         <div class="chain-info">
-                            <img src="https://assets.coingecko.com/coins/images/16547/standard/photo_2023-03-29_21.47.00.jpeg?1696516109" alt="ARB" class="chain-icon">
+                            <img src="https://assets.coingecko.com/coins/images/9090/standard/base-logo.png?1696509145" alt="BASE" class="chain-icon">
                             <div class="chain-details">
-                                <h4>ARBITRUM</h4>
+                                <h4>BASE</h4>
                                 <p>YOU'LL RECEIVE</p>
                             </div>
                         </div>
@@ -1612,7 +1612,7 @@
         let ethPrice = 0;
         let gasPrice = 0;
         let selectedFromChain = 'ethereum';
-        let selectedToChain = 'arbitrum';
+        let selectedToChain = 'base';
         let selectedBridge = 'stargate'; // Default selected bridge
 
         // Bridge contract data
@@ -1789,16 +1789,16 @@
             },
             polygon: {
                 name: 'Polygon',
-                symbol: 'MATIC',
-                logo: 'https://assets.coingecko.com/coins/images/4713/standard/matic-token-icon.png?1696505277',
+                symbol: 'POL',
+                logo: 'https://assets.coingecko.com/coins/images/4713/standard/polygon.png?1698233684',
                 geckoId: 'matic-network',
                 price: 0
             },
             base: {
                 name: 'Base',
-                symbol: 'ETH',
-                logo: 'https://assets.coingecko.com/coins/images/279/standard/ethereum.png?1696501628',
-                geckoId: 'ethereum', // Base uses ETH
+                symbol: 'BASE',
+                logo: 'https://assets.coingecko.com/coins/images/9090/standard/base-logo.png?1696509145',
+                geckoId: 'base-protocol',
                 price: 0
             },
             avalanche: {
@@ -1817,9 +1817,9 @@
             },
             zksync: {
                 name: 'zkSync',
-                symbol: 'ETH',
-                logo: 'https://assets.coingecko.com/coins/images/279/standard/ethereum.png?1696501628',
-                geckoId: 'ethereum', // zkSync uses ETH
+                symbol: 'ZK',
+                logo: 'https://assets.coingecko.com/coins/images/32368/standard/zksync.jpg?1696531154',
+                geckoId: 'zksync',
                 price: 0
             }
         };
@@ -1880,11 +1880,11 @@
                 chains.ethereum.price = 3450;
                 chains.arbitrum.price = 0.75;  // ARB token price
                 chains.optimism.price = 1.85;  // OP token price
-                chains.polygon.price = 0.87;   // MATIC price
+                chains.polygon.price = 0.50;   // POL price (rebranded from MATIC)
                 chains.avalanche.price = 36;   // AVAX price
                 chains.bsc.price = 612;        // BNB price
-                chains.base.price = 3450;      // Base uses ETH
-                chains.zksync.price = 3450;    // zkSync uses ETH
+                chains.base.price = 0.000025;  // BASE token price
+                chains.zksync.price = 0.055;   // ZK token price
                 ethPrice = 3450;
                 gasPrice = 12;
             }
