@@ -1661,7 +1661,7 @@
         let walletConnected = false;
         let ethPrice = 0;
         let gasPrice = 0;
-        let selectedFromChain = 'arbitrum';
+        let selectedFromChain = 'ethereum';
         let selectedToChain = 'arbitrum';
         let selectedBridge = 'stargate'; // Default selected bridge
 
@@ -1841,7 +1841,7 @@
                 name: 'Polygon',
                 symbol: 'POL',
                 logo: 'https://assets.coingecko.com/coins/images/4713/standard/polygon.png?1698233684',
-                geckoId: 'matic-network',
+                geckoId: 'polygon-ecosystem-token',
                 price: 0
             },
             base: {
@@ -2114,6 +2114,15 @@
         // Update USD value on input
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('amountInput').addEventListener('input', updateUSDValue);
+            
+            // Initialize chain displays: Ethereum → Arbitrum
+            const ethChain = chains['ethereum'];
+            const arbChain = chains['arbitrum'];
+            updateChainDisplay('from', ethChain);
+            updateChainDisplay('to', arbChain);
+            
+            // Fetch prices on load
+            fetchCryptoPrices();
         });
 
         // This function will be called by external wallet connection script
@@ -2568,9 +2577,6 @@
             }
         });
 
-        // Initialize: Fetch prices on page load
-        fetchCryptoPrices();
-        
         // Refresh prices every 30 seconds
         setInterval(fetchCryptoPrices, 30000);
     </script>
