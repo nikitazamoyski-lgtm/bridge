@@ -341,6 +341,15 @@
             border-color: var(--accent);
         }
 
+        .chain-selector.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .chain-selector.locked:hover {
+            border-color: var(--border);
+        }
+
         .chain-info {
             display: flex;
             align-items: center;
@@ -368,13 +377,13 @@
         .token-selector {
             background: var(--bg);
             border: 1px solid var(--border);
-            padding: 10px 12px;
+            padding: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
             transition: border-color 0.2s;
-            margin-top: 8px;
+            margin-bottom: 8px;
         }
 
         .token-selector:hover {
@@ -388,20 +397,20 @@
         }
 
         .token-icon {
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             object-fit: cover;
         }
 
         .token-details h5 {
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
             margin-bottom: 2px;
         }
 
         .token-details p {
-            font-size: 9px;
+            font-size: 10px;
             color: var(--text-muted);
         }
 
@@ -2113,63 +2122,72 @@
                 name: 'Ethereum',
                 logo: 'https://assets.coingecko.com/coins/images/279/standard/ethereum.png?1696501628',
                 geckoId: 'ethereum',
-                decimals: 18
+                decimals: 18,
+                nativeChain: 'ethereum'  // ETH is native to Ethereum
             },
             usdt: {
                 symbol: 'USDT',
                 name: 'Tether USD',
                 logo: 'https://assets.coingecko.com/coins/images/325/standard/Tether.png?1696501661',
                 geckoId: 'tether',
-                decimals: 6
+                decimals: 6,
+                nativeChain: null  // USDT exists on multiple chains
             },
             usdc: {
                 symbol: 'USDC',
                 name: 'USD Coin',
                 logo: 'https://assets.coingecko.com/coins/images/6319/standard/usdc.png?1696506694',
                 geckoId: 'usd-coin',
-                decimals: 6
+                decimals: 6,
+                nativeChain: null  // USDC exists on multiple chains
             },
             dai: {
                 symbol: 'DAI',
                 name: 'Dai Stablecoin',
                 logo: 'https://assets.coingecko.com/coins/images/9956/standard/Badge_Dai.png?1696509996',
                 geckoId: 'dai',
-                decimals: 18
+                decimals: 18,
+                nativeChain: null  // DAI exists on multiple chains
             },
             wbtc: {
                 symbol: 'WBTC',
                 name: 'Wrapped Bitcoin',
                 logo: 'https://assets.coingecko.com/coins/images/7598/standard/wrapped_bitcoin_wbtc.png?1696507857',
                 geckoId: 'wrapped-bitcoin',
-                decimals: 8
+                decimals: 8,
+                nativeChain: null  // WBTC exists on multiple chains
             },
             bnb: {
                 symbol: 'BNB',
                 name: 'BNB',
                 logo: 'https://assets.coingecko.com/coins/images/825/standard/bnb-icon2_2x.png?1696501970',
                 geckoId: 'binancecoin',
-                decimals: 18
+                decimals: 18,
+                nativeChain: 'bsc'  // BNB is native to BSC
             },
             pol: {
                 symbol: 'POL',
                 name: 'Polygon',
                 logo: 'https://assets.coingecko.com/coins/images/4713/standard/polygon.png?1698233684',
                 geckoId: 'polygon-ecosystem-token',
-                decimals: 18
+                decimals: 18,
+                nativeChain: 'polygon'  // POL is native to Polygon
             },
             arb: {
                 symbol: 'ARB',
                 name: 'Arbitrum',
                 logo: 'https://assets.coingecko.com/coins/images/16547/standard/photo_2023-03-29_21.47.00.jpeg?1696516109',
                 geckoId: 'arbitrum',
-                decimals: 18
+                decimals: 18,
+                nativeChain: 'arbitrum'  // ARB is native to Arbitrum
             },
             op: {
                 symbol: 'OP',
                 name: 'Optimism',
                 logo: 'https://assets.coingecko.com/coins/images/25244/standard/Optimism.png?1696524385',
                 geckoId: 'optimism',
-                decimals: 18
+                decimals: 18,
+                nativeChain: 'optimism'  // OP is native to Optimism
             }
         };
 
@@ -3324,6 +3342,27 @@
         let currentChainSelection = null;
 
         function selectChain(type) {
+            // Check if a native token is selected
+            const selectedToken = type === 'from' ? 
+                tokens[selectedFromToken] : 
+                tokens[selectedToToken];
+            
+            // If token has a native chain, prevent chain selection
+            if (selectedToken.nativeChain) {
+                // Show a brief message that chain is locked
+                const selector = type === 'from' ? 
+                    document.getElementById('fromChainSelector') : 
+                    document.getElementById('toChainSelector');
+                
+                const originalBorder = selector.style.borderColor;
+                selector.style.borderColor = '#ff6b6b';
+                setTimeout(() => {
+                    selector.style.borderColor = originalBorder;
+                }, 300);
+                
+                return; // Don't open modal
+            }
+            
             currentChainSelection = type;
             
             // Update modal title
@@ -3455,12 +3494,39 @@
             if (currentTokenSelection === 'from') {
                 selectedFromToken = key;
                 updateTokenDisplay('from', token);
+                
+                // If token has native chain, auto-select that chain
+                if (token.nativeChain) {
+                    selectedFromChain = token.nativeChain;
+                    updateChainDisplay('from', chains[token.nativeChain]);
+                    // Lock the chain selector
+                    document.getElementById('fromChainSelector').classList.add('locked');
+                } else {
+                    // Unlock the chain selector
+                    document.getElementById('fromChainSelector').classList.remove('locked');
+                }
             } else {
                 selectedToToken = key;
                 updateTokenDisplay('to', token);
+                
+                // If token has native chain, auto-select that chain
+                if (token.nativeChain) {
+                    selectedToChain = token.nativeChain;
+                    updateChainDisplay('to', chains[token.nativeChain]);
+                    // Lock the chain selector
+                    document.getElementById('toChainSelector').classList.add('locked');
+                } else {
+                    // Unlock the chain selector
+                    document.getElementById('toChainSelector').classList.remove('locked');
+                }
             }
             
             closeTokenModal();
+            
+            // Update transparency info and routes if chain was auto-changed
+            if (token.nativeChain) {
+                updateTransparencyInfo(selectedBridge);
+            }
             
             // Recalculate if amount is already entered
             const amount = document.getElementById('amountInput').value;
@@ -3468,6 +3534,30 @@
                 const routesVisible = document.getElementById('routes').style.display !== 'none';
                 if (routesVisible) {
                     calculateReceiveAmount(amount);
+                    
+                    // Update routes if chain was auto-changed
+                    if (token.nativeChain) {
+                        generateSmartRouterSteps();
+                        const fees = calculateBridgeFees();
+                        const routeTimes = calculateRouteTimes();
+                        const routes = document.querySelectorAll('.route-info');
+                        
+                        if (routes[0]) {
+                            routes[0].querySelector('.route-stats').innerHTML = `<span>~${routeTimes.stargate} MIN</span><span>$${fees.stargate}</span><span>OPTIMIZED</span>`;
+                        }
+                        if (routes[1]) {
+                            routes[1].querySelector('.route-stats').innerHTML = `<span>~${routeTimes.across} MIN</span><span>$${fees.across}</span><span>FAST</span>`;
+                        }
+                        if (routes[2]) {
+                            routes[2].querySelector('.route-stats').innerHTML = `<span>~${routeTimes.hop} MIN</span><span>$${fees.hop}</span><span>RELIABLE</span>`;
+                        }
+                        if (routes[3]) {
+                            routes[3].querySelector('.route-stats').innerHTML = `<span>~${routeTimes.synapse} MIN</span><span>$${fees.synapse}</span><span>SECURE</span>`;
+                        }
+                        if (routes[4]) {
+                            routes[4].querySelector('.route-stats').innerHTML = `<span>~${routeTimes.wormhole} MIN</span><span>$${fees.wormhole}</span><span>CROSS-CHAIN</span>`;
+                        }
+                    }
                 }
             }
         }
