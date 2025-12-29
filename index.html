@@ -3459,12 +3459,10 @@
 
         function selectToken(type) {
             currentTokenSelection = type;
-            const modal = document.getElementById('tokenModal');
-            const title = document.getElementById('tokenModalTitle');
             
-            title.textContent = `SELECT TOKEN (${type.toUpperCase()})`;
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
+            // Update modal title
+            document.getElementById('tokenModalTitle').textContent = 
+                type === 'from' ? 'SELECT FROM TOKEN' : 'SELECT TO TOKEN';
             
             // Populate token list
             const tokenList = document.getElementById('tokenList');
@@ -3472,20 +3470,24 @@
             
             Object.keys(tokens).forEach(key => {
                 const token = tokens[key];
-                const tokenItem = document.createElement('div');
-                tokenItem.className = 'chain-item';
-                tokenItem.onclick = () => selectTokenOption(key);
+                const option = document.createElement('div');
+                option.className = 'chain-option';
+                option.onclick = () => selectTokenOption(key);
                 
-                tokenItem.innerHTML = `
-                    <img src="${token.logo}" alt="${token.symbol}" class="chain-icon">
-                    <div class="chain-item-details">
-                        <div class="chain-item-name">${token.symbol}</div>
-                        <div class="chain-item-desc">${token.name}</div>
+                option.innerHTML = `
+                    <img src="${token.logo}" alt="${token.symbol}" class="chain-option-icon">
+                    <div class="chain-option-info">
+                        <h4>${token.symbol}</h4>
+                        <p>${token.name}</p>
                     </div>
                 `;
                 
-                tokenList.appendChild(tokenItem);
+                tokenList.appendChild(option);
             });
+            
+            // Show modal
+            document.getElementById('tokenModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
 
         function selectTokenOption(key) {
