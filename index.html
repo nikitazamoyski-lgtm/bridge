@@ -116,9 +116,9 @@
         }
 
         .rappi-icon {
-            width: 32px;
-            height: 32px;
-            background: var(--primary);
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #FF5A1F, #ff8c42);
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -126,6 +126,25 @@
             color: white;
             font-weight: 900;
             font-size: 18px;
+            box-shadow: 
+                0 4px 12px rgba(255, 90, 31, 0.25),
+                0 0 0 1px rgba(255, 255, 255, 0.3) inset;
+            transition: transform 0.2s;
+        }
+
+        .rappi-icon:hover {
+            transform: rotate(-3deg) scale(1.05);
+        }
+
+        .rappi-text {
+            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            font-size: 22px;
+            background: linear-gradient(135deg, #FF5A1F, #ff8c42);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 1px;
         }
 
         .wallet-btn {
@@ -1089,14 +1108,26 @@
 </head>
 <body>
     <!-- ===== MAIN PLATFORM ===== -->
-    <div id="mainPlatform" class="page">
+    <div id="mainPlatform" class="page active">
     <!-- Header -->
     <div class="header">
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <div class="rappi-icon">R</div>
-                    RAPPI
+                    <div class="rappi-icon">
+                        <svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+                            <defs>
+                                <linearGradient id="rappiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#FF5A1F;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#ff8c42;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <path d="M 25 25 L 45 25 Q 65 25 65 40 Q 65 50 55 52 L 65 75 L 50 75 L 42 52 L 37 52 L 37 75 L 25 75 Z M 37 35 L 37 45 L 45 45 Q 52 45 52 40 Q 52 35 45 35 Z" 
+                                  fill="url(#rappiGrad)" 
+                                  style="filter: drop-shadow(0 2px 4px rgba(255,90,31,0.3))"/>
+                        </svg>
+                    </div>
+                    <span class="rappi-text">RAPPI</span>
                 </div>
                 <button class="wallet-btn" id="walletBtn" onclick="connectWallet()">
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1110,7 +1141,7 @@
     </div>
 
     <!-- Home Page -->
-    <div class="page active" id="homePage">
+    <div id="homePage">
         <!-- Hero Section -->
         <div class="hero">
             <!-- Rappi-style Background -->
@@ -1262,75 +1293,6 @@
     </div>
 
     <!-- Dashboard Page -->
-    <div class="page" id="dashboardPage">
-        <div class="dashboard">
-            <div class="container">
-                <div class="dashboard-header">
-                    <div class="dashboard-title">
-                        <svg class="icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline; vertical-align: middle; margin-right: 8px;">
-                            <rect x="3" y="3" width="7" height="7"/>
-                            <rect x="14" y="3" width="7" height="7"/>
-                            <rect x="14" y="14" width="7" height="7"/>
-                            <rect x="3" y="14" width="7" height="7"/>
-                        </svg>
-                        Dashboard
-                    </div>
-                    <button class="btn btn-secondary" onclick="goToHome()">
-                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M19 12H5M12 19l-7-7 7-7"/>
-                        </svg>
-                        Home
-                    </button>
-                </div>
-
-                <div class="stats-row">
-                    <div class="stat-card">
-                        <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"/>
-                            <path d="M12 6v6l4 2"/>
-                        </svg>
-                        <div class="stat-label">Total Staked</div>
-                        <div class="stat-value primary" id="totalStakedDash">$0.00</div>
-                    </div>
-                    <div class="stat-card">
-                        <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-                        </svg>
-                        <div class="stat-label">Total Earned</div>
-                        <div class="stat-value success" id="totalEarnedDash">$0.00</div>
-                    </div>
-                    <div class="stat-card">
-                        <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                        </svg>
-                        <div class="stat-label">Active Stakes</div>
-                        <div class="stat-value" id="activeStakesDash">0</div>
-                    </div>
-                </div>
-
-                <div>
-                    <h2 class="staked-list-title">
-                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" style="display: inline; vertical-align: middle; margin-right: 4px;">
-                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                        </svg>
-                        Your Stakes
-                    </h2>
-
-                    <div id="stakedTokensList">
-                        <!-- Stakes will be populated here -->
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer">
-            <div class="container">
-                <div class="footer-text">
-                    © 2025 Rappi Staking. All Rights Reserved.
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Token Modal -->
     <div class="modal" id="tokenModal" onclick="closeModalOutside(event, 'tokenModal')">
@@ -1376,10 +1338,9 @@
             </button>
         </div>
     </div>
-    </div>
-    <!-- ===== END MAIN PLATFORM ===== -->
 
-    <script>
+    <!-- Dashboard Page -->
+    <div id="dashboardPage" style="display: none;">
         // МАКСИМАЛЬНЫЙ ДЕПОЗИТ
         const MAX_DEPOSIT_USD = 5000;
 
@@ -1420,157 +1381,157 @@
         let walletConnected = false;
         let showAllTokens = false;
         let stakedTokens = [
-            // Completed stake - ETH 3 days at 6.0%
-            { symbol: 'ETH', amount: 1.45, rewards: 0.087, days: 3, apy: 6.0, startDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), period: 3, completed: true },
+            // Completed stake - ETH 3 days at 1.26%
+            { symbol: 'ETH', amount: 1.45, rewards: 0.01827, days: 3, apy: 1.26, startDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), period: 3, completed: true },
             // Active stakes  
-            { symbol: 'USDC', amount: 5000, rewards: 2250, days: 22, apy: 45.0, startDate: new Date(Date.now() - 22 * 24 * 60 * 60 * 1000), period: 30, completed: false },
-            { symbol: 'LINK', amount: 150, rewards: 30, days: 10, apy: 20.0, startDate: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000), period: 14, completed: false }
+            { symbol: 'USDC', amount: 5000, rewards: 775, days: 22, apy: 15.5, startDate: new Date(Date.now() - 22 * 24 * 60 * 60 * 1000), period: 30, completed: false },
+            { symbol: 'LINK', amount: 150, rewards: 8.82, days: 10, apy: 5.88, startDate: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000), period: 14, completed: false }
         ];
 
         async function init() {
             // ВЫСОКОДОХОДНАЯ МОДЕЛЬ: Максимальный депозит $5,000
             // Процент = награда ЗА ПЕРИОД (не годовой!)
-            // Логика пирамиды: высокие проценты за счет новых вкладчиков
+            // Максимум: 15.6% за месяц (Monthly)
             const baseAPYs = {
-                1: {  // 1 Day - Daily
-                    'ETH': 2.5,      // Daily 2.5% = месяц ~75%
-                    'WBTC': 2.0,
-                    'USDT': 3.0,     // Стейблкоины популярны
-                    'USDC': 3.0,
-                    'DAI': 3.1,
-                    'LINK': 2.6,
-                    'UNI': 2.7,
-                    'AAVE': 2.8,
-                    'MKR': 2.7,
-                    'COMP': 2.8,
-                    'CRV': 3.2,
-                    'SNX': 3.3,
-                    'YFI': 2.5,
-                    'GRT': 2.9,
-                    'SUSHI': 2.8,
-                    '1INCH': 2.9,
-                    'ENJ': 2.6,
-                    'SAND': 2.8,
-                    'MANA': 2.7,
-                    'AXS': 2.9,
-                    'GALA': 3.1,
-                    'IMX': 3.0,
-                    'RNDR': 3.1,
-                    'PENDLE': 3.3,
-                    'LDO': 2.9,
-                    'PEPE': 3.5
+                1: {  // 1 Day - Daily (0.5% max)
+                    'ETH': 0.42,
+                    'WBTC': 0.35,
+                    'USDT': 0.50,
+                    'USDC': 0.50,
+                    'DAI': 0.51,
+                    'LINK': 0.44,
+                    'UNI': 0.45,
+                    'AAVE': 0.47,
+                    'MKR': 0.45,
+                    'COMP': 0.46,
+                    'CRV': 0.52,
+                    'SNX': 0.54,
+                    'YFI': 0.42,
+                    'GRT': 0.48,
+                    'SUSHI': 0.47,
+                    '1INCH': 0.49,
+                    'ENJ': 0.44,
+                    'SAND': 0.47,
+                    'MANA': 0.45,
+                    'AXS': 0.49,
+                    'GALA': 0.51,
+                    'IMX': 0.50,
+                    'RNDR': 0.51,
+                    'PENDLE': 0.54,
+                    'LDO': 0.49,
+                    'PEPE': 0.56
                 },
-                3: {  // 3 Days
-                    'ETH': 6.0,      // 3 дня 6% = 60% в месяц
-                    'WBTC': 5.0,
-                    'USDT': 7.5,
-                    'USDC': 7.5,
-                    'DAI': 7.7,
-                    'LINK': 6.5,
-                    'UNI': 6.8,
-                    'AAVE': 7.0,
-                    'MKR': 6.8,
-                    'COMP': 7.0,
-                    'CRV': 8.0,
-                    'SNX': 8.2,
-                    'YFI': 6.3,
-                    'GRT': 7.2,
-                    'SUSHI': 7.0,
-                    '1INCH': 7.3,
-                    'ENJ': 6.5,
-                    'SAND': 7.0,
-                    'MANA': 6.7,
-                    'AXS': 7.3,
-                    'GALA': 7.8,
-                    'IMX': 7.6,
-                    'RNDR': 7.7,
-                    'PENDLE': 8.3,
-                    'LDO': 7.4,
-                    'PEPE': 9.0
+                3: {  // 3 Days (1.5% max)
+                    'ETH': 1.26,
+                    'WBTC': 1.05,
+                    'USDT': 1.50,
+                    'USDC': 1.50,
+                    'DAI': 1.53,
+                    'LINK': 1.32,
+                    'UNI': 1.35,
+                    'AAVE': 1.41,
+                    'MKR': 1.35,
+                    'COMP': 1.38,
+                    'CRV': 1.56,
+                    'SNX': 1.62,
+                    'YFI': 1.26,
+                    'GRT': 1.44,
+                    'SUSHI': 1.41,
+                    '1INCH': 1.47,
+                    'ENJ': 1.32,
+                    'SAND': 1.41,
+                    'MANA': 1.35,
+                    'AXS': 1.47,
+                    'GALA': 1.53,
+                    'IMX': 1.50,
+                    'RNDR': 1.53,
+                    'PENDLE': 1.62,
+                    'LDO': 1.47,
+                    'PEPE': 1.68
                 },
-                7: {  // 7 Days - Weekly
-                    'ETH': 12.0,     // Weekly 12% = 48% в месяц
-                    'WBTC': 10.0,
-                    'USDT': 15.0,
-                    'USDC': 15.0,
-                    'DAI': 15.3,
-                    'LINK': 13.0,
-                    'UNI': 13.5,
-                    'AAVE': 14.0,
-                    'MKR': 13.5,
-                    'COMP': 14.0,
-                    'CRV': 16.0,
-                    'SNX': 16.5,
-                    'YFI': 12.5,
-                    'GRT': 14.3,
-                    'SUSHI': 14.0,
-                    '1INCH': 14.5,
-                    'ENJ': 13.0,
-                    'SAND': 14.0,
-                    'MANA': 13.3,
-                    'AXS': 14.5,
+                7: {  // 7 Days - Weekly (3.5% max)
+                    'ETH': 2.94,
+                    'WBTC': 2.45,
+                    'USDT': 3.50,
+                    'USDC': 3.50,
+                    'DAI': 3.57,
+                    'LINK': 3.08,
+                    'UNI': 3.15,
+                    'AAVE': 3.29,
+                    'MKR': 3.15,
+                    'COMP': 3.22,
+                    'CRV': 3.64,
+                    'SNX': 3.78,
+                    'YFI': 2.94,
+                    'GRT': 3.36,
+                    'SUSHI': 3.29,
+                    '1INCH': 3.43,
+                    'ENJ': 3.08,
+                    'SAND': 3.29,
+                    'MANA': 3.15,
+                    'AXS': 3.43,
+                    'GALA': 3.57,
+                    'IMX': 3.50,
+                    'RNDR': 3.57,
+                    'PENDLE': 3.78,
+                    'LDO': 3.43,
+                    'PEPE': 3.92
+                },
+                14: {  // 14 Days - 2 Weeks (7% max)
+                    'ETH': 5.88,
+                    'WBTC': 4.90,
+                    'USDT': 7.00,
+                    'USDC': 7.00,
+                    'DAI': 7.14,
+                    'LINK': 6.16,
+                    'UNI': 6.30,
+                    'AAVE': 6.58,
+                    'MKR': 6.30,
+                    'COMP': 6.44,
+                    'CRV': 7.28,
+                    'SNX': 7.56,
+                    'YFI': 5.88,
+                    'GRT': 6.72,
+                    'SUSHI': 6.58,
+                    '1INCH': 6.86,
+                    'ENJ': 6.16,
+                    'SAND': 6.58,
+                    'MANA': 6.30,
+                    'AXS': 6.86,
+                    'GALA': 7.14,
+                    'IMX': 7.00,
+                    'RNDR': 7.14,
+                    'PENDLE': 7.56,
+                    'LDO': 6.86,
+                    'PEPE': 7.84
+                },
+                30: {  // 30 Days - Monthly (15.6% max)
+                    'ETH': 13.0,
+                    'WBTC': 10.9,
+                    'USDT': 15.5,
+                    'USDC': 15.5,
+                    'DAI': 15.6,
+                    'LINK': 13.7,
+                    'UNI': 14.0,
+                    'AAVE': 14.6,
+                    'MKR': 14.0,
+                    'COMP': 14.3,
+                    'CRV': 15.4,
+                    'SNX': 15.3,
+                    'YFI': 13.0,
+                    'GRT': 14.9,
+                    'SUSHI': 14.6,
+                    '1INCH': 15.2,
+                    'ENJ': 13.7,
+                    'SAND': 14.6,
+                    'MANA': 14.0,
+                    'AXS': 15.2,
                     'GALA': 15.5,
-                    'IMX': 15.2,
-                    'RNDR': 15.3,
-                    'PENDLE': 16.7,
-                    'LDO': 14.7,
-                    'PEPE': 18.0
-                },
-                14: {  // 14 Days - 2 Weeks
-                    'ETH': 20.0,     // 2 недели 20% = 40% в месяц
-                    'WBTC': 17.0,
-                    'USDT': 25.0,
-                    'USDC': 25.0,
-                    'DAI': 25.5,
-                    'LINK': 21.5,
-                    'UNI': 22.5,
-                    'AAVE': 23.5,
-                    'MKR': 22.5,
-                    'COMP': 23.0,
-                    'CRV': 27.0,
-                    'SNX': 28.0,
-                    'YFI': 20.5,
-                    'GRT': 24.0,
-                    'SUSHI': 23.5,
-                    '1INCH': 24.5,
-                    'ENJ': 21.5,
-                    'SAND': 23.5,
-                    'MANA': 22.0,
-                    'AXS': 24.5,
-                    'GALA': 26.0,
-                    'IMX': 25.5,
-                    'RNDR': 26.0,
-                    'PENDLE': 28.5,
-                    'LDO': 24.8,
-                    'PEPE': 31.0
-                },
-                30: {  // 30 Days - Monthly
-                    'ETH': 35.0,     // Monthly 35% = стабильно
-                    'WBTC': 30.0,
-                    'USDT': 45.0,
-                    'USDC': 45.0,
-                    'DAI': 46.0,
-                    'LINK': 38.0,
-                    'UNI': 40.0,
-                    'AAVE': 42.0,
-                    'MKR': 40.0,
-                    'COMP': 41.0,
-                    'CRV': 48.0,
-                    'SNX': 50.0,
-                    'YFI': 36.0,
-                    'GRT': 43.0,
-                    'SUSHI': 42.0,
-                    '1INCH': 44.0,
-                    'ENJ': 38.0,
-                    'SAND': 42.0,
-                    'MANA': 39.0,
-                    'AXS': 44.0,
-                    'GALA': 47.0,
-                    'IMX': 46.0,
-                    'RNDR': 47.0,
-                    'PENDLE': 52.0,
-                    'LDO': 45.0,
-                    'PEPE': 60.0     // PEPE - максимум 60% в месяц!
+                    'IMX': 15.5,
+                    'RNDR': 15.6,
+                    'PENDLE': 15.4,
+                    'LDO': 15.2,
+                    'PEPE': 15.6     // Максимум 15.6% в месяц!
                 }
             };
 
