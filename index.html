@@ -1392,7 +1392,7 @@
     </div>
 
     <!-- Home Page -->
-    <div class="page active" id="homePage">
+    <div class="page" id="homePage">
         <!-- Hero Section -->
         <div class="hero">
             <!-- Rappi-style Background -->
@@ -2323,6 +2323,7 @@
             // Switch pages
             document.getElementById('landingPage').classList.remove('active');
             document.getElementById('mainPlatform').classList.add('active');
+            document.getElementById('homePage').classList.add('active');
             
             // Set wallet as connected
             walletConnected = true;
