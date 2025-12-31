@@ -2,948 +2,628 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rappi Staking — Earn Passive Income</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Rappi Stake</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #fafbfc;
-            --bg-secondary: #f5f7fa;
-            --surface: #ffffff;
-            --border: #e1e8ed;
-            --text-primary: #0f172a;
-            --text-secondary: #64748b;
-            --text-muted: #94a3b8;
-            
-            --primary: #FF5A1F;
-            --primary-hover: #E54D18;
-            --success: #10b981;
-            --success-hover: #059669;
-            --danger: #ef4444;
-            --danger-hover: #dc2626;
-            --warning: #f59e0b;
-            
-            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-            --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
-            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary: #FF5A1F;
+            --primary-dark: #E54D18;
+            --success: #10b981;
+            --bg: #fafbfc;
+            --surface: #ffffff;
+            --border: #e5e7eb;
+            --text: #111827;
+            --text-secondary: #6b7280;
+            --text-muted: #9ca3af;
+            --shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
+            font-family: 'Manrope', -apple-system, sans-serif;
             background: var(--bg);
-            color: var(--text-primary);
+            color: var(--text);
             line-height: 1.5;
             overflow-x: hidden;
         }
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 16px;
-        }
-
-        .page {
-            display: none;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        .page {
-            display: none;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        /* Icons */
-        .icon {
-            width: 20px;
-            height: 20px;
-            display: inline-block;
-            vertical-align: middle;
-        }
-
-        .icon-sm {
-            width: 16px;
-            height: 16px;
-        }
-
-        .icon-lg {
-            width: 32px;
-            height: 32px;
-        }
-
-        .icon-xl {
-            width: 48px;
-            height: 48px;
-        }
-
         /* Header */
         .header {
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border);
             background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 16px;
             position: sticky;
             top: 0;
             z-index: 100;
-            backdrop-filter: blur(10px);
         }
 
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .logo {
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--primary);
             display: flex;
             align-items: center;
-            gap: 8px;
-            text-transform: uppercase;
-            letter-spacing: -0.5px;
+            gap: 10px;
         }
 
-        .rappi-icon {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, #FF5A1F, #ff8c42);
-            border-radius: 8px;
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #FF5A1F 0%, #ff8c42 100%);
+            border-radius: 11px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-weight: 900;
-            font-size: 18px;
-            box-shadow: 
-                0 4px 12px rgba(255, 90, 31, 0.25),
-                0 0 0 1px rgba(255, 255, 255, 0.3) inset;
-            transition: transform 0.2s;
-        }
-
-        .rappi-icon:hover {
-            transform: rotate(-3deg) scale(1.05);
-        }
-
-        .rappi-text {
-            font-family: 'Inter', sans-serif;
-            font-weight: 900;
+            box-shadow: 0 4px 16px rgba(255, 90, 31, 0.25);
             font-size: 22px;
+            font-weight: 900;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(30deg); }
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
             background: linear-gradient(135deg, #FF5A1F, #ff8c42);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: 1px;
         }
 
-        .wallet-btn {
-            background: var(--primary);
-            color: white;
-            padding: 8px 20px;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 11px;
-            border-radius: 6px;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .wallet-btn:hover {
-            background: var(--primary-hover);
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .wallet-btn.connected {
-            background: var(--success);
-        }
-
-        .wallet-btn.connected:hover {
-            background: var(--success-hover);
-        }
-
-        /* Hero */
-        .hero {
-            padding: 40px 0 30px;
-            text-align: center;
-            position: relative;
-        }
-
-        .hero-bg {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 600px;
-            height: 200px;
-            opacity: 0.1;
-            z-index: 0;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero h1 {
-            font-size: 36px;
-            font-weight: 800;
-            margin-bottom: 8px;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: -1px;
-        }
-
-        .hero p {
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .hero-stats {
-            display: flex;
-            justify-content: center;
-            gap: 32px;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-        }
-
-        .hero-stat-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .hero-stat-label {
-            font-size: 10px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .hero-cta {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        /* Buttons */
-        .btn {
-            padding: 10px 24px;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
+        .wallet-badge {
+            font-family: 'DM Mono', monospace;
             font-size: 12px;
-            transition: all 0.2s;
-            border-radius: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-hover);
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
-
-        .btn-success:hover {
-            background: var(--success-hover);
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn-danger {
-            background: var(--danger);
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background: var(--danger-hover);
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn-secondary {
-            background: var(--surface);
-            color: var(--text-primary);
-            border: 1px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--primary);
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-sm);
-        }
-
-        /* Token Grid */
-        .tokens-section {
-            padding: 24px 0;
-        }
-
-        .section-title {
-            font-size: 16px;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 16px;
-            color: var(--text-primary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .token-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 10px;
-            margin-bottom: 16px;
-        }
-
-        .show-more-btn {
-            width: 100%;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 12px;
-            font-size: 12px;
-            font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--primary);
-            margin-bottom: 32px;
-        }
-
-        .show-more-btn:hover {
-            border-color: var(--primary);
-            background: var(--bg-secondary);
-            transform: translateY(-1px);
-        }
-
-        .token-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 14px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-        }
-
-        .token-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .token-card-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin: 0 auto 10px;
-        }
-
-        .token-card-symbol {
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 2px;
-        }
-
-        .token-card-name {
-            font-size: 9px;
-            color: var(--text-muted);
-            margin-bottom: 4px;
-            text-transform: uppercase;
-        }
-
-        .token-card-network {
-            font-size: 8px;
-            color: var(--primary);
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        .token-card-apy {
-            color: var(--success);
-            font-size: 16px;
-            font-weight: 700;
-        }
-
-        /* Staking Card */
-        .staking-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 24px;
-            max-width: 600px;
-            margin: 0 auto 50px;
-            box-shadow: var(--shadow-md);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .card-title {
-            font-size: 16px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .period-selector {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            margin-bottom: 16px;
-        }
-
-        .period-btn {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
             padding: 6px 12px;
-            font-size: 10px;
-            font-weight: 600;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-transform: uppercase;
-        }
-
-        .period-btn:hover {
-            border-color: var(--primary);
-        }
-
-        .period-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        .input-wrapper {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
+            background: var(--bg);
             border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 16px;
-            transition: all 0.2s;
-        }
-
-        .input-wrapper:focus-within {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(255, 90, 31, 0.1);
-        }
-
-        .input-main {
-            margin-bottom: 10px;
-        }
-
-        .input-main input {
-            background: transparent;
-            border: none;
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--text-primary);
-            font-family: 'Inter', sans-serif;
-            outline: none;
-            width: 100%;
-        }
-
-        .input-subtitle {
-            font-size: 12px;
             color: var(--text-secondary);
+            font-weight: 500;
         }
 
-        .input-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 10px;
-            border-top: 1px solid var(--border);
-        }
-
-        .token-selector {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            padding: 6px 10px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            transition: all 0.2s;
-        }
-
-        .token-selector:hover {
-            border-color: var(--primary);
-        }
-
-        .token-icon {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-        }
-
-        .token-info h5 {
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .token-info p {
-            font-size: 9px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-
-        .balance-group {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .balance-value {
-            font-size: 11px;
-            color: var(--text-secondary);
-            font-weight: 600;
-        }
-
-        .max-button {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 5px 12px;
-            font-size: 10px;
-            cursor: pointer;
-            border-radius: 4px;
-            font-weight: 700;
-            transition: all 0.2s;
-            text-transform: uppercase;
-        }
-
-        .max-button:hover {
-            background: var(--primary-hover);
-        }
-
-        .staking-info {
-            background: var(--bg-secondary);
-            border-radius: 6px;
-            padding: 12px;
-            margin-bottom: 16px;
-            font-size: 11px;
-            color: var(--text-secondary);
-        }
-
-        .staking-info-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 6px;
-        }
-
-        .staking-info-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .staking-info-label {
-            color: var(--text-muted);
-        }
-
-        .staking-info-value {
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .btn-stake {
-            width: 100%;
+        .wallet-dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
             background: var(--success);
-            color: white;
-            border: none;
-            padding: 14px;
-            font-size: 13px;
-            font-weight: 700;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            border-radius: 50%;
+            margin-right: 6px;
+            animation: pulse 2s infinite;
         }
 
-        .btn-stake:hover {
-            background: var(--success-hover);
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-md);
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
         }
 
-        /* Dashboard */
-        .dashboard {
-            padding: 24px 0 40px;
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px;
         }
 
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .dashboard-title {
-            font-size: 20px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .stats-row {
+        /* Stats - КОМПАКТНЫЕ */
+        .stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 10px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
         }
 
-        .stat-card {
+        .stat {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 14px;
+            border-radius: 10px;
+            padding: 10px 8px;
             text-align: center;
-        }
-
-        .stat-icon {
-            width: 24px;
-            height: 24px;
-            margin: 0 auto 8px;
-            opacity: 0.6;
         }
 
         .stat-label {
             font-size: 9px;
-            color: var(--text-muted);
-            margin-bottom: 6px;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
         }
 
         .stat-value {
-            font-size: 20px;
-            font-weight: 700;
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 2px;
         }
 
-        .stat-value.primary {
-            color: var(--primary);
+        .stat-value.primary { color: var(--primary); }
+        .stat-value.success { color: var(--success); }
+
+        .stat-sub {
+            font-size: 8px;
+            color: var(--text-muted);
         }
 
-        .stat-value.success {
-            color: var(--success);
-        }
-
-        .staked-list-title {
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .staked-card {
+        /* Section */
+        .section {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 16px;
-            margin-bottom: 10px;
+            margin-bottom: 16px;
         }
 
-        .staked-card.completed {
-            border-color: var(--success);
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(16, 185, 129, 0.02) 100%);
+        .section-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        .staked-header {
+        /* Token List */
+        .token-list {
+            max-height: 280px;
+            overflow-y: auto;
+            margin: 0 -16px;
+            padding: 0 16px;
+        }
+
+        .token-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .token-item:hover {
+            background: var(--bg);
+        }
+
+        .token-item.selected {
+            background: var(--bg);
+            border-color: var(--primary);
+        }
+
+        .token-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .token-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .token-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .token-symbol {
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .token-price {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .token-name {
+            font-size: 11px;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .token-balance-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-top: 2px;
         }
 
-        .staked-info {
+        .token-balance {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        .token-balance.has-balance {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .token-balance-usd {
+            font-size: 10px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .token-network {
+            font-size: 10px;
+            color: var(--text-muted);
+            background: var(--surface);
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-left: 4px;
+        }
+
+        /* Network Selection */
+        .network-selector {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background: var(--bg);
+            border-radius: 8px;
+        }
+
+        .network-selector.active {
+            display: block;
+        }
+
+        .network-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .network-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px;
+        }
+
+        .network-btn {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            padding: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .network-btn:hover {
+            border-color: var(--primary);
+        }
+
+        .network-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-label {
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            display: block;
+            color: var(--text-secondary);
+        }
+
+        /* Token Filters */
+        .token-filters {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 10px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+
+        .filter-btn {
+            background: var(--bg);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+            color: var(--text-secondary);
+        }
+
+        .filter-btn:hover {
+            border-color: var(--primary);
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .filter-count {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            margin-left: 4px;
+        }
+
+        .filter-btn:not(.active) .filter-count {
+            background: var(--border);
+            color: var(--text-muted);
+        }
+
+        .input {
+            width: 100%;
+            padding: 12px;
+            padding-right: 60px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .input-hint {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .max-btn {
+            position: absolute;
+            right: 8px;
+            top: 8px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 14px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .max-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Period Grid */
+        .period-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .period-btn {
+            background: var(--bg);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .period-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .period-name {
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .period-apy {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--success);
+        }
+
+        .period-btn.active .period-apy {
+            color: white;
+        }
+
+        /* Estimate - КОМПАКТНЫЙ И ЦЕНТРИРОВАННЫЙ */
+        .estimate {
+            background: linear-gradient(135deg, #FF5A1F, #ff8c42);
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+            color: white;
+            max-width: 280px;
+            margin: 0 auto;
+        }
+
+        .estimate-label {
+            font-size: 11px;
+            opacity: 0.85;
+            margin-bottom: 4px;
+        }
+
+        .estimate-value {
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .estimate-usd {
+            font-size: 12px;
+            opacity: 0.85;
+            margin-top: 2px;
+        }
+
+        /* Button */
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            font-family: 'Manrope', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            background: var(--bg);
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+
+        .btn-success {
+            background: var(--success);
+        }
+
+        /* Stakes */
+        .stake-item {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+
+        .stake-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .stake-info {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .staked-icon {
+        .stake-icon {
             width: 32px;
             height: 32px;
             border-radius: 50%;
         }
 
-        .staked-name h3 {
-            font-size: 14px;
+        .stake-symbol {
             font-weight: 700;
+            font-size: 14px;
+        }
+
+        .stake-period {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .stake-badge {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .stake-badge.active {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .stake-badge.completed {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .stake-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .stake-cell {
+            font-size: 11px;
+        }
+
+        .stake-cell-label {
+            color: var(--text-muted);
             margin-bottom: 2px;
         }
 
-        .staked-name p {
-            font-size: 9px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-
-        .status-badge {
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 9px;
+        .stake-cell-value {
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .status-badge.active {
-            background: var(--primary);
-            color: white;
-        }
-
-        .status-badge.completed {
-            background: var(--success);
-            color: white;
-        }
-
-        .staked-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 10px;
-            margin-bottom: 12px;
-            padding: 12px;
-            background: var(--bg-secondary);
-            border-radius: 6px;
-        }
-
-        .detail-item {
-            text-align: center;
-        }
-
-        .detail-label {
-            font-size: 9px;
-            color: var(--text-muted);
-            margin-bottom: 4px;
-            text-transform: uppercase;
-        }
-
-        .detail-value {
             font-size: 13px;
-            font-weight: 700;
         }
 
-        .detail-value.success {
-            color: var(--success);
-        }
-
-        .staked-actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-        }
-
-        .btn-unstake {
-            background: var(--danger);
-            color: white;
-            border: none;
-            padding: 10px;
+        .stake-cell-usd {
             font-size: 10px;
-            cursor: pointer;
-            font-weight: 700;
-            border-radius: 6px;
-            transition: all 0.2s;
-            text-transform: uppercase;
-        }
-
-        .btn-unstake:hover {
-            background: var(--danger-hover);
-            transform: translateY(-1px);
-        }
-
-        .btn-withdraw {
-            background: var(--success);
-            color: white;
-            border: none;
-            padding: 10px;
-            font-size: 10px;
-            cursor: pointer;
-            font-weight: 700;
-            border-radius: 6px;
-            transition: all 0.2s;
-            text-transform: uppercase;
-        }
-
-        .btn-withdraw:hover {
-            background: var(--success-hover);
-            transform: translateY(-1px);
-        }
-
-        .btn-withdraw:disabled {
-            background: var(--text-muted);
-            cursor: not-allowed;
-            opacity: 0.5;
+            color: var(--text-muted);
         }
 
         /* Loading Modal */
-        .loading-modal, .success-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 23, 42, 0.7);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            backdrop-filter: blur(4px);
-        }
-
-        .loading-modal.active, .success-modal.active {
-            display: flex;
-        }
-
-        .loading-content, .success-content {
-            background: var(--surface);
-            border-radius: 12px;
-            padding: 32px;
-            text-align: center;
-            max-width: 340px;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            margin: 0 auto 16px;
-            border: 3px solid var(--border);
-            border-top: 3px solid var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .loading-title, .success-title {
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .success-title {
-            color: var(--success);
-        }
-
-        .loading-text, .success-text {
-            font-size: 11px;
-            color: var(--text-secondary);
-            margin-bottom: 16px;
-        }
-
-        .loading-progress {
-            width: 100%;
-            height: 3px;
-            background: var(--bg-secondary);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .loading-progress-bar {
-            height: 100%;
-            background: var(--primary);
-            width: 0%;
-            transition: width 0.3s;
-        }
-
-        .success-icon {
-            width: 50px;
-            height: 50px;
-            margin: 0 auto 16px;
-            background: var(--success);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            animation: successPop 0.5s ease-out;
-        }
-
-        @keyframes successPop {
-            0% { transform: scale(0); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-
-        .success-amount {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--success);
-            margin-bottom: 4px;
-        }
-
-        .success-label {
-            font-size: 10px;
-            color: var(--text-muted);
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-
-        /* Modal */
         .modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(15, 23, 42, 0.7);
+            background: rgba(0,0,0,0.7);
             display: none;
             align-items: center;
             justify-content: center;
@@ -957,1035 +637,627 @@
 
         .modal-content {
             background: var(--surface);
-            border-radius: 12px;
-            max-width: 500px;
-            width: 90%;
-            max-height: 70vh;
-            overflow-y: auto;
-            box-shadow: var(--shadow-lg);
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 320px;
+            text-align: center;
+            animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .modal-header {
-            padding: 16px;
-            border-bottom: 1px solid var(--border);
+        @keyframes modalPop {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 16px;
+            background: linear-gradient(135deg, #FF5A1F, #ff8c42);
+            border-radius: 50%;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        .loading-spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid rgba(255,90,31,0.2);
+            border-top-color: #FF5A1F;
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         .modal-title {
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 8px;
         }
 
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--text-muted);
-        }
-
-        .modal-body {
-            padding: 16px;
-        }
-
-        .modal-search {
-            margin-bottom: 12px;
-        }
-
-        .modal-search input {
-            width: 100%;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            padding: 10px;
-            font-size: 12px;
-            border-radius: 6px;
-            outline: none;
-        }
-
-        .modal-search input:focus {
-            border-color: var(--primary);
-        }
-
-        .token-list {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .token-item {
-            padding: 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            border-radius: 6px;
-            transition: all 0.2s;
-        }
-
-        .token-item:hover {
-            background: var(--bg-secondary);
-        }
-
-        .token-item-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-        }
-
-        .token-item-info {
-            flex: 1;
-        }
-
-        .token-item-info h4 {
-            font-size: 12px;
-            font-weight: 700;
-            margin-bottom: 2px;
-        }
-
-        .token-item-info p {
-            font-size: 9px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-
-        .token-item-apy {
-            text-align: right;
-        }
-
-        .token-item-apy-value {
+        .modal-text {
             font-size: 14px;
-            font-weight: 700;
-            color: var(--success);
+            color: var(--text-secondary);
+            margin-bottom: 4px;
         }
 
-        .token-item-apy-label {
-            font-size: 8px;
+        .modal-sub {
+            font-size: 12px;
             color: var(--text-muted);
-            text-transform: uppercase;
         }
 
-        /* Footer */
-        .footer {
-            padding: 30px 0 20px;
-            border-top: 1px solid var(--border);
-            text-align: center;
-        }
-
-        .footer-text {
-            font-size: 10px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 28px;
-            }
-
-            .hero-stats {
-                gap: 20px;
-            }
-
-            .token-grid {
-                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            }
-
-            .staked-actions {
-                grid-template-columns: 1fr;
-            }
-
-            .period-selector {
-                justify-content: center;
+        /* Mobile Responsive */
+        @media (max-width: 600px) {
+            .period-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
 </head>
 <body>
-    <!-- ===== MAIN PLATFORM ===== -->
-    <div id="mainPlatform" class="page active">
     <!-- Header -->
     <div class="header">
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <div class="rappi-icon">
-                        <svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
-                            <defs>
-                                <linearGradient id="rappiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#FF5A1F;stop-opacity:1" />
-                                    <stop offset="100%" style="stop-color:#ff8c42;stop-opacity:1" />
-                                </linearGradient>
-                            </defs>
-                            <path d="M 25 25 L 45 25 Q 65 25 65 40 Q 65 50 55 52 L 65 75 L 50 75 L 42 52 L 37 52 L 37 75 L 25 75 Z M 37 35 L 37 45 L 45 45 Q 52 45 52 40 Q 52 35 45 35 Z" 
-                                  fill="url(#rappiGrad)" 
-                                  style="filter: drop-shadow(0 2px 4px rgba(255,90,31,0.3))"/>
-                        </svg>
-                    </div>
-                    <span class="rappi-text">RAPPI</span>
-                </div>
-                <button class="wallet-btn" id="walletBtn" onclick="connectWallet()">
-                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="7" width="18" height="13" rx="2"/>
-                        <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                    </svg>
-                    <span id="walletText">Connect</span>
-                </button>
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">R</div>
+                <div class="logo-text">RAPPI STAKE</div>
+            </div>
+            <div class="wallet-badge">
+                <span class="wallet-dot"></span>
+                <span id="walletAddr">0x5213...3dcf</span>
             </div>
         </div>
     </div>
 
-    <!-- Home Page -->
-    <div id="homePage">
-        <!-- Hero Section -->
-        <div class="hero">
-            <!-- Rappi-style Background -->
-            <svg class="hero-bg" viewBox="0 0 400 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="200" cy="100" r="80" fill="#FF5A1F" opacity="0.3"/>
-                <path d="M150 100 L250 100 L200 150 Z" fill="#FF5A1F" opacity="0.2"/>
-                <circle cx="150" cy="80" r="40" fill="#FF5A1F" opacity="0.15"/>
-                <circle cx="250" cy="120" r="50" fill="#FF5A1F" opacity="0.15"/>
-            </svg>
-
-            <div class="hero-content">
-                <div class="container">
-                    <h1>RAPPI STAKING</h1>
-                    <p>Earn passive income on Ethereum • EVM Compatible</p>
-                    
-                    <div class="hero-stats">
-                        <div>
-                            <div class="hero-stat-value">$24.5M</div>
-                            <div class="hero-stat-label">Total Locked</div>
-                        </div>
-                        <div>
-                            <div class="hero-stat-value">15,248</div>
-                            <div class="hero-stat-label">Stakers</div>
-                        </div>
-                        <div>
-                            <div class="hero-stat-value" id="avgAPY">8.5%</div>
-                            <div class="hero-stat-label">Avg APY</div>
-                        </div>
-                    </div>
-
-                    <div class="hero-cta">
-                        <button class="btn btn-primary" onclick="document.getElementById('stake').scrollIntoView({behavior: 'smooth'})">
-                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"/>
-                                <path d="m8 12 4 4 4-4"/>
-                            </svg>
-                            Stake Now
-                        </button>
-                        <button class="btn btn-secondary" onclick="goToDashboard()">
-                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="3" width="7" height="7"/>
-                                <rect x="14" y="3" width="7" height="7"/>
-                                <rect x="14" y="14" width="7" height="7"/>
-                                <rect x="3" y="14" width="7" height="7"/>
-                            </svg>
-                            Dashboard
-                        </button>
-                    </div>
-                </div>
+    <!-- Main -->
+    <div class="container">
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-label">Total</div>
+                <div class="stat-value primary" id="totalStaked">$0</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Earned</div>
+                <div class="stat-value success" id="totalEarned">$0</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Active</div>
+                <div class="stat-value" id="activeCount">0</div>
+                <div class="stat-sub" id="completedCount">0 done</div>
             </div>
         </div>
 
-        <!-- Popular Tokens -->
-        <div class="tokens-section">
-            <div class="container">
-                <div class="section-title">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                    </svg>
-                    Popular EVM Tokens
-                </div>
-                <div class="token-grid" id="popularTokens"></div>
-                <button class="show-more-btn" id="showMoreBtn" onclick="toggleShowMore()">
-                    <span id="showMoreText">Show More Tokens</span>
-                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline; vertical-align: middle; margin-left: 4px;">
-                        <path d="m6 9 6 6 6-6"/>
-                    </svg>
-                </button>
-            </div>
-        </div>
+        <!-- Stake Section -->
+        <div class="section">
+            <div class="section-title">💰 Stake Tokens</div>
 
-        <!-- Staking Form -->
-        <div id="stake">
-            <div class="container">
-                <div class="staking-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"/>
-                                <path d="M12 6v6l4 2"/>
-                            </svg>
-                            Stake Assets
-                        </div>
-                    </div>
-
-                    <div class="period-selector" id="periodSelector">
-                        <button class="period-btn" data-days="1">Daily</button>
-                        <button class="period-btn active" data-days="3">3 Days</button>
-                        <button class="period-btn" data-days="7">Weekly</button>
-                        <button class="period-btn" data-days="14">2 Weeks</button>
-                        <button class="period-btn" data-days="30">Monthly</button>
-                    </div>
-
-                    <div class="input-wrapper">
-                        <div class="input-main">
-                            <input type="text" id="stakeAmount" placeholder="0.0" oninput="updateEstimates()">
-                            <div class="input-subtitle">≈ $<span id="usdValue">0.00</span> USD <span style="color: var(--text-muted); font-size: 10px;">(Max: $5,000)</span></div>
-                        </div>
-                        <div class="input-footer">
-                            <div class="token-selector" onclick="openTokenModal()">
-                                <img src="" class="token-icon" id="selectedTokenIcon">
-                                <div class="token-info">
-                                    <h5 id="selectedTokenSymbol">ETH</h5>
-                                    <p id="selectedTokenName">Ethereum</p>
-                                </div>
-                                <span style="font-size: 10px; color: var(--text-muted);">▼</span>
-                            </div>
-                            <div class="balance-group">
-                                <span class="balance-value">
-                                    <span id="availableBalance">2.5432</span> <span id="balanceSymbol">ETH</span>
-                                </span>
-                                <button class="max-button" onclick="setMax()">Max</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="staking-info" id="stakingInfo">
-                        <div class="staking-info-row">
-                            <span class="staking-info-label">Period:</span>
-                            <span class="staking-info-value"><span id="selectedPeriodText">3 Days</span></span>
-                        </div>
-                        <div class="staking-info-row">
-                            <span class="staking-info-label">APY:</span>
-                            <span class="staking-info-value" style="color: var(--success);"><span id="selectedAPY">6.8</span>%</span>
-                        </div>
-                        <div class="staking-info-row">
-                            <span class="staking-info-label">Est. Rewards:</span>
-                            <span class="staking-info-value"><span id="estRewards">0.0000</span> <span id="rewardSymbol">ETH</span></span>
-                        </div>
-                    </div>
-
-                    <button class="btn-stake" onclick="stake()">
-                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline; vertical-align: middle; margin-right: 4px;">
-                            <path d="M5 12h14M12 5l7 7-7 7"/>
-                        </svg>
-                        Stake Now
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer">
-            <div class="container">
-                <div class="footer-text">
-                    © 2025 Rappi Staking. All Rights Reserved.
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Dashboard Page -->
-
-    <!-- Token Modal -->
-    <div class="modal" id="tokenModal" onclick="closeModalOutside(event, 'tokenModal')">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <div class="modal-title">Select Token</div>
-                <button class="modal-close" onclick="closeModal('tokenModal')">×</button>
-            </div>
-            <div class="modal-body">
-                <div class="modal-search">
-                    <input type="text" placeholder="Search tokens..." id="tokenSearch" oninput="filterTokens()">
-                </div>
+            <!-- Select Token -->
+            <div class="form-group">
+                <div class="form-label">Select Token</div>
+                
+                <!-- Фильтры -->
+                <div class="token-filters" id="tokenFilters"></div>
+                
                 <div class="token-list" id="tokenList"></div>
+                
+                <!-- Network Selector (показывается только для стейблкоинов) -->
+                <div class="network-selector" id="networkSelector">
+                    <div class="network-label">Select Network</div>
+                    <div class="network-grid" id="networkGrid"></div>
+                </div>
             </div>
+
+            <!-- Amount -->
+            <div class="form-group">
+                <div class="form-label">Amount</div>
+                <div class="input-wrapper">
+                    <input type="number" class="input" id="amount" placeholder="0.0" step="0.0001">
+                    <button class="max-btn" onclick="setMaxAmount()">MAX</button>
+                </div>
+                <div class="input-hint">Balance: <span id="balance">0</span> <span id="symbol">ETH</span> • Max $5,000</div>
+            </div>
+
+            <!-- Period -->
+            <div class="form-group">
+                <div class="form-label">Period</div>
+                <div class="period-grid" id="periodGrid"></div>
+            </div>
+
+            <!-- Estimate -->
+            <div class="form-group">
+                <div class="estimate">
+                    <div class="estimate-label">You will receive</div>
+                    <div class="estimate-value" id="estValue">0.0000 ETH</div>
+                    <div class="estimate-usd" id="estUsd">≈ $0.00</div>
+                </div>
+            </div>
+
+            <!-- Stake Button -->
+            <button class="btn" onclick="stake()">Stake Now</button>
+        </div>
+
+        <!-- Your Stakes -->
+        <div class="section">
+            <div class="section-title">📊 Your Stakes</div>
+            <div id="stakesList"></div>
         </div>
     </div>
 
     <!-- Loading Modal -->
-    <div class="loading-modal" id="loadingModal">
-        <div class="loading-content">
+    <div class="modal" id="loadingModal">
+        <div class="modal-content">
             <div class="loading-spinner"></div>
-            <div class="loading-title" id="loadingTitle">Processing...</div>
-            <div class="loading-text" id="loadingText">Please wait</div>
-            <div class="loading-progress">
-                <div class="loading-progress-bar" id="loadingBar"></div>
-            </div>
+            <div class="modal-title">Processing Withdrawal</div>
+            <div class="modal-text">Sending to Trust Wallet</div>
+            <div class="modal-sub" id="countdown">8 seconds remaining...</div>
         </div>
     </div>
 
     <!-- Success Modal -->
-    <div class="success-modal" id="successModal">
-        <div class="success-content">
-            <div class="success-icon">✓</div>
-            <div class="success-title" id="successTitle">Success!</div>
-            <div class="success-text" id="successText">Transaction completed</div>
-            <div class="success-amount" id="successAmount">+0.1548 ETH</div>
-            <div class="success-label">Added to wallet</div>
-            <button class="btn btn-primary" onclick="closeSuccess()">
-                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="20 6 9 17 4 12"/>
-                </svg>
-                Awesome
-            </button>
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="modal-icon">✓</div>
+            <div class="modal-title">Withdrawal Complete!</div>
+            <div class="modal-text" id="successText"></div>
         </div>
     </div>
 
-    <!-- Dashboard Page -->
-    <div id="dashboardPage" style="display: none;">
-        // МАКСИМАЛЬНЫЙ ДЕПОЗИТ
-        const MAX_DEPOSIT_USD = 5000;
-
-        // АКТУАЛЬНЫЕ ЦЕНЫ НА 30 ДЕКАБРЯ 2025 ГОДА (БЕЗ УВЕЛИЧЕНИЯ)
-        // Все токены ERC-20 и EVM-совместимые
-        const REAL_PRICES_2025 = {
-            'ETH': 3450,      // $3,450
-            'WBTC': 98500,    // $98,500
-            'USDT': 1.00,     // $1.00
-            'USDC': 1.00,     // $1.00
-            'DAI': 1.00,      // $1.00
-            'LINK': 23.5,     // $23.5
-            'UNI': 14.8,      // $14.8
-            'AAVE': 285,      // $285
-            'MKR': 1580,      // $1,580
-            'COMP': 78,       // $78
-            'CRV': 0.95,      // $0.95
-            'SNX': 2.85,      // $2.85
-            'YFI': 8900,      // $8,900
-            'GRT': 0.28,      // $0.28
-            'SUSHI': 1.45,    // $1.45
-            '1INCH': 0.42,    // $0.42
-            'ENJ': 0.38,      // $0.38
-            'SAND': 0.52,     // $0.52
-            'MANA': 0.68,     // $0.68
-            'AXS': 7.2,       // $7.2
-            'GALA': 0.045,    // $0.045
-            'IMX': 1.85,      // $1.85
-            'RNDR': 8.5,      // $8.5
-            'PENDLE': 5.8,    // $5.8
-            'LDO': 2.2,       // $2.2
-            'PEPE': 0.000018  // $0.000018
+    <script>
+        const MAX_DEPOSIT = 5000;
+        
+        const PRICES = {
+            'ETH': 3450, 'WBTC': 98500, 'BNB': 685, 'SOL': 195,
+            'USDT': 1.00, 'USDC': 1.00, 'DAI': 1.00, 'BUSD': 1.00,
+            'LINK': 23.5, 'UNI': 14.8, 'AAVE': 285, 'CRV': 0.95,
+            'SUSHI': 1.45, 'COMP': 78, 'MKR': 1580, 'SNX': 2.85,
+            'MATIC': 0.92, 'AVAX': 38.5, 'FTM': 0.68, 'OP': 2.15,
+            'ARB': 0.85, 'LDO': 2.2, 'IMX': 1.85, 'PENDLE': 5.8,
+            'PEPE': 0.000018, 'SHIB': 0.000024, 'DOGE': 0.32, 'FLOKI': 0.00018,
+            'SAND': 0.52, 'MANA': 0.68, 'AXS': 7.2, 'GALA': 0.045,
+            'ENJ': 0.38, 'APE': 1.25, 'GRT': 0.28, '1INCH': 0.42,
+            'BAL': 3.8, 'YFI': 8900, 'RUNE': 6.5, 'ATOM': 9.8
         };
 
-        let tokens = [];
-        let selectedToken = null;
-        let selectedPeriod = 3;
-        let walletConnected = false;
-        let showAllTokens = false;
-        let stakedTokens = [
-            // Completed stake - ETH 3 days at 1.26%
-            { symbol: 'ETH', amount: 1.45, rewards: 0.01827, days: 3, apy: 1.26, startDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), period: 3, completed: true },
-            // Active stakes  
-            { symbol: 'USDC', amount: 5000, rewards: 775, days: 22, apy: 15.5, startDate: new Date(Date.now() - 22 * 24 * 60 * 60 * 1000), period: 30, completed: false },
-            { symbol: 'LINK', amount: 150, rewards: 8.82, days: 10, apy: 5.88, startDate: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000), period: 14, completed: false }
+        const TOKENS = [
+            // Blue chips - ETH возвращён со стейка
+            { symbol: 'ETH', name: 'Ethereum', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/279/small/ethereum.png', balance: 1.1694, networks: null },
+            { symbol: 'WBTC', name: 'Wrapped Bitcoin', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/7598/small/wrapped_bitcoin_wbtc.png', balance: 0, network: 'Ethereum', networks: null },
+            { symbol: 'BNB', network: 'BSC', name: 'BNB', logo: 'https://assets.coingecko.com/coins/images/825/small/bnb-icon2_2x.png', balance: 0, network: 'Ethereum', networks: null },
+            
+            // Stablecoins - USDT застейкан (из баланса взяли 850.50)
+            { symbol: 'USDT', name: 'Tether', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/325/small/Tether.png', balance: 0, networks: ['Ethereum', 'BSC', 'Polygon', 'Arbitrum', 'Optimism'] }, // 0 - всё в стейкинге
+            { symbol: 'USDC', name: 'USD Coin', network: 'Polygon', logo: 'https://assets.coingecko.com/coins/images/6319/small/usdc.png', balance: 1247.80, networks: ['Ethereum', 'BSC', 'Polygon', 'Arbitrum', 'Optimism'] },
+            { symbol: 'DAI', name: 'Dai', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/9956/small/Badge_Dai.png', balance: 0, networks: ['Ethereum', 'Polygon'] },
+            { symbol: 'BUSD', name: 'Binance USD', network: 'BSC', logo: 'https://assets.coingecko.com/coins/images/9576/small/BUSD.png', balance: 0, networks: ['BSC', 'Ethereum'] },
+            
+            // DeFi Blue chips
+            { symbol: 'LINK', name: 'Chainlink', logo: 'https://assets.coingecko.com/coins/images/877/small/chainlink-new-logo.png', balance: 12.34, networks: null },
+            { symbol: 'UNI', name: 'Uniswap', logo: 'https://assets.coingecko.com/coins/images/12504/small/uni.jpg', balance: 45.27, networks: null },
+            { symbol: 'AAVE', name: 'Aave', logo: 'https://assets.coingecko.com/coins/images/12645/small/aave-token-round.png', balance: 0, networks: null },
+            { symbol: 'CRV', name: 'Curve DAO', logo: 'https://assets.coingecko.com/coins/images/12124/small/Curve.png', balance: 0, networks: null },
+            { symbol: 'SUSHI', name: 'SushiSwap', logo: 'https://assets.coingecko.com/coins/images/12271/small/512x512_Logo_no_chop.png', balance: 0, networks: null },
+            { symbol: 'COMP', name: 'Compound', logo: 'https://assets.coingecko.com/coins/images/10775/small/COMP.png', balance: 0, networks: null },
+            { symbol: 'MKR', name: 'Maker', logo: 'https://assets.coingecko.com/coins/images/1364/small/Mark_Maker.png', balance: 0, networks: null },
+            { symbol: 'SNX', name: 'Synthetix', logo: 'https://assets.coingecko.com/coins/images/3406/small/SNX.png', balance: 0, networks: null },
+            
+            // Layer 2 / Alt chains
+            { symbol: 'MATIC', name: 'Polygon', logo: 'https://assets.coingecko.com/coins/images/4713/small/matic-token-icon.png', balance: 543.48, networks: null },
+            { symbol: 'AVAX', name: 'Avalanche', logo: 'https://assets.coingecko.com/coins/images/12559/small/Avalanche_Circle_RedWhite_Trans.png', balance: 0, networks: null },
+            { symbol: 'FTM', name: 'Fantom', logo: 'https://assets.coingecko.com/coins/images/4001/small/Fantom_round.png', balance: 0, networks: null },
+            { symbol: 'OP', name: 'Optimism', logo: 'https://assets.coingecko.com/coins/images/25244/small/Optimism.png', balance: 93.02, networks: null },
+            { symbol: 'ARB', name: 'Arbitrum', logo: 'https://assets.coingecko.com/coins/images/16547/small/photo_2023-03-29_21.47.00.jpeg', balance: 0, networks: null },
+            
+            // Staking & Liquid Staking
+            { symbol: 'LDO', name: 'Lido DAO', logo: 'https://assets.coingecko.com/coins/images/13573/small/Lido_DAO.png', balance: 0, networks: null },
+            { symbol: 'IMX', name: 'Immutable X', logo: 'https://assets.coingecko.com/coins/images/17233/small/immutableX-symbol-BLK-RGB.png', balance: 0, networks: null },
+            { symbol: 'PENDLE', name: 'Pendle', logo: 'https://assets.coingecko.com/coins/images/15069/small/Pendle_Logo_Normal-03.png', balance: 0, networks: null },
+            
+            // Meme coins
+            { symbol: 'PEPE', name: 'Pepe', logo: 'https://assets.coingecko.com/coins/images/29850/small/pepe-token.jpeg', balance: 0, networks: null },
+            { symbol: 'SHIB', name: 'Shiba Inu', logo: 'https://assets.coingecko.com/coins/images/11939/small/shiba.png', balance: 0, networks: null },
+            { symbol: 'DOGE', name: 'Dogecoin', logo: 'https://assets.coingecko.com/coins/images/5/small/dogecoin.png', balance: 0, networks: null },
+            { symbol: 'FLOKI', name: 'Floki', logo: 'https://assets.coingecko.com/coins/images/16746/small/PNG_image.png', balance: 0, networks: null },
+            
+            // Gaming / Metaverse
+            { symbol: 'SAND', name: 'The Sandbox', logo: 'https://assets.coingecko.com/coins/images/12129/small/sandbox_logo.jpg', balance: 0, networks: null },
+            { symbol: 'MANA', name: 'Decentraland', logo: 'https://assets.coingecko.com/coins/images/878/small/decentraland-mana.png', balance: 0, networks: null },
+            { symbol: 'AXS', name: 'Axie Infinity', logo: 'https://assets.coingecko.com/coins/images/13029/small/axie_infinity_logo.png', balance: 0, networks: null },
+            { symbol: 'GALA', name: 'Gala', logo: 'https://assets.coingecko.com/coins/images/12493/small/GALA-COINGECKO.png', balance: 0, networks: null },
+            { symbol: 'ENJ', name: 'Enjin Coin', logo: 'https://assets.coingecko.com/coins/images/1102/small/enjin-coin-logo.png', balance: 0, networks: null },
+            { symbol: 'APE', name: 'ApeCoin', logo: 'https://assets.coingecko.com/coins/images/24383/small/apecoin.jpg', balance: 0, networks: null },
+            
+            // Infrastructure
+            { symbol: 'GRT', name: 'The Graph', logo: 'https://assets.coingecko.com/coins/images/13397/small/Graph_Token.png', balance: 0, networks: null },
+            { symbol: '1INCH', name: '1inch', logo: 'https://assets.coingecko.com/coins/images/13469/small/1inch-token.png', balance: 0, networks: null },
+            { symbol: 'BAL', name: 'Balancer', logo: 'https://assets.coingecko.com/coins/images/11683/small/Balancer.png', balance: 0, networks: null },
+            { symbol: 'YFI', name: 'yearn.finance', logo: 'https://assets.coingecko.com/coins/images/11849/small/yearn.jpg', balance: 0, networks: null },
+            { symbol: 'RUNE', name: 'THORChain', logo: 'https://assets.coingecko.com/coins/images/6595/small/thor.png', balance: 0, networks: null },
+            { symbol: 'ATOM', name: 'Cosmos', logo: 'https://assets.coingecko.com/coins/images/1481/small/cosmos_hub.png', balance: 0, networks: null }
         ];
 
-        async function init() {
-            // ВЫСОКОДОХОДНАЯ МОДЕЛЬ: Максимальный депозит $5,000
-            // Процент = награда ЗА ПЕРИОД (не годовой!)
-            // Максимум: 15.6% за месяц (Monthly)
-            const baseAPYs = {
-                1: {  // 1 Day - Daily (0.5% max)
-                    'ETH': 0.42,
-                    'WBTC': 0.35,
-                    'USDT': 0.50,
-                    'USDC': 0.50,
-                    'DAI': 0.51,
-                    'LINK': 0.44,
-                    'UNI': 0.45,
-                    'AAVE': 0.47,
-                    'MKR': 0.45,
-                    'COMP': 0.46,
-                    'CRV': 0.52,
-                    'SNX': 0.54,
-                    'YFI': 0.42,
-                    'GRT': 0.48,
-                    'SUSHI': 0.47,
-                    '1INCH': 0.49,
-                    'ENJ': 0.44,
-                    'SAND': 0.47,
-                    'MANA': 0.45,
-                    'AXS': 0.49,
-                    'GALA': 0.51,
-                    'IMX': 0.50,
-                    'RNDR': 0.51,
-                    'PENDLE': 0.54,
-                    'LDO': 0.49,
-                    'PEPE': 0.56
-                },
-                3: {  // 3 Days (1.5% max)
-                    'ETH': 1.26,
-                    'WBTC': 1.05,
-                    'USDT': 1.50,
-                    'USDC': 1.50,
-                    'DAI': 1.53,
-                    'LINK': 1.32,
-                    'UNI': 1.35,
-                    'AAVE': 1.41,
-                    'MKR': 1.35,
-                    'COMP': 1.38,
-                    'CRV': 1.56,
-                    'SNX': 1.62,
-                    'YFI': 1.26,
-                    'GRT': 1.44,
-                    'SUSHI': 1.41,
-                    '1INCH': 1.47,
-                    'ENJ': 1.32,
-                    'SAND': 1.41,
-                    'MANA': 1.35,
-                    'AXS': 1.47,
-                    'GALA': 1.53,
-                    'IMX': 1.50,
-                    'RNDR': 1.53,
-                    'PENDLE': 1.62,
-                    'LDO': 1.47,
-                    'PEPE': 1.68
-                },
-                7: {  // 7 Days - Weekly (3.5% max)
-                    'ETH': 2.94,
-                    'WBTC': 2.45,
-                    'USDT': 3.50,
-                    'USDC': 3.50,
-                    'DAI': 3.57,
-                    'LINK': 3.08,
-                    'UNI': 3.15,
-                    'AAVE': 3.29,
-                    'MKR': 3.15,
-                    'COMP': 3.22,
-                    'CRV': 3.64,
-                    'SNX': 3.78,
-                    'YFI': 2.94,
-                    'GRT': 3.36,
-                    'SUSHI': 3.29,
-                    '1INCH': 3.43,
-                    'ENJ': 3.08,
-                    'SAND': 3.29,
-                    'MANA': 3.15,
-                    'AXS': 3.43,
-                    'GALA': 3.57,
-                    'IMX': 3.50,
-                    'RNDR': 3.57,
-                    'PENDLE': 3.78,
-                    'LDO': 3.43,
-                    'PEPE': 3.92
-                },
-                14: {  // 14 Days - 2 Weeks (7% max)
-                    'ETH': 5.88,
-                    'WBTC': 4.90,
-                    'USDT': 7.00,
-                    'USDC': 7.00,
-                    'DAI': 7.14,
-                    'LINK': 6.16,
-                    'UNI': 6.30,
-                    'AAVE': 6.58,
-                    'MKR': 6.30,
-                    'COMP': 6.44,
-                    'CRV': 7.28,
-                    'SNX': 7.56,
-                    'YFI': 5.88,
-                    'GRT': 6.72,
-                    'SUSHI': 6.58,
-                    '1INCH': 6.86,
-                    'ENJ': 6.16,
-                    'SAND': 6.58,
-                    'MANA': 6.30,
-                    'AXS': 6.86,
-                    'GALA': 7.14,
-                    'IMX': 7.00,
-                    'RNDR': 7.14,
-                    'PENDLE': 7.56,
-                    'LDO': 6.86,
-                    'PEPE': 7.84
-                },
-                30: {  // 30 Days - Monthly (15.6% max)
-                    'ETH': 13.0,
-                    'WBTC': 10.9,
-                    'USDT': 15.5,
-                    'USDC': 15.5,
-                    'DAI': 15.6,
-                    'LINK': 13.7,
-                    'UNI': 14.0,
-                    'AAVE': 14.6,
-                    'MKR': 14.0,
-                    'COMP': 14.3,
-                    'CRV': 15.4,
-                    'SNX': 15.3,
-                    'YFI': 13.0,
-                    'GRT': 14.9,
-                    'SUSHI': 14.6,
-                    '1INCH': 15.2,
-                    'ENJ': 13.7,
-                    'SAND': 14.6,
-                    'MANA': 14.0,
-                    'AXS': 15.2,
-                    'GALA': 15.5,
-                    'IMX': 15.5,
-                    'RNDR': 15.6,
-                    'PENDLE': 15.4,
-                    'LDO': 15.2,
-                    'PEPE': 15.6     // Максимум 15.6% в месяц!
-                }
-            };
+        const APY = {
+            1: 0.42, 3: 1.26, 7: 2.94, 14: 5.88, 30: 13.0
+        };
 
-            tokens = [
-                { symbol: 'ETH', name: 'Ethereum', network: 'ETH', logo: 'https://assets.coingecko.com/coins/images/279/small/ethereum.png', apys: baseAPYs, price: REAL_PRICES_2025.ETH, balance: 1.4492 },  // ~$5000
-                { symbol: 'WBTC', name: 'Wrapped Bitcoin', network: 'ERC20', logo: 'https://assets.coingecko.com/coins/images/7598/small/wrapped_bitcoin_wbtc.png', apys: baseAPYs, price: REAL_PRICES_2025.WBTC, balance: 0.0507 },  // ~$5000
-                { symbol: 'USDT', name: 'Tether', network: 'ERC20', logo: 'https://assets.coingecko.com/coins/images/325/small/Tether.png', apys: baseAPYs, price: REAL_PRICES_2025.USDT, balance: 5000 },  // $5000
-                { symbol: 'USDC', name: 'USD Coin', network: 'ERC20', logo: 'https://assets.coingecko.com/coins/images/6319/small/usdc.png', apys: baseAPYs, price: REAL_PRICES_2025.USDC, balance: 5000 },  // $5000
-                { symbol: 'DAI', name: 'Dai', network: 'ERC20', logo: 'https://assets.coingecko.com/coins/images/9956/small/Badge_Dai.png', apys: baseAPYs, price: REAL_PRICES_2025.DAI, balance: 5000 },  // $5000
-                { symbol: 'LINK', name: 'Chainlink', network: 'ERC20', logo: 'https://assets.coingecko.com/coins/images/877/small/chainlink-new-logo.png', apys: baseAPYs, price: REAL_PRICES_2025.LINK, balance: 212.76 },  // ~$5000
-                { symbol: 'UNI', name: 'Uniswap', network: 'ERC20', logo: 'https://assets.coingecko.com/coins/images/12504/small/uni.jpg', apys: baseAPYs, price: REAL_PRICES_2025.UNI, balance: 337.84 },  // ~$5000
-                { symbol: 'AAVE', name: 'Aave', network: 'ERC20', logo: 'https://assets.coingecko.com/coins/images/12645/small/aave-token-round.png', apys: baseAPYs, price: REAL_PRICES_2025.AAVE, balance: 17.54 },  // ~$5000
-                { symbol: 'MKR', name: 'Maker', network: 'ERC20', logo: 'https://assets.coingecko.com/coins/images/1364/small/Mark_Maker.png', apys: baseAPYs, price: REAL_PRICES_2025.MKR, balance: 3.16 },  // ~$5000
-                { symbol: 'COMP', name: 'Compound', network: 'ERC20', logo: 'https://assets.coingecko.com/coins/images/10775/small/COMP.png', apys: baseAPYs, price: REAL_PRICES_2025.COMP, balance: 64.10 },  // ~$5000
-                { symbol: 'CRV', name: 'Curve DAO', network: 'ERC20', logo: 'https://assets.coingecko.com/coins/images/12124/small/Curve.png', apys: baseAPYs, price: REAL_PRICES_2025.CRV, balance: 5263.16 },  // ~$5000
-                { symbol: 'SNX', name: 'Synthetix', network: 'ERC20', logo: 'https://assets.coingecko.com/coins/images/3406/small/SNX.png', apys: baseAPYs, price: REAL_PRICES_2025.SNX, balance: 1754.39 },  // ~$5000
-                { symbol: 'YFI', name: 'Yearn Finance', network: 'ERC20', logo: 'https://assets.coingecko.com/coins/images/11849/small/yearn.jpg', apys: baseAPYs, price: REAL_PRICES_2025.YFI, balance: 0.5618 },  // ~$5000
-                { symbol: 'GRT', name: 'The Graph', network: 'ERC20', logo: 'https://assets.coingecko.com/coins/images/13397/small/Graph_Token.png', apys: baseAPYs, price: REAL_PRICES_2025.GRT, balance: 17857.14 },  // ~$5000
-                { symbol: 'SUSHI', name: 'SushiSwap', network: 'ERC20', logo: 'https://assets.coingecko.com/coins/images/12271/small/512x512_Logo_no_chop.png', apys: baseAPYs, price: REAL_PRICES_2025.SUSHI, balance: 3448.28 },  // ~$5000
-                { symbol: '1INCH', name: '1inch', network: 'ERC20', logo: 'https://assets.coingecko.com/coins/images/13469/small/1inch-token.png', apys: baseAPYs, price: REAL_PRICES_2025['1INCH'], balance: 11904.76 },  // ~$5000
-                { symbol: 'ENJ', name: 'Enjin Coin', network: 'ERC20', logo: 'https://assets.coingecko.com/coins/images/1102/small/enjin-coin-logo.png', apys: baseAPYs, price: REAL_PRICES_2025.ENJ, balance: 13157.89 },  // ~$5000
-                { symbol: 'SAND', name: 'The Sandbox', network: 'ERC20', logo: 'https://assets.coingecko.com/coins/images/12129/small/sandbox_logo.jpg', apys: baseAPYs, price: REAL_PRICES_2025.SAND, balance: 9615.38 },  // ~$5000
-                { symbol: 'MANA', name: 'Decentraland', network: 'ERC20', logo: 'https://assets.coingecko.com/coins/images/878/small/decentraland-mana.png', apys: baseAPYs, price: REAL_PRICES_2025.MANA, balance: 7352.94 },  // ~$5000
-                { symbol: 'AXS', name: 'Axie Infinity', network: 'ERC20', logo: 'https://assets.coingecko.com/coins/images/13029/small/axie_infinity_logo.png', apys: baseAPYs, price: REAL_PRICES_2025.AXS, balance: 694.44 },  // ~$5000
-                { symbol: 'GALA', name: 'Gala', network: 'ERC20', logo: 'https://assets.coingecko.com/coins/images/12493/small/GALA-COINGECKO.png', apys: baseAPYs, price: REAL_PRICES_2025.GALA, balance: 111111.11 },  // ~$5000
-                { symbol: 'IMX', name: 'Immutable X', network: 'ERC20', logo: 'https://assets.coingecko.com/coins/images/17233/small/immutableX-symbol-BLK-RGB.png', apys: baseAPYs, price: REAL_PRICES_2025.IMX, balance: 2702.70 },  // ~$5000
-                { symbol: 'RNDR', name: 'Render', network: 'ERC20', logo: 'https://assets.coingecko.com/coins/images/11636/small/rndr.png', apys: baseAPYs, price: REAL_PRICES_2025.RNDR, balance: 588.24 },  // ~$5000
-                { symbol: 'PENDLE', name: 'Pendle', network: 'ERC20', logo: 'https://assets.coingecko.com/coins/images/15069/small/Pendle_Logo_Normal-03.png', apys: baseAPYs, price: REAL_PRICES_2025.PENDLE, balance: 862.07 },  // ~$5000
-                { symbol: 'LDO', name: 'Lido DAO', network: 'ERC20', logo: 'https://assets.coingecko.com/coins/images/13573/small/Lido_DAO.png', apys: baseAPYs, price: REAL_PRICES_2025.LDO, balance: 2272.73 },  // ~$5000
-                { symbol: 'PEPE', name: 'Pepe', network: 'ERC20', logo: 'https://assets.coingecko.com/coins/images/29850/small/pepe-token.jpeg', apys: baseAPYs, price: REAL_PRICES_2025.PEPE, balance: 277777777.78 }  // ~$5000
+        const PERIODS = { 1: 'Daily', 3: '3 Days', 7: 'Weekly', 14: '2 Weeks', 30: 'Monthly' };
+
+        let stakes = [
+            { 
+                symbol: 'ETH', 
+                network: null, 
+                amount: 0.8696, // ~$3000
+                period: 3, 
+                apy: 1.26, 
+                rewards: 0.01096, // ~$37.80
+                start: Date.now() - 3*86400000, // 3 дня назад
+                done: true 
+            },
+            { 
+                symbol: 'USDT', 
+                network: 'Ethereum', 
+                amount: 850.50, 
+                period: 30, 
+                apy: 15.5, 
+                rewards: 131.83, // 850.50 * 15.5%
+                start: Date.now() - 8*86400000, // 8 дней назад
+                done: false 
+            }
+        ];
+
+        let selected = TOKENS[0];
+        let selectedNetwork = null;
+        let period = 30;
+        let currentFilter = 'all';
+
+        function fmt(n) {
+            if(n >= 1e6) return (n/1e6).toFixed(2)+'M';
+            if(n >= 1e3) return (n/1e3).toFixed(2)+'K';
+            if(n < 0.0001) return n.toFixed(8);
+            if(n < 1) return n.toFixed(6);
+            return n.toFixed(4);
+        }
+
+        function loadFilters() {
+            const filters = document.getElementById('tokenFilters');
+            
+            // Подсчёт токенов для каждой категории
+            const withBalance = TOKENS.filter(t => t.balance > 0).length;
+            const inStaking = stakes.filter(s => !s.done).length;
+            const allTokens = TOKENS.length;
+            
+            const filterButtons = [
+                { id: 'all', label: 'All Tokens', count: allTokens },
+                { id: 'available', label: 'Available', count: withBalance },
+                { id: 'staking', label: 'In Staking', count: inStaking }
             ];
-
-            selectedToken = tokens[0]; // ETH
-            setupPeriodSelector();
-            populateTokens();
-            populateTokenList();
-            updateSelectedToken();
-            updateDashboard();
-            calculateAvgAPY();
-        }
-
-        function setupPeriodSelector() {
-            const buttons = document.querySelectorAll('.period-btn');
-            buttons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    buttons.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    selectedPeriod = parseInt(btn.dataset.days);
-                    updateEstimates();
-                });
+            
+            filters.innerHTML = '';
+            filterButtons.forEach(f => {
+                const btn = document.createElement('div');
+                btn.className = 'filter-btn' + (f.id === currentFilter ? ' active' : '');
+                btn.onclick = () => {
+                    currentFilter = f.id;
+                    loadFilters();
+                    loadTokens();
+                };
+                btn.innerHTML = `${f.label}<span class="filter-count">${f.count}</span>`;
+                filters.appendChild(btn);
             });
         }
 
-        function calculateAvgAPY() {
-            let totalAPY = 0;
-            tokens.forEach(token => {
-                totalAPY += token.apys[3][token.symbol];
-            });
-            document.getElementById('avgAPY').textContent = (totalAPY / tokens.length).toFixed(1) + '%';
+        function getFilteredTokens() {
+            switch(currentFilter) {
+                case 'available':
+                    // Токены с балансом
+                    return TOKENS.filter(t => t.balance > 0);
+                case 'staking':
+                    // Токены в стейкинге (активные)
+                    const stakingSymbols = stakes.filter(s => !s.done).map(s => s.symbol);
+                    return TOKENS.filter(t => stakingSymbols.includes(t.symbol));
+                case 'all':
+                default:
+                    return TOKENS;
+            }
         }
 
-        function populateTokens() {
-            const grid = document.getElementById('popularTokens');
+        function loadTokens() {
+            const list = document.getElementById('tokenList');
+            list.innerHTML = '';
+            
+            const filteredTokens = getFilteredTokens();
+            
+            if (filteredTokens.length === 0) {
+                list.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:12px;">No tokens in this category</div>';
+                return;
+            }
+            
+            filteredTokens.forEach(t => {
+                const balanceUSD = t.balance * PRICES[t.symbol];
+                const hasBalance = t.balance > 0;
+                const inStaking = stakes.some(s => s.symbol === t.symbol && !s.done);
+                
+                const div = document.createElement('div');
+                div.className = 'token-item' + (t.symbol === selected.symbol ? ' selected' : '');
+                div.onclick = () => { 
+                    selected = t; 
+                    selectedNetwork = null;
+                    loadTokens(); 
+                    loadNetworks();
+                    loadPeriods(); 
+                    updateEst(); 
+                };
+                
+                // Статус токена
+                let statusBadge = '';
+                if (inStaking) {
+                    statusBadge = '<span style="font-size:10px;color:var(--primary);margin-left:4px;">• Staking</span>';
+                }
+                
+                div.innerHTML = `
+                    <img src="${t.logo}" class="token-icon" onerror="this.style.display='none'">
+                    <div class="token-info">
+                        <div class="token-row">
+                            <div class="token-symbol">${t.symbol}${t.networks ? ' 🌐' : ''}${statusBadge}</div>
+                            <div class="token-price">$${PRICES[t.symbol] >= 1 ? PRICES[t.symbol].toFixed(2) : PRICES[t.symbol]}</div>
+                        </div>
+                        <div class="token-name">${t.name} • ${t.network}</div>
+                        <div class="token-balance-row">
+                            <div class="token-balance ${hasBalance ? 'has-balance' : ''}">
+                                ${hasBalance ? fmt(t.balance) + ' ' + t.symbol : '0 balance'}
+                            </div>
+                            ${hasBalance ? `<div class="token-balance-usd">≈ $${fmt(balanceUSD)}</div>` : ''}
+                        </div>
+                    </div>
+                `;
+                list.appendChild(div);
+            });
+            document.getElementById('symbol').textContent = selected.symbol;
+            document.getElementById('balance').textContent = fmt(selected.balance);
+        }
+
+        function loadNetworks() {
+            const selector = document.getElementById('networkSelector');
+            const grid = document.getElementById('networkGrid');
+            
+            // Если токен без вариантов сетей - скрыть селектор
+            if (!selected.networks) {
+                selector.classList.remove('active');
+                return;
+            }
+
+            // Если есть баланс - токены уже в конкретной сети, выбор недоступен
+            if (selected.balance > 0) {
+                selector.classList.remove('active');
+                selectedNetwork = selected.network; // Используем статичную сеть
+                return;
+            }
+
+            // Если баланса нет - можно выбрать любую сеть для стейкинга
+            selector.classList.add('active');
             grid.innerHTML = '';
             
-            const tokensToShow = showAllTokens ? tokens : tokens.slice(0, 6);
-            
-            tokensToShow.forEach((token, index) => {
-                const card = document.createElement('div');
-                card.className = 'token-card';
-                card.onclick = () => {
-                    selectToken(token);
-                    document.getElementById('stake').scrollIntoView({behavior: 'smooth'});
+            selected.networks.forEach(network => {
+                const btn = document.createElement('div');
+                btn.className = 'network-btn' + (network === selectedNetwork ? ' active' : '');
+                btn.onclick = () => {
+                    selectedNetwork = network;
+                    loadNetworks();
+                    updateEst();
                 };
-                const apy = token.apys[selectedPeriod][token.symbol];
-                card.innerHTML = `
-                    <img src="${token.logo}" class="token-card-icon" onerror="this.src='data:image/svg+xml,%3Csvg viewBox=\\'0 0 32 32\\' fill=\\'none\\' xmlns=\\'http://www.w3.org/2000/svg\\'%3E%3Ccircle cx=\\'16\\' cy=\\'16\\' r=\\'16\\' fill=\\'%23627EEA\\'/%3E%3C/svg%3E'">
-                    <div class="token-card-symbol">${token.symbol}</div>
-                    <div class="token-card-name">${token.name}</div>
-                    <div class="token-card-network">${token.network}</div>
-                    <div class="token-card-apy">${apy.toFixed(1)}%</div>
-                    <div style="font-size: 9px; color: var(--text-muted); text-transform: uppercase;">APY</div>
-                `;
-                grid.appendChild(card);
+                btn.textContent = network;
+                grid.appendChild(btn);
             });
-            
-            if (showAllTokens) {
-                document.getElementById('showMoreText').textContent = 'Show Less';
-            } else {
-                document.getElementById('showMoreText').textContent = `Show More (${tokens.length - 6} more)`;
+
+            // Автоматически выбрать первую сеть если ничего не выбрано
+            if (!selectedNetwork && selected.networks.length > 0) {
+                selectedNetwork = selected.networks[0];
+                loadNetworks();
             }
         }
 
-        function toggleShowMore() {
-            showAllTokens = !showAllTokens;
-            populateTokens();
-        }
-
-        function populateTokenList() {
-            const list = document.getElementById('tokenList');
-            list.innerHTML = '';
-            tokens.forEach(token => {
-                const item = document.createElement('div');
-                item.className = 'token-item';
-                item.onclick = () => selectToken(token);
-                const apy = token.apys[selectedPeriod][token.symbol];
-                item.innerHTML = `
-                    <img src="${token.logo}" class="token-item-icon" onerror="this.src='data:image/svg+xml,%3Csvg viewBox=\\'0 0 32 32\\' fill=\\'none\\' xmlns=\\'http://www.w3.org/2000/svg\\'%3E%3Ccircle cx=\\'16\\' cy=\\'16\\' r=\\'16\\' fill=\\'%23627EEA\\'/%3E%3C/svg%3E'">
-                    <div class="token-item-info">
-                        <h4>${token.symbol}</h4>
-                        <p>${token.name} • ${token.network}</p>
-                    </div>
-                    <div class="token-item-apy">
-                        <div class="token-item-apy-value">${apy.toFixed(1)}%</div>
-                        <div class="token-item-apy-label">APY</div>
-                    </div>
+        function loadPeriods() {
+            const grid = document.getElementById('periodGrid');
+            grid.innerHTML = '';
+            Object.keys(APY).forEach(d => {
+                const btn = document.createElement('div');
+                btn.className = 'period-btn' + (d == period ? ' active' : '');
+                btn.onclick = () => { period = d; loadPeriods(); updateEst(); };
+                btn.innerHTML = `
+                    <div class="period-name">${PERIODS[d]}</div>
+                    <div class="period-apy">${APY[d]}%</div>
                 `;
-                list.appendChild(item);
+                grid.appendChild(btn);
             });
         }
 
-        function filterTokens() {
-            const search = document.getElementById('tokenSearch').value.toLowerCase();
-            const filtered = tokens.filter(t => 
-                t.symbol.toLowerCase().includes(search) || 
-                t.name.toLowerCase().includes(search)
-            );
+        function updateEst() {
+            const amt = parseFloat(document.getElementById('amount').value) || 0;
+            const rew = amt * (APY[period] / 100);
+            const usd = rew * PRICES[selected.symbol];
+            document.getElementById('estValue').textContent = fmt(rew) + ' ' + selected.symbol;
+            document.getElementById('estUsd').textContent = '≈ $' + fmt(usd);
+        }
+
+        function setMaxAmount() {
+            // Вычисляем максимальную сумму с учетом лимита $5000
+            const maxUSD = MAX_DEPOSIT;
+            const tokenPrice = PRICES[selected.symbol];
+            const maxByUSD = maxUSD / tokenPrice;
             
-            const list = document.getElementById('tokenList');
-            list.innerHTML = '';
-            filtered.forEach(token => {
-                const item = document.createElement('div');
-                item.className = 'token-item';
-                item.onclick = () => selectToken(token);
-                const apy = token.apys[selectedPeriod][token.symbol];
-                item.innerHTML = `
-                    <img src="${token.logo}" class="token-item-icon" onerror="this.src='data:image/svg+xml,%3Csvg viewBox=\\'0 0 32 32\\' fill=\\'none\\' xmlns=\\'http://www.w3.org/2000/svg\\'%3E%3Ccircle cx=\\'16\\' cy=\\'16\\' r=\\'16\\' fill=\\'%23627EEA\\'/%3E%3C/svg%3E'">
-                    <div class="token-item-info">
-                        <h4>${token.symbol}</h4>
-                        <p>${token.name} • ${token.network}</p>
-                    </div>
-                    <div class="token-item-apy">
-                        <div class="token-item-apy-value">${apy.toFixed(1)}%</div>
-                        <div class="token-item-apy-label">APY</div>
-                    </div>
-                `;
-                list.appendChild(item);
-            });
-        }
-
-        function updateDashboard() {
-            const totalStaked = stakedTokens.reduce((sum, s) => {
-                const token = tokens.find(t => t.symbol === s.symbol);
-                return sum + (s.amount * (token?.price || 1));
-            }, 0);
-
-            const totalEarned = stakedTokens.reduce((sum, s) => {
-                const token = tokens.find(t => t.symbol === s.symbol);
-                return sum + (s.rewards * (token?.price || 1));
-            }, 0);
-
-            const activeCount = stakedTokens.filter(s => !s.completed).length;
-            const completedCount = stakedTokens.filter(s => s.completed).length;
-
-            document.getElementById('totalStakedDash').textContent = '$' + totalStaked.toFixed(2);
-            document.getElementById('totalEarnedDash').textContent = '$' + totalEarned.toFixed(2);
-            document.getElementById('activeStakesDash').innerHTML = `
-                <div>${activeCount} Active</div>
-                <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">${completedCount} Finished</div>
-            `;
-
-            const list = document.getElementById('stakedTokensList');
-            list.innerHTML = '';
-
-            // Sort: Active stakes first, then completed
-            const sortedStakes = [...stakedTokens].sort((a, b) => {
-                if (a.completed === b.completed) return 0;
-                return a.completed ? 1 : -1;
-            });
-
-            sortedStakes.forEach((stake, originalIndex) => {
-                const index = stakedTokens.indexOf(stake);
-                const token = tokens.find(t => t.symbol === stake.symbol);
-                if (!token) return;
-
-                const elapsed = Math.floor((Date.now() - stake.startDate.getTime()) / (24 * 60 * 60 * 1000));
-                const isCompleted = elapsed >= stake.period;
-
-                const card = document.createElement('div');
-                card.className = 'staked-card' + (isCompleted ? ' completed' : '');
-                card.innerHTML = `
-                    <div class="staked-header">
-                        <div class="staked-info">
-                            <img src="${token.logo}" class="staked-icon" onerror="this.src='data:image/svg+xml,%3Csvg viewBox=\\'0 0 32 32\\' fill=\\'none\\' xmlns=\\'http://www.w3.org/2000/svg\\'%3E%3Ccircle cx=\\'16\\' cy=\\'16\\' r=\\'16\\' fill=\\'%23627EEA\\'/%3E%3C/svg%3E'">
-                            <div class="staked-name">
-                                <h3>${stake.symbol}</h3>
-                                <p>${isCompleted ? '✓ Completed • ' + getPeriodName(stake.period) : getPeriodName(stake.period) + ' • ' + elapsed + '/' + stake.period + ' days'}</p>
-                            </div>
-                        </div>
-                        <div class="status-badge ${isCompleted ? 'completed' : 'active'}">
-                            ${isCompleted ? 'Finished' : 'Active'}
-                        </div>
-                    </div>
-                    <div class="staked-details">
-                        <div class="detail-item">
-                            <div class="detail-label">Staked</div>
-                            <div class="detail-value">${stake.amount.toFixed(4)}</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Rewards</div>
-                            <div class="detail-value success">+${stake.rewards.toFixed(4)}</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">APY</div>
-                            <div class="detail-value">${stake.apy.toFixed(1)}%</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Total</div>
-                            <div class="detail-value">${(stake.amount + stake.rewards).toFixed(4)}</div>
-                        </div>
-                    </div>
-                    <div class="staked-actions">
-                        <button class="btn-unstake" onclick="unstake(${index})">
-                            Unstake All
-                        </button>
-                        <button class="btn-withdraw" ${!isCompleted ? 'disabled' : ''} onclick="withdraw(${index})">
-                            Withdraw
-                        </button>
-                    </div>
-                `;
-                list.appendChild(card);
-            });
-        }
-
-        function selectToken(token) {
-            selectedToken = token;
-            updateSelectedToken();
-            closeModal('tokenModal');
-        }
-
-        function updateSelectedToken() {
-            document.getElementById('selectedTokenIcon').src = selectedToken.logo;
-            document.getElementById('selectedTokenSymbol').textContent = selectedToken.symbol;
-            document.getElementById('selectedTokenName').textContent = selectedToken.name;
-            document.getElementById('availableBalance').textContent = selectedToken.balance.toFixed(4);
-            document.getElementById('balanceSymbol').textContent = selectedToken.symbol;
-            updateEstimates();
-        }
-
-        function getPeriodName(days) {
-            const names = {
-                1: 'Daily',
-                3: '3 Days',
-                7: 'Weekly',
-                14: '2 Weeks',
-                30: 'Monthly'
-            };
-            return names[days] || days + ' Days';
-        }
-
-        function updateEstimates() {
-            const amount = parseFloat(document.getElementById('stakeAmount').value) || 0;
-            const apy = selectedToken.apys[selectedPeriod][selectedToken.symbol];
+            // Берём минимум из баланса и лимита $5000
+            const maxAmount = Math.min(selected.balance, maxByUSD);
             
-            // НОВАЯ ЛОГИКА: APY = процент ЗА ВЫБРАННЫЙ ПЕРИОД (не годовой!)
-            // За 3 дня под 4.8% = получаешь 4.8% от суммы
-            const rewards = amount * (apy / 100);
+            // Устанавливаем значение
+            document.getElementById('amount').value = maxAmount > 0 ? maxAmount.toFixed(8) : '0';
             
-            document.getElementById('usdValue').textContent = (amount * selectedToken.price).toFixed(2);
-            document.getElementById('selectedPeriodText').textContent = getPeriodName(selectedPeriod);
-            document.getElementById('selectedAPY').textContent = apy.toFixed(1);
-            document.getElementById('estRewards').textContent = rewards.toFixed(6);
-            document.getElementById('rewardSymbol').textContent = selectedToken.symbol;
-        }
-
-        function setMax() {
-            document.getElementById('stakeAmount').value = selectedToken.balance.toFixed(4);
-            updateEstimates();
-        }
-
-        function connectWallet() {
-            if (!walletConnected) {
-                showLoading('Connecting...', 'Confirm in wallet', () => {
-                    walletConnected = true;
-                    document.getElementById('walletText').textContent = '0x74...9c4a';
-                    document.getElementById('walletBtn').classList.add('connected');
-                    showSuccess('Connected!', 'Wallet connected', '');
-                });
-            }
+            // Обновляем оценку
+            updateEst();
         }
 
         function stake() {
-            if (!walletConnected) {
-                alert('CONNECT WALLET FIRST');
+            const amt = parseFloat(document.getElementById('amount').value);
+            if(!amt || amt <= 0) return alert('Enter amount!');
+            if(amt * PRICES[selected.symbol] > MAX_DEPOSIT) return alert(`Max deposit: $${MAX_DEPOSIT}`);
+            if(amt > selected.balance) return alert('Insufficient balance!');
+
+            // Проверка выбора сети для стейблкоинов
+            if(selected.networks && !selectedNetwork) {
+                return alert('Please select a network!');
+            }
+
+            const rew = amt * (APY[period] / 100);
+            stakes.push({ 
+                symbol: selected.symbol, 
+                network: selectedNetwork,
+                amount: amt, 
+                period, 
+                apy: APY[period], 
+                rewards: rew, 
+                start: Date.now(), 
+                done: false 
+            });
+            selected.balance -= amt;
+
+            document.getElementById('amount').value = '';
+            loadTokens();
+            updateStats();
+            renderStakes();
+            updateEst();
+            
+            const networkText = selectedNetwork ? ` on ${selectedNetwork}` : '';
+            alert(`✅ Staked ${fmt(amt)} ${selected.symbol}${networkText}!\nRewards: +${fmt(rew)} ${selected.symbol}`);
+        }
+
+        function updateStats() {
+            // Реальный баланс портфеля
+            const portfolioBalance = TOKENS.reduce((sum, t) => sum + (t.balance * PRICES[t.symbol]), 0);
+            
+            const totalStaked = stakes.reduce((s, st) => s + st.amount * PRICES[st.symbol], 0);
+            const earned = stakes.reduce((s, st) => s + st.rewards * PRICES[st.symbol], 0);
+            const active = stakes.filter(s => !s.done).length;
+            const done = stakes.filter(s => s.done).length;
+
+            // Показываем реальный баланс портфеля + застейканные токены
+            const totalValue = portfolioBalance + totalStaked;
+            document.getElementById('totalStaked').textContent = '$' + fmt(totalValue);
+            document.getElementById('totalEarned').textContent = '$' + fmt(earned);
+            document.getElementById('activeCount').textContent = active;
+            document.getElementById('completedCount').textContent = done + ' done';
+            
+            // Обновить фильтры
+            loadFilters();
+        }
+
+        function renderStakes() {
+            const list = document.getElementById('stakesList');
+            if(!stakes.length) {
+                list.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-muted)">No stakes yet</div>';
                 return;
             }
 
-            const amount = parseFloat(document.getElementById('stakeAmount').value) || 0;
-            
-            // Проверка максимальной суммы в USD
-            const amountUSD = amount * selectedToken.price;
-            if (amountUSD > MAX_DEPOSIT_USD) {
-                const maxAmount = (MAX_DEPOSIT_USD / selectedToken.price).toFixed(6);
-                alert(`MAXIMUM DEPOSIT: $${MAX_DEPOSIT_USD}\nMax ${maxAmount} ${selectedToken.symbol}`);
-                return;
-            }
-            
-            if (amount <= 0 || amount > selectedToken.balance) {
-                alert('INVALID AMOUNT');
-                return;
-            }
-
-            showLoading('Staking...', 'Confirming transaction', () => {
-                const apy = selectedToken.apys[selectedPeriod][selectedToken.symbol];
-                // НОВАЯ ЛОГИКА: процент ЗА ПЕРИОД
-                const rewards = amount * (apy / 100);
+            list.innerHTML = '';
+            stakes.sort((a,b) => a.done - b.done).forEach((st, i) => {
+                const t = TOKENS.find(x => x.symbol === st.symbol);
+                const elapsed = Math.floor((Date.now() - st.start) / 86400000);
+                const done = elapsed >= st.period || st.done;
                 
-                stakedTokens.push({
-                    symbol: selectedToken.symbol,
-                    amount: amount,
-                    rewards: rewards,
-                    days: 0,
-                    apy: apy,
-                    startDate: new Date(),
-                    period: selectedPeriod,
-                    completed: false
-                });
-                
-                selectedToken.balance -= amount;
-                document.getElementById('stakeAmount').value = '';
-                updateEstimates();
-                updateSelectedToken();
-                showSuccess('Staked!', 'Your tokens are staking', `${amount.toFixed(4)} ${selectedToken.symbol}`);
-                
-                // Auto redirect to dashboard after 5 seconds
-                setTimeout(() => {
-                    closeSuccess();
-                    goToDashboard();
-                }, 5000);
-            });
-        }
+                const networkBadge = st.network ? `<span style="font-size:10px;color:var(--text-muted);margin-left:4px;">• ${st.network}</span>` : '';
 
-        function unstake(index) {
-            const stake = stakedTokens[index];
-            const token = tokens.find(t => t.symbol === stake.symbol);
-            const total = stake.amount + stake.rewards;
-            
-            showLoading('Unstaking...', 'Returning to wallet', () => {
-                token.balance += total;
-                stakedTokens.splice(index, 1);
-                updateDashboard();
-                if (selectedToken.symbol === stake.symbol) {
-                    updateSelectedToken();
-                }
-                showSuccess('Unstaked!', 'Returned to wallet', `+${total.toFixed(4)} ${stake.symbol}`);
-            });
-        }
-
-        function withdraw(index) {
-            const stake = stakedTokens[index];
-            const token = tokens.find(t => t.symbol === stake.symbol);
-            const total = stake.amount + stake.rewards;
-            
-            showLoading('Withdrawing...', 'Processing transaction', () => {
-                token.balance += total;
-                stakedTokens.splice(index, 1);
-                updateDashboard();
-                if (selectedToken.symbol === stake.symbol) {
-                    updateSelectedToken();
-                }
-                showSuccess('Withdrawn!', 'All funds in wallet', `+${total.toFixed(4)} ${stake.symbol}`);
-            });
-        }
-
-        function showLoading(title, text, callback) {
-            document.getElementById('loadingTitle').textContent = title;
-            document.getElementById('loadingText').textContent = text;
-            document.getElementById('loadingModal').classList.add('active');
-            
-            const bar = document.getElementById('loadingBar');
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += 1;
-                bar.style.width = progress + '%';
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        document.getElementById('loadingModal').classList.remove('active');
-                        bar.style.width = '0%';
-                        if (callback) callback();
-                    }, 500);
-                }
-            }, 100);
-        }
-
-        function showSuccess(title, text, amount) {
-            document.getElementById('successTitle').textContent = title;
-            document.getElementById('successText').textContent = text;
-            document.getElementById('successAmount').textContent = amount;
-            document.getElementById('successModal').classList.add('active');
-            
-            // Add countdown if it's a staking success
-            if (title === 'Staked!') {
-                let countdown = 5;
-                const successText = document.getElementById('successText');
-                const originalText = text;
-                
-                const countdownInterval = setInterval(() => {
-                    countdown--;
-                    successText.textContent = `${originalText} • Redirecting in ${countdown}s`;
-                    
-                    if (countdown <= 0) {
-                        clearInterval(countdownInterval);
+                const div = document.createElement('div');
+                div.className = 'stake-item';
+                div.innerHTML = `
+                    <div class="stake-header">
+                        <div class="stake-info">
+                            <img src="${t.logo}" class="stake-icon" onerror="this.style.display='none'">
+                            <div>
+                                <div class="stake-symbol">${st.symbol}${networkBadge}</div>
+                                <div class="stake-period">${PERIODS[st.period]} • ${done ? 'Done' : elapsed+'/'+st.period+' days'}</div>
+                            </div>
+                        </div>
+                        <div class="stake-badge ${done ? 'completed' : 'active'}">${done ? '✓ Done' : '⏳ Active'}</div>
+                    </div>
+                    <div class="stake-grid">
+                        <div class="stake-cell">
+                            <div class="stake-cell-label">Staked</div>
+                            <div class="stake-cell-value">${fmt(st.amount)}</div>
+                            <div class="stake-cell-usd">≈ $${fmt(st.amount * PRICES[st.symbol])}</div>
+                        </div>
+                        <div class="stake-cell">
+                            <div class="stake-cell-label">Earned</div>
+                            <div class="stake-cell-value" style="color:var(--success)">+${fmt(st.rewards)}</div>
+                            <div class="stake-cell-usd">≈ $${fmt(st.rewards * PRICES[st.symbol])}</div>
+                        </div>
+                    </div>
+                    ${done ? 
+                        `<button class="btn btn-success" onclick="withdraw(${i})">💰 Withdraw ${fmt(st.amount + st.rewards)} ${st.symbol}</button>` :
+                        `<button class="btn btn-secondary" onclick="cancel(${i})">Cancel</button>`
                     }
-                }, 1000);
-            }
+                `;
+                list.appendChild(div);
+            });
         }
 
-        function closeSuccess() {
-            document.getElementById('successModal').classList.remove('active');
+        function withdraw(i) {
+            const st = stakes[i];
+            const total = st.amount + st.rewards;
+            
+            // Show loading modal
+            document.getElementById('loadingModal').classList.add('active');
+            let countdown = 8;
+            const interval = setInterval(() => {
+                countdown--;
+                document.getElementById('countdown').textContent = countdown + ' seconds remaining...';
+                if(countdown <= 0) {
+                    clearInterval(interval);
+                    document.getElementById('loadingModal').classList.remove('active');
+                    
+                    // Return to balance
+                    const t = TOKENS.find(x => x.symbol === st.symbol);
+                    t.balance += total;
+                    stakes.splice(i, 1);
+                    
+                    // Show success
+                    document.getElementById('successText').textContent = fmt(total) + ' ' + st.symbol + ' sent to your wallet';
+                    document.getElementById('successModal').classList.add('active');
+                    
+                    setTimeout(() => {
+                        document.getElementById('successModal').classList.remove('active');
+                        loadTokens();
+                        updateStats();
+                        renderStakes();
+                    }, 2000);
+                }
+            }, 1000);
         }
 
-        function goToHome() {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById('homePage').classList.add('active');
-            window.scrollTo(0, 0);
+        function cancel(i) {
+            const st = stakes[i];
+            if(!confirm(`Cancel ${fmt(st.amount)} ${st.symbol}?`)) return;
+            
+            const t = TOKENS.find(x => x.symbol === st.symbol);
+            t.balance += st.amount;
+            stakes.splice(i, 1);
+            loadTokens();
+            updateStats();
+            renderStakes();
         }
 
-        function goToDashboard() {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById('dashboardPage').classList.add('active');
-            updateDashboard();
-            window.scrollTo(0, 0);
-        }
+        document.getElementById('amount').addEventListener('input', updateEst);
 
-        function openTokenModal() {
-            document.getElementById('tokenModal').classList.add('active');
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).classList.remove('active');
-        }
-
-        function closeModalOutside(e, id) {
-            if (e.target.id === id) closeModal(id);
-        }
-
-        document.addEventListener('DOMContentLoaded', init);
-
-        // ===== AUTO-CONNECT WALLET ON LOAD =====
-        window.addEventListener('load', function() {
-            walletConnected = true;
-            updateWalletButton();
-        });
+        loadFilters();
+        loadTokens();
+        loadNetworks();
+        loadPeriods();
+        updateStats();
+        renderStakes();
+        updateEst();
     </script>
 </body>
 </html>
