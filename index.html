@@ -56,6 +56,257 @@
             display: block;
         }
 
+        /* ===== LANDING PAGE STYLES ===== */
+        #landingPage {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fafbfc;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bg-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.08;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .shape-1 {
+            width: 400px;
+            height: 400px;
+            background: #FF5A1F;
+            top: -100px;
+            left: -100px;
+        }
+
+        .shape-2 {
+            width: 300px;
+            height: 300px;
+            background: #ff8c42;
+            bottom: -80px;
+            right: -80px;
+            animation-delay: 5s;
+        }
+
+        .shape-3 {
+            width: 250px;
+            height: 250px;
+            background: #FF5A1F;
+            top: 20%;
+            right: 10%;
+            animation-delay: 10s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(40px, -50px) scale(1.1); }
+            66% { transform: translate(-30px, 40px) scale(0.9); }
+        }
+
+        .landing-container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 40px;
+            animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .rappi-logo {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #FF5A1F 0%, #ff8c42 100%);
+            border-radius: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 52px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 20px;
+            box-shadow: 0 20px 50px rgba(255, 90, 31, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+            transform: rotate(-3deg);
+            animation: logoFloat 3s infinite ease-in-out;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: rotate(-3deg) translateY(0); }
+            50% { transform: rotate(-3deg) translateY(-8px); }
+        }
+
+        .landing-title {
+            font-size: 48px;
+            font-weight: 900;
+            letter-spacing: -1.5px;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .landing-subtitle {
+            font-size: 14px;
+            color: #64748b;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .connect-wallet-btn {
+            margin-top: 60px;
+            padding: 20px 56px;
+            background: linear-gradient(135deg, #FF5A1F 0%, #ff8c42 100%);
+            border: none;
+            border-radius: 14px;
+            font-family: 'Inter', sans-serif;
+            font-size: 17px;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 12px 30px rgba(255, 90, 31, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .connect-wallet-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 18px 40px rgba(255, 90, 31, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+        }
+
+        .connect-wallet-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .connect-wallet-btn.loading::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: spin 0.7s linear infinite;
+        }
+
+        .connect-wallet-btn.loading .btn-text {
+            opacity: 0;
+        }
+
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Trust Wallet Modal */
+        .wallet-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s;
+        }
+
+        .wallet-modal.active {
+            display: flex;
+        }
+
+        .wallet-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .wallet-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #FF5A1F, #ff8c42);
+            border-radius: 50%;
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+
+        .wallet-modal h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .wallet-modal p {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 32px;
+        }
+
+        .modal-ok-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #FF5A1F, #ff8c42);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .modal-ok-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .modal-ok-btn:active {
+            transform: translateY(0);
+        }
+
+        /* ===== END LANDING PAGE STYLES ===== */
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
         /* Icons */
         .icon {
             width: 20px;
@@ -1080,6 +1331,47 @@
     </style>
 </head>
 <body>
+    <!-- ===== LANDING PAGE ===== -->
+    <div id="landingPage" class="page active">
+        <div class="bg-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+        </div>
+
+        <div class="landing-container">
+            <div class="rappi-logo">R</div>
+            <div class="landing-title">RAPPI</div>
+            <div class="landing-subtitle">Staking Platform</div>
+            <button class="connect-wallet-btn" onclick="connectWallet()">
+                <span class="btn-text">
+                    <svg style="width: 22px; height: 22px; margin-right: 10px; vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <rect x="3" y="7" width="18" height="13" rx="2"/>
+                        <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                        <circle cx="12" cy="14" r="1.5" fill="currentColor"/>
+                    </svg>
+                    Connect Wallet
+                </span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Trust Wallet Connected Modal -->
+    <div class="wallet-modal" id="walletModal">
+        <div class="wallet-modal-content">
+            <div class="wallet-icon">
+                <svg style="width: 48px; height: 48px;" viewBox="0 0 24 24" fill="white">
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                </svg>
+            </div>
+            <h2>Trust Wallet Connected</h2>
+            <p>Your wallet has been successfully connected</p>
+            <button class="modal-ok-btn" onclick="goToPlatform()">OK</button>
+        </div>
+    </div>
+
+    <!-- ===== MAIN PLATFORM ===== -->
+    <div id="mainPlatform" class="page">
     <!-- Header -->
     <div class="header">
         <div class="container">
@@ -1366,6 +1658,8 @@
             </button>
         </div>
     </div>
+    </div>
+    <!-- ===== END MAIN PLATFORM ===== -->
 
     <script>
         // МАКСИМАЛЬНЫЙ ДЕПОЗИТ
@@ -2007,6 +2301,34 @@
         }
 
         document.addEventListener('DOMContentLoaded', init);
+
+        // ===== LANDING PAGE FUNCTIONS =====
+        function connectWallet() {
+            const btn = document.querySelector('.connect-wallet-btn');
+            btn.classList.add('loading');
+
+            // Simulate wallet connection (2 seconds loading)
+            setTimeout(() => {
+                btn.classList.remove('loading');
+                
+                // Show Trust Wallet modal
+                document.getElementById('walletModal').classList.add('active');
+            }, 2000);
+        }
+
+        function goToPlatform() {
+            // Hide modal
+            document.getElementById('walletModal').classList.remove('active');
+            
+            // Switch pages
+            document.getElementById('landingPage').classList.remove('active');
+            document.getElementById('mainPlatform').classList.add('active');
+            
+            // Set wallet as connected
+            walletConnected = true;
+            updateWalletButton();
+        }
+        // ===== END LANDING PAGE FUNCTIONS =====
     </script>
 </body>
 </html>
