@@ -2,1422 +2,1429 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ETH2BANK</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Rappi Stake</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideIn {
-            from { transform: translateX(-100%); }
-            to { transform: translateX(0); }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        :root {
+            --primary: #FF5A1F;
+            --primary-dark: #E54D18;
+            --success: #10b981;
+            --bg: #fafbfc;
+            --surface: #ffffff;
+            --border: #e5e7eb;
+            --text: #111827;
+            --text-secondary: #6b7280;
+            --text-muted: #9ca3af;
+            --shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         body {
-            background: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            color: #000;
-            padding: 30px 15px;
-            line-height: 1.7;
+            font-family: 'Manrope', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            overflow-x: hidden;
         }
 
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            animation: fadeIn 0.8s ease-out;
+        /* Connect Screen Styles */
+        .connect-screen {
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 100%;
-        }
-
-        .container > * {
-            width: 100%;
-            max-width: 600px;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            animation: slideIn 0.6s ease-out;
-        }
-
-        .eth-logo {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 20px;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        h1 {
-            font-size: 32px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
-        }
-
-        h2 {
-            font-size: 22px;
-            font-weight: 500;
-            margin: 40px 0 20px 0;
-            letter-spacing: -0.3px;
-        }
-
-        .subtitle {
-            font-size: 16px;
-            color: #666;
-            margin-bottom: 30px;
-        }
-
-        .badges {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
             justify-content: center;
+            padding: 20px;
+            background: #ffffff;
         }
 
-        .badge {
-            padding: 6px 14px;
-            background: #000;
-            color: #fff;
-            font-size: 11px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
+        .connect-container {
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .connect-btn {
+            background: linear-gradient(135deg, #FF5A1F, #ff8c42);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 18px 50px;
+            font-size: 17px;
+            font-weight: 700;
+            font-family: 'Manrope', sans-serif;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(255, 90, 31, 0.3);
+            transition: all 0.3s;
+        }
+
+        .connect-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(255, 90, 31, 0.4);
+        }
+
+        .loading-container {
+            display: none;
+        }
+
+        .loading-container.active {
+            display: block;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f4f6;
+            border-top-color: #FF5A1F;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 16px;
+            color: #6b7280;
             font-weight: 600;
-            transition: transform 0.3s;
         }
 
-        .badge:hover {
-            transform: scale(1.05);
+        .wallet-detected {
+            display: none;
         }
 
-        .section {
-            margin-bottom: 40px;
-            padding-bottom: 30px;
-            border-bottom: 1px solid #e0e0e0;
-            animation: fadeIn 1s ease-out;
+        .wallet-detected.active {
+            display: block;
         }
 
-        .section:last-child {
-            border-bottom: none;
+        .wallet-info {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
         }
 
-        .fee-calculator {
-            background: #f8f8f8;
-            padding: 25px;
-            border: 2px solid #000;
-            margin: 30px 0;
-            animation: fadeIn 1.2s ease-out;
+        .wallet-label {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-bottom: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .fee-row {
+        .wallet-address {
+            font-size: 16px;
+            color: #111827;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+        }
+
+        .question {
+            font-size: 18px;
+            color: #111827;
+            font-weight: 700;
+            margin-bottom: 24px;
+            line-height: 1.4;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            flex-direction: column;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FF5A1F, #ff8c42);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 16px;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: 'Manrope', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 90, 31, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #374151;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 16px;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: 'Manrope', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            border-color: #FF5A1F;
+            color: #FF5A1F;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 11px;
+            color: #9ca3af;
+            padding: 0 20px;
+        }
+
+        .footer a {
+            color: #FF5A1F;
+            text-decoration: none;
+        }
+
+        /* Main App Styles */
+        .main-app {
+            display: none;
+        }
+
+        .main-app.active {
+            display: block;
+        }
+
+        /* Header */
+        .header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
             display: flex;
             justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid #e0e0e0;
-            transition: all 0.3s;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .fee-row:hover {
-            background: #f0f0f0;
-            padding-left: 10px;
-        }
-
-        .fee-row:last-child {
-            border-bottom: none;
-            font-weight: bold;
-            font-size: 18px;
-        }
-
-        .fee-label {
-            color: #666;
-        }
-
-        .fee-value {
-            font-weight: 600;
-        }
-
-        .discount-applied {
-            color: #2ecc71;
-            animation: slideIn 0.5s ease-out;
-        }
-
-        .promo-section {
-            background: #000;
-            color: #fff;
-            padding: 20px;
-            margin: 20px 0;
-            transition: all 0.3s;
-        }
-
-        .promo-section:hover {
-            background: #333;
-        }
-
-        .promo-input {
+        .logo {
             display: flex;
+            align-items: center;
             gap: 10px;
-            margin-top: 15px;
         }
 
-        .promo-input input {
-            flex: 1;
-            padding: 12px;
-            border: 2px solid #fff;
-            background: transparent;
-            color: #fff;
-            font-size: 14px;
-            font-family: monospace;
-            text-transform: uppercase;
-        }
-
-        .promo-input input::placeholder {
-            color: #999;
-        }
-
-        .promo-input button {
-            padding: 12px 24px;
-            background: #fff;
-            color: #000;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .promo-input button:hover {
-            background: #2ecc71;
-            color: #fff;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-            animation: fadeIn 1.4s ease-out;
-        }
-
-        label {
-            display: block;
-            font-size: 13px;
-            color: #666;
-            margin-bottom: 10px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        input,
-        select {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e0e0e0;
-            font-size: 16px;
-            background: #fff;
-            transition: all 0.3s;
-            color: #000;
-        }
-
-        input:focus,
-        select:focus {
-            outline: none;
-            border-color: #000;
-            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
-        }
-
-        button.primary {
-            width: 100%;
-            padding: 16px;
-            background: #000;
-            color: #fff;
-            border: none;
-            font-size: 15px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 20px;
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #FF5A1F 0%, #ff8c42 100%);
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(255, 90, 31, 0.25);
+            font-size: 22px;
+            font-weight: 900;
+            color: white;
             position: relative;
             overflow: hidden;
         }
 
-        button.primary::before {
+        .logo-icon::after {
             content: '';
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.2);
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(30deg); }
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #FF5A1F, #ff8c42);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .wallet-badge {
+            font-family: 'DM Mono', monospace;
+            font-size: 12px;
+            padding: 6px 12px;
+            background: var(--bg);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .wallet-dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: var(--success);
             border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
+            margin-right: 6px;
+            animation: pulse 2s infinite;
         }
 
-        button.primary:hover::before {
-            width: 300px;
-            height: 300px;
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
         }
 
-        button.primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px;
         }
 
-        button.primary:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        button.primary:disabled:hover {
-            transform: none;
-            box-shadow: none;
-        }
-
-        button.primary:disabled::before {
-            display: none;
-        }
-
-        .method-selector {
+        /* Stats */
+        .stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 8px;
-            margin-top: 15px;
+            margin-bottom: 16px;
         }
 
-        .token-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 15px;
-            max-height: 300px;
-            overflow-y: auto;
-            border: 2px solid #e0e0e0;
-            padding: 10px;
+        .stat {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 8px;
+            text-align: center;
         }
 
-        .token-option {
+        .stat-label {
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 2px;
+        }
+
+        .stat-value.primary { color: var(--primary); }
+        .stat-value.success { color: var(--success); }
+
+        .stat-sub {
+            font-size: 8px;
+            color: var(--text-muted);
+        }
+
+        /* Section */
+        .section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 14px;
             display: flex;
             align-items: center;
-            gap: 15px;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
+            gap: 6px;
+        }
+
+        /* Token Filters */
+        .token-filters {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 10px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+
+        .filter-btn {
+            background: var(--bg);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-size: 11px;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s;
-            background: #fff;
+            white-space: nowrap;
+            transition: all 0.2s;
+            color: var(--text-secondary);
         }
 
-        .token-option:hover {
-            border-color: #000;
-            background: #f8f8f8;
+        .filter-btn:hover {
+            border-color: var(--primary);
         }
 
-        .token-option.active {
-            border-color: #000;
-            background: #000;
-            color: #fff;
+        .filter-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
         }
 
-        .token-logo {
-            width: 32px;
-            height: 32px;
+        .filter-count {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            margin-left: 4px;
+        }
+
+        .filter-btn:not(.active) .filter-count {
+            background: var(--border);
+            color: var(--text-muted);
+        }
+
+        /* Token List */
+        .token-list {
+            max-height: 280px;
+            overflow-y: auto;
+            margin: 0 -16px;
+            padding: 0 16px;
+        }
+
+        .token-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .token-item:hover {
+            background: var(--bg);
+        }
+
+        .token-item.selected {
+            background: var(--bg);
+            border-color: var(--primary);
+        }
+
+        .token-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
             flex-shrink: 0;
         }
 
         .token-info {
             flex: 1;
+            min-width: 0;
         }
 
-        .token-name {
-            font-size: 14px;
-            font-weight: 600;
+        .token-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
         }
 
         .token-symbol {
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .token-price {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .token-name {
             font-size: 11px;
-            color: #666;
-            text-transform: uppercase;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .token-balance-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-top: 2px;
         }
 
-        .token-option.active .token-symbol {
-            color: #ccc;
-        }
-
-        .method-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .method-card {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: #fff;
-        }
-
-        .method-card:hover {
-            border-color: #000;
-            background: #f8f8f8;
-        }
-
-        .method-card.active {
-            border-color: #000;
-            background: #000;
-            color: #fff;
-        }
-
-        .method-logo-container {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .method-logo-svg {
-            width: 32px;
-            height: 32px;
-        }
-
-        .method-card.active .method-logo-svg {
-            color: #fff;
-        }
-
-        .method-logo-img {
-            width: 100%;
-            height: auto;
-            max-height: 32px;
-        }
-
-        .method-card.active .method-logo-img {
-            filter: brightness(0) invert(1);
-        }
-
-        .method-text {
-            flex: 1;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .method-option {
-            padding: 12px 8px;
-            border: 2px solid #e0e0e0;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-        }
-
-        .method-option::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 3px;
-            background: #000;
-            transition: width 0.3s;
-        }
-
-        .method-option:hover::after {
-            width: 100%;
-        }
-
-        .method-option:hover {
-            border-color: #000;
-        }
-
-        .method-option.active {
-            border-color: #000;
-            background: #000;
-            color: #fff;
-        }
-
-        .method-option.active .method-logo {
-            filter: brightness(0) invert(1);
-        }
-
-        .method-logo {
-            width: 24px;
-            height: 24px;
-            margin-bottom: 5px;
-            transition: all 0.3s;
-        }
-
-        .method-name {
+        .token-balance {
             font-size: 10px;
-            font-weight: 600;
-            letter-spacing: 0.3px;
-            text-transform: uppercase;
+            color: var(--text-muted);
         }
 
-        .feature-grid {
+        .token-balance.has-balance {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .token-balance-usd {
+            font-size: 10px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* Network Selection */
+        .network-selector {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background: var(--bg);
+            border-radius: 8px;
+        }
+
+        .network-selector.active {
+            display: block;
+        }
+
+        .network-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .network-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin: 20px 0;
+            gap: 6px;
         }
 
-        .feature-card {
-            padding: 25px 20px;
-            border: 2px solid #e0e0e0;
-            transition: all 0.3s;
-            cursor: default;
+        .network-btn {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            padding: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .network-btn:hover {
+            border-color: var(--primary);
+        }
+
+        .network-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-label {
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            display: block;
+            color: var(--text-secondary);
+        }
+
+        .input-wrapper {
             position: relative;
-            overflow: hidden;
         }
 
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
+        .input {
             width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.05), transparent);
-            transition: left 0.6s;
-        }
-
-        .feature-card:hover::before {
-            left: 100%;
-        }
-
-        .feature-card:hover {
-            border-color: #000;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .feature-icon {
-            font-size: 28px;
-            margin-bottom: 12px;
-            display: inline-block;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .feature-title {
-            font-size: 15px;
+            padding: 12px;
+            padding-right: 60px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 16px;
             font-weight: 600;
-            margin-bottom: 8px;
+            font-family: 'Manrope', sans-serif;
         }
 
-        .feature-text {
-            font-size: 13px;
-            color: #666;
-            line-height: 1.6;
+        .input:focus {
+            outline: none;
+            border-color: var(--primary);
         }
 
-        .steps-grid {
+        .input-hint {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .max-btn {
+            position: absolute;
+            right: 8px;
+            top: 8px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 14px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .max-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Period Grid */
+        .period-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin: 20px 0;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
         }
 
-        .step-card {
-            padding: 25px 20px;
-            border: 2px solid #e0e0e0;
-            transition: all 0.3s;
+        .period-btn {
+            background: var(--bg);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
         }
 
-        .step-card:hover {
-            border-color: #000;
-            background: #f8f8f8;
-            transform: translateX(5px);
+        .period-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
         }
 
-        .step-number {
-            width: 40px;
-            height: 40px;
-            background: #000;
-            color: #fff;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            transition: transform 0.3s;
+        .period-name {
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 2px;
         }
 
-        .step-card:hover .step-number {
-            transform: rotate(360deg);
+        .period-apy {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--success);
         }
 
-        .step-title {
+        .period-btn.active .period-apy {
+            color: white;
+        }
+
+        /* Estimate */
+        .estimate {
+            background: linear-gradient(135deg, #FF5A1F, #ff8c42);
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+            color: white;
+            max-width: 280px;
+            margin: 0 auto;
+        }
+
+        .estimate-label {
+            font-size: 11px;
+            opacity: 0.85;
+            margin-bottom: 4px;
+        }
+
+        .estimate-value {
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .estimate-usd {
+            font-size: 12px;
+            opacity: 0.85;
+            margin-top: 2px;
+        }
+
+        /* Button */
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 14px;
             font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            font-family: 'Manrope', sans-serif;
+            transition: all 0.2s;
         }
 
-        .step-desc {
-            font-size: 13px;
-            color: #666;
-            line-height: 1.6;
+        .btn:active {
+            transform: scale(0.98);
         }
 
-        .security-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin: 20px 0;
+        .btn-secondary {
+            background: var(--bg);
+            color: var(--text);
+            border: 2px solid var(--border);
         }
 
-        .security-item {
-            padding: 25px 20px;
-            border: 2px solid #e0e0e0;
-            transition: all 0.3s;
+        .btn-success {
+            background: var(--success);
         }
 
-        .security-item:hover {
-            border-color: #000;
-            background: #f8f8f8;
+        /* Stakes */
+        .stake-item {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
         }
 
-        .security-icon {
-            font-size: 28px;
-            margin-bottom: 12px;
-            display: inline-block;
-            transition: transform 0.3s;
-        }
-
-        .security-item:hover .security-icon {
-            transform: scale(1.2);
-        }
-
-        .security-title {
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .security-text {
-            font-size: 13px;
-            color: #666;
-            line-height: 1.6;
-        }
-
-        .info-box {
-            padding: 20px;
-            border: 2px solid #e0e0e0;
-            background: #f8f8f8;
-            margin: 20px 0;
-        }
-
-        .info-row {
+        .stake-header {
             display: flex;
             justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid #e0e0e0;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .stake-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stake-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+
+        .stake-symbol {
+            font-weight: 700;
             font-size: 14px;
         }
 
-        .info-row:last-child {
-            border-bottom: none;
+        .stake-period {
+            font-size: 11px;
+            color: var(--text-muted);
         }
 
-        .info-row span:first-child {
-            color: #666;
+        .stake-badge {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 6px;
         }
 
-        .info-row span:last-child {
-            font-weight: 600;
+        .stake-badge.active {
+            background: #dcfce7;
+            color: #166534;
         }
 
-        .success {
-            text-align: center;
-            padding: 50px 20px;
-            display: none;
-            background: #000;
-            color: #fff;
-            margin: 20px 0;
-            animation: fadeIn 0.6s ease-out;
+        .stake-badge.completed {
+            background: #dbeafe;
+            color: #1e40af;
         }
 
-        .success-icon {
-            font-size: 64px;
-            margin-bottom: 20px;
-            animation: rotate 1s ease-out;
+        .stake-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 10px;
         }
 
-        .success h2 {
-            color: #fff;
+        .stake-cell {
+            font-size: 11px;
         }
 
-        .success p {
-            color: #ccc;
+        .stake-cell-label {
+            color: var(--text-muted);
+            margin-bottom: 2px;
         }
 
-        .footer {
-            text-align: center;
-            margin-top: 60px;
-            padding-top: 30px;
-            border-top: 2px solid #000;
-            font-size: 12px;
-            color: #666;
+        .stake-cell-value {
+            font-weight: 700;
+            font-size: 13px;
         }
 
-        .hidden {
-            display: none;
+        .stake-cell-usd {
+            font-size: 10px;
+            color: var(--text-muted);
         }
 
-        .loading-screen {
-            display: none;
+        /* Loading Modal */
+        .modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.98);
-            z-index: 9999;
-            animation: fadeIn 0.3s ease-out;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
         }
 
-        .loading-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 320px;
             text-align: center;
-            width: 90%;
-            max-width: 400px;
+            animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes modalPop {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 16px;
+            background: linear-gradient(135deg, #FF5A1F, #ff8c42);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
         }
 
         .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 4px solid #e0e0e0;
-            border-top: 4px solid #000;
+            width: 48px;
+            height: 48px;
+            border: 4px solid rgba(255,90,31,0.2);
+            border-top-color: #FF5A1F;
             border-radius: 50%;
-            margin: 0 auto;
+            margin: 0 auto 16px;
             animation: spin 1s linear infinite;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .modal-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 8px;
         }
 
-        .loading-bar {
-            width: 100%;
-            height: 4px;
-            background: #e0e0e0;
-            margin: 20px 0;
-            overflow: hidden;
+        .modal-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
         }
 
-        .loading-progress {
-            height: 100%;
-            background: #000;
-            width: 0%;
-            transition: width 0.3s ease;
+        .modal-sub {
+            font-size: 12px;
+            color: var(--text-muted);
         }
 
+        /* Mobile Responsive */
         @media (max-width: 600px) {
-            body {
-                padding: 15px 10px;
-            }
-
-            .container {
-                padding: 0;
-            }
-
-            h1 {
-                font-size: 26px;
-            }
-
-            .feature-grid,
-            .steps-grid,
-            .security-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .token-grid {
-                max-height: 250px;
-            }
-
-            .token-option,
-            .method-card {
-                padding: 10px;
-            }
-
-            .token-logo {
-                width: 28px;
-                height: 28px;
-            }
-
-            .method-logo-container {
-                width: 32px;
-                height: 32px;
-            }
-
-            .method-logo-svg {
-                width: 24px;
-                height: 24px;
+            .period-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <svg class="eth-logo" viewBox="0 0 256 417" xmlns="http://www.w3.org/2000/svg">
-                <polygon fill="#000" points="127.9611 0 125.1661 9.5 125.1661 285.168 127.9611 287.958 255.9231 212.32"/>
-                <polygon fill="#666" points="127.962 0 0 212.32 127.962 287.959 127.962 154.158"/>
-                <polygon fill="#000" points="127.9611 312.1866 126.3861 314.1066 126.3861 412.3056 127.9611 416.9066 256.0011 236.5866"/>
-                <polygon fill="#666" points="127.962 416.9052 127.962 312.1852 0 236.5852"/>
-                <polygon fill="#333" points="127.9611 287.9577 255.9211 212.3207 127.9611 154.1587"/>
-                <polygon fill="#999" points="0.0009 212.3208 127.9609 287.9578 127.9609 154.1588"/>
-            </svg>
-            <h1>ETH2BANK</h1>
-            <p class="subtitle">Withdraw crypto directly to your bank account</p>
-            
-            <div class="badges">
-                <span class="badge">Ethereum</span>
-                <span class="badge">Lower Fees</span>
-                <span class="badge">No KYC</span>
+    <!-- Connect Screen -->
+    <div class="connect-screen" id="connectScreen">
+        <div class="connect-container">
+            <div id="connectBtn">
+                <button class="connect-btn" onclick="checkWallet()">
+                    Connect Wallet
+                </button>
             </div>
-        </div>
 
-        <!-- Why Ethereum -->
-        <div class="section">
-            <h2 style="text-align: center;">Why Ethereum?</h2>
-            <div style="background: #f8f8f8; padding: 20px; border: 2px solid #e0e0e0; text-align: center;">
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px;">
-                    <div>
-                        <div style="font-weight: 600; margin-bottom: 5px;">⚖️ Legal</div>
-                        <div style="font-size: 13px; color: #666;">Most recognized by banks</div>
-                    </div>
-                    <div>
-                        <div style="font-weight: 600; margin-bottom: 5px;">🔒 Secure</div>
-                        <div style="font-size: 13px; color: #666;">All transactions on-chain</div>
-                    </div>
-                    <div>
-                        <div style="font-weight: 600; margin-bottom: 5px;">⚡ Fast</div>
-                        <div style="font-size: 13px; color: #666;">Up to 3 days</div>
-                    </div>
-                    <div>
-                        <div style="font-weight: 600; margin-bottom: 5px;">✓ Approved</div>
-                        <div style="font-size: 13px; color: #666;">Ethereum Foundation & World Bank</div>
-                    </div>
-                </div>
+            <div class="loading-container" id="loadingScreen">
+                <div class="spinner"></div>
+                <div class="loading-text">Checking wallet...</div>
             </div>
-        </div>
 
-        <!-- How It Works -->
-        <div class="section" style="padding-bottom: 20px; margin-bottom: 30px;">
-            <h2 style="text-align: center; font-size: 18px;">How It Works</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; text-align: center; margin-top: 15px;">
-                <div style="padding: 15px 10px; border: 2px solid #e0e0e0;">
-                    <div style="font-size: 24px; font-weight: 600; margin-bottom: 5px;">1</div>
-                    <div style="font-size: 12px; font-weight: 600;">Enter Details</div>
+            <div class="wallet-detected" id="walletDetected">
+                <div class="wallet-info">
+                    <div class="wallet-label">Your ETH Wallet</div>
+                    <div class="wallet-address">0x5213...3dcf</div>
                 </div>
-                <div style="padding: 15px 10px; border: 2px solid #e0e0e0;">
-                    <div style="font-size: 24px; font-weight: 600; margin-bottom: 5px;">2</div>
-                    <div style="font-size: 12px; font-weight: 600;">Select Token</div>
-                </div>
-                <div style="padding: 15px 10px; border: 2px solid #e0e0e0;">
-                    <div style="font-size: 24px; font-weight: 600; margin-bottom: 5px;">3</div>
-                    <div style="font-size: 12px; font-weight: 600;">Auto Convert</div>
-                </div>
-                <div style="padding: 15px 10px; border: 2px solid #e0e0e0;">
-                    <div style="font-size: 24px; font-weight: 600; margin-bottom: 5px;">4</div>
-                    <div style="font-size: 12px; font-weight: 600;">Receive</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Form -->
-        <div class="section" id="formSection">
-            <h2>Withdraw</h2>
-            <form onsubmit="processWithdrawal(event)">
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="email" placeholder="your@email.com" required>
+                
+                <div class="question">
+                    Your wallet is already connected. Would you like to continue or connect a new wallet?
                 </div>
 
-                <div class="form-group">
-                    <label>Select Token</label>
-                    <button type="button" class="select-trigger" onclick="openTokenModal()">
-                        <img src="https://cryptologos.cc/logos/ethereum-eth-logo.svg" class="selected-token-logo" id="selectedTokenLogo" alt="ETH">
-                        <div class="selected-token-info">
-                            <div class="selected-token-name" id="selectedTokenName">Ethereum</div>
-                            <div class="selected-token-symbol" id="selectedTokenSymbol">ETH</div>
-                        </div>
-                        <div class="select-arrow">▼</div>
+                <div class="button-group">
+                    <button class="btn-primary" onclick="continueWithWallet()">
+                        Continue with Trust Wallet
                     </button>
-                    <input type="hidden" id="token" value="ETH" required>
-                </div>
-
-                <!-- Token Modal -->
-                <div class="modal" id="tokenModal" onclick="closeTokenModal(event)">
-                    <div class="modal-content" onclick="event.stopPropagation()">
-                        <div class="modal-header">
-                            <h3>Select Token</h3>
-                            <button type="button" class="modal-close" onclick="closeTokenModal()">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="token-list">
-                                <div class="token-option active" data-token="ETH" data-logo="https://cryptologos.cc/logos/ethereum-eth-logo.svg" data-name="Ethereum" data-symbol="ETH" onclick="selectToken(this)">
-                                    <img src="https://cryptologos.cc/logos/ethereum-eth-logo.svg" class="token-logo" alt="ETH">
-                                    <div class="token-info">
-                                        <div class="token-name">Ethereum</div>
-                                        <div class="token-symbol">ETH</div>
-                                    </div>
-                                </div>
-                                <div class="token-option" data-token="USDT" data-logo="https://cryptologos.cc/logos/tether-usdt-logo.svg" data-name="Tether" data-symbol="USDT (ERC-20)" onclick="selectToken(this)">
-                                    <img src="https://cryptologos.cc/logos/tether-usdt-logo.svg" class="token-logo" alt="USDT">
-                                    <div class="token-info">
-                                        <div class="token-name">Tether</div>
-                                        <div class="token-symbol">USDT (ERC-20)</div>
-                                    </div>
-                                </div>
-                                <div class="token-option" data-token="USDC" data-logo="https://cryptologos.cc/logos/usd-coin-usdc-logo.svg" data-name="USD Coin" data-symbol="USDC" onclick="selectToken(this)">
-                                    <img src="https://cryptologos.cc/logos/usd-coin-usdc-logo.svg" class="token-logo" alt="USDC">
-                                    <div class="token-info">
-                                        <div class="token-name">USD Coin</div>
-                                        <div class="token-symbol">USDC</div>
-                                    </div>
-                                </div>
-                                <div class="token-option" data-token="DAI" data-logo="https://cryptologos.cc/logos/multi-collateral-dai-dai-logo.svg" data-name="Dai" data-symbol="DAI" onclick="selectToken(this)">
-                                    <img src="https://cryptologos.cc/logos/multi-collateral-dai-dai-logo.svg" class="token-logo" alt="DAI">
-                                    <div class="token-info">
-                                        <div class="token-name">Dai</div>
-                                        <div class="token-symbol">DAI</div>
-                                    </div>
-                                </div>
-                                <div class="token-option" data-token="WBTC" data-logo="https://cryptologos.cc/logos/wrapped-bitcoin-wbtc-logo.svg" data-name="Wrapped Bitcoin" data-symbol="WBTC" onclick="selectToken(this)">
-                                    <img src="https://cryptologos.cc/logos/wrapped-bitcoin-wbtc-logo.svg" class="token-logo" alt="WBTC">
-                                    <div class="token-info">
-                                        <div class="token-name">Wrapped Bitcoin</div>
-                                        <div class="token-symbol">WBTC</div>
-                                    </div>
-                                </div>
-                                <div class="token-option" data-token="LINK" data-logo="https://cryptologos.cc/logos/chainlink-link-logo.svg" data-name="Chainlink" data-symbol="LINK" onclick="selectToken(this)">
-                                    <img src="https://cryptologos.cc/logos/chainlink-link-logo.svg" class="token-logo" alt="LINK">
-                                    <div class="token-info">
-                                        <div class="token-name">Chainlink</div>
-                                        <div class="token-symbol">LINK</div>
-                                    </div>
-                                </div>
-                                <div class="token-option" data-token="UNI" data-logo="https://cryptologos.cc/logos/uniswap-uni-logo.svg" data-name="Uniswap" data-symbol="UNI" onclick="selectToken(this)">
-                                    <img src="https://cryptologos.cc/logos/uniswap-uni-logo.svg" class="token-logo" alt="UNI">
-                                    <div class="token-info">
-                                        <div class="token-name">Uniswap</div>
-                                        <div class="token-symbol">UNI</div>
-                                    </div>
-                                </div>
-                                <div class="token-option" data-token="AAVE" data-logo="https://cryptologos.cc/logos/aave-aave-logo.svg" data-name="Aave" data-symbol="AAVE" onclick="selectToken(this)">
-                                    <img src="https://cryptologos.cc/logos/aave-aave-logo.svg" class="token-logo" alt="AAVE">
-                                    <div class="token-info">
-                                        <div class="token-name">Aave</div>
-                                        <div class="token-symbol">AAVE</div>
-                                    </div>
-                                </div>
-                                <div class="token-option" data-token="MATIC" data-logo="https://cryptologos.cc/logos/polygon-matic-logo.svg" data-name="Polygon" data-symbol="MATIC" onclick="selectToken(this)">
-                                    <img src="https://cryptologos.cc/logos/polygon-matic-logo.svg" class="token-logo" alt="MATIC">
-                                    <div class="token-info">
-                                        <div class="token-name">Polygon</div>
-                                        <div class="token-symbol">MATIC</div>
-                                    </div>
-                                </div>
-                                <div class="token-option" data-token="SHIB" data-logo="https://cryptologos.cc/logos/shiba-inu-shib-logo.svg" data-name="Shiba Inu" data-symbol="SHIB" onclick="selectToken(this)">
-                                    <img src="https://cryptologos.cc/logos/shiba-inu-shib-logo.svg" class="token-logo" alt="SHIB">
-                                    <div class="token-info">
-                                        <div class="token-name">Shiba Inu</div>
-                                        <div class="token-symbol">SHIB</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Amount</label>
-                    <input type="number" id="amount" placeholder="0.00" step="0.01" min="50" required oninput="updateCalculator()">
-                </div>
-
-                <div class="form-group">
-                    <label>Withdrawal Method</label>
-                    <button type="button" class="select-trigger" onclick="openMethodModal()">
-                        <div class="selected-method-logo">
-                            <svg viewBox="0 0 24 24" class="method-logo-svg" id="selectedMethodIcon">
-                                <path fill="currentColor" d="M11.5 1L0 8l3 2v8l8.5 4.5L20 18v-8l2-1.5V17h2V7l-3.5-2L11.5 1m0 2.15L18 6.85 11.5 11 5 6.85l6.5-3.7M5 9.05l6.5 3.7 6.5-3.7v6.9l-6.5 3.7-6.5-3.7v-6.9z"/>
-                            </svg>
-                        </div>
-                        <div class="selected-method-text" id="selectedMethodText">Bank Transfer</div>
-                        <div class="select-arrow">▼</div>
+                    <button class="btn-secondary" onclick="connectNewWallet()">
+                        Connect new wallet
                     </button>
                 </div>
-
-                <!-- Method Modal -->
-                <div class="modal" id="methodModal" onclick="closeMethodModal(event)">
-                    <div class="modal-content" onclick="event.stopPropagation()">
-                        <div class="modal-header">
-                            <h3>Select Withdrawal Method</h3>
-                            <button type="button" class="modal-close" onclick="closeMethodModal()">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="method-list">
-                                <div class="method-item active" data-method="bank" onclick="selectMethodFromModal(this, 'bank')">
-                                    <svg viewBox="0 0 24 24" class="method-icon-svg">
-                                        <path fill="currentColor" d="M11.5 1L0 8l3 2v8l8.5 4.5L20 18v-8l2-1.5V17h2V7l-3.5-2L11.5 1m0 2.15L18 6.85 11.5 11 5 6.85l6.5-3.7M5 9.05l6.5 3.7 6.5-3.7v6.9l-6.5 3.7-6.5-3.7v-6.9z"/>
-                                    </svg>
-                                    <span>Bank Transfer</span>
-                                </div>
-                                <div class="method-item" data-method="card" onclick="selectMethodFromModal(this, 'card')">
-                                    <svg viewBox="0 0 24 24" class="method-icon-svg">
-                                        <path fill="currentColor" d="M20 8H4V6h16m0 12H4v-6h16m0-8H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/>
-                                    </svg>
-                                    <span>Debit/Credit Card</span>
-                                </div>
-                                <div class="method-item" data-method="paypal" onclick="selectMethodFromModal(this, 'paypal')">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" class="method-icon-img" alt="PayPal">
-                                    <span>PayPal</span>
-                                </div>
-                                <div class="method-item" data-method="zelle" onclick="selectMethodFromModal(this, 'zelle')">
-                                    <svg viewBox="0 0 24 24" class="method-icon-svg" style="color: #6D1ED4;">
-                                        <path fill="currentColor" d="M20 4H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2m0 2v2H4V6h16m0 12H4v-8h16v8M8 16v-2h8v-2L8 12v2h8v2H8z"/>
-                                    </svg>
-                                    <span>Zelle</span>
-                                </div>
-                                <div class="method-item" data-method="venmo" onclick="selectMethodFromModal(this, 'venmo')">
-                                    <svg viewBox="0 0 24 24" class="method-icon-svg" style="color: #3D95CE;">
-                                        <path fill="currentColor" d="M19.83 4.18c.63.88.99 2.02.99 3.42 0 4.26-3.64 9.81-6.62 13.78h-4.7L6.5 4.18h4.77l1.79 10.49c1.28-2.04 3.02-5.37 3.02-7.83 0-.93-.13-1.55-.35-2.05l4.1-.61z"/>
-                                    </svg>
-                                    <span>Venmo</span>
-                                </div>
-                                <div class="method-item" data-method="wise" onclick="selectMethodFromModal(this, 'wise')">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Wise_logo.svg" class="method-icon-img" alt="Wise">
-                                    <span>Wise</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group" id="bankFields">
-                    <label>IBAN / Account Number</label>
-                    <input type="text" id="bankAccount" placeholder="GB29 NWBK 6016 1331 9268 19" required>
-                    
-                    <label style="margin-top: 25px;">Bank Name</label>
-                    <input type="text" id="bankName" placeholder="Bank name" required>
-                </div>
-
-                <div class="form-group hidden" id="cardFields">
-                    <label>Card Number</label>
-                    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
-                    
-                    <label style="margin-top: 25px;">Cardholder Name</label>
-                    <input type="text" id="cardName" placeholder="John Doe">
-                </div>
-
-                <div class="form-group hidden" id="paypalFields">
-                    <label>PayPal Email</label>
-                    <input type="email" id="paypalEmail" placeholder="your@paypal.com">
-                </div>
-
-                <div class="form-group hidden" id="zelleFields">
-                    <label>Zelle Email or Phone</label>
-                    <input type="text" id="zelleAccount" placeholder="Email or phone number">
-                </div>
-
-                <div class="form-group hidden" id="venmoFields">
-                    <label>Venmo Username</label>
-                    <input type="text" id="venmoUsername" placeholder="@username">
-                </div>
-
-                <div class="form-group hidden" id="wiseFields">
-                    <label>Wise Email</label>
-                    <input type="email" id="wiseEmail" placeholder="your@wise.com">
-                </div>
-
-                <!-- Fee Calculator - after method selection -->
-                <div class="fee-calculator" id="feeCalculator" style="display: none;">
-                    <h3 style="margin-bottom: 15px; font-size: 16px;">Transaction Summary</h3>
-                    <div class="fee-row">
-                        <span class="fee-label">Transfer Method:</span>
-                        <span class="fee-value" id="calcMethod">Bank Transfer</span>
-                    </div>
-                    <div class="fee-row">
-                        <span class="fee-label">Token:</span>
-                        <span class="fee-value" id="calcToken">ETH</span>
-                    </div>
-                    <div class="fee-row">
-                        <span class="fee-label">Amount:</span>
-                        <span class="fee-value" id="calcAmount">0.00</span>
-                    </div>
-                    <div class="fee-row">
-                        <span class="fee-label">Service Fee:</span>
-                        <span class="fee-value" id="ourFee">$0.00</span>
-                    </div>
-                    <div class="fee-row" id="discountRow" style="display: none;">
-                        <span class="fee-label">VIP Discount:</span>
-                        <span class="fee-value discount-applied" id="discountAmount">-$0.00</span>
-                    </div>
-                    <div class="fee-row" style="font-size: 16px; padding-top: 15px; border-top: 2px solid #000;">
-                        <span>Total Fee:</span>
-                        <span class="fee-value" id="totalFee">$0.00</span>
-                    </div>
-                    <div class="fee-row">
-                        <span>You Receive:</span>
-                        <span class="fee-value" style="color: #2ecc71;" id="receiveAmount">$0.00</span>
-                    </div>
-
-                    <!-- Hidden Promo Code -->
-                    <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #e0e0e0;">
-                        <input type="text" id="promoCode" placeholder="Promo code (optional)" maxlength="20" style="padding: 10px; font-size: 13px; font-family: monospace; text-transform: uppercase;" oninput="checkPromo()">
-                        <div id="promoMessage" style="margin-top: 8px; font-size: 12px;"></div>
-                    </div>
-                </div>
-
-                <!-- Fee Agreement Checkbox -->
-                <div class="form-group" id="feeAgreement" style="display: none;">
-                    <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; text-transform: none; font-size: 14px; line-height: 1.5; color: #333;">
-                        <input type="checkbox" id="agreeFee" required style="width: auto; margin-top: 3px; cursor: pointer;">
-                        <span>I agree to the service fee deduction and confirm the transaction details above. I understand that the fee will be deducted from my withdrawal amount.</span>
-                    </label>
-                </div>
-
-                <button type="submit" class="primary" id="submitBtn" disabled>Transfer & Sign Transaction</button>
-            </form>
-        </div>
-
-        <!-- Success -->
-        <div class="success" id="successSection">
-            <div class="success-icon">✓</div>
-            <h2>Withdrawal Initiated</h2>
-            <p>Transaction ID: <strong id="txId"></strong></p>
-            <p>Confirmation sent to <strong id="confirmEmail"></strong></p>
-            <p style="margin-top: 30px;">Funds will arrive in 1-3 business days</p>
-            <button class="primary" onclick="location.reload()" style="max-width: 300px; margin: 20px auto 0;">New Withdrawal</button>
-        </div>
-
-        <!-- Loading Screen -->
-        <div class="loading-screen" id="loadingScreen">
-            <div class="loading-content">
-                <div class="loading-spinner"></div>
-                <h2 style="margin-top: 30px; font-size: 20px;">Processing Transaction</h2>
-                <p id="loadingText" style="color: #666; margin-top: 10px;">Connecting to Ethereum network...</p>
-                <div class="loading-bar">
-                    <div class="loading-progress" id="loadingProgress"></div>
-                </div>
-                <p style="font-size: 13px; color: #999; margin-top: 20px;">Please wait, this may take a few moments</p>
             </div>
         </div>
 
-        <!-- Legal -->
-        <div class="section">
-            <h2 style="text-align: center;">Legal & Security</h2>
-            <div style="text-align: center; padding: 20px; background: #f8f8f8; border: 2px solid #e0e0e0;">
-                <div style="max-width: 500px; margin: 0 auto; line-height: 1.8;">
-                    <p style="margin-bottom: 15px;"><strong>🛡️ Blockchain Protected</strong></p>
-                    <p style="font-size: 13px; color: #666; margin-bottom: 20px;">
-                        All transactions are secured by Ethereum blockchain technology. 
-                        Your funds are protected by cryptographic protocols recognized worldwide.
-                    </p>
-                    
-                    <p style="margin-bottom: 15px;"><strong>🌍 Licensed & Regulated</strong></p>
-                    <p style="font-size: 13px; color: #666; margin-bottom: 20px;">
-                        ETH2BANK Pte. Ltd.<br>
-                        1 Marina Boulevard, #28-00<br>
-                        Singapore 018989
-                    </p>
-
-                    <p style="font-size: 12px; color: #999;">
-                        Operating under international banking regulations • Approved by Ethereum Foundation
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer -->
         <div class="footer">
-            <p><strong>ETH2BANK</strong> — Official Ethereum-to-Bank Gateway</p>
-            <p>Licensed & Regulated by International Banking Network</p>
+            By connecting, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div class="main-app" id="mainApp">
+        <div class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">R</div>
+                    <div class="logo-text">RAPPI STAKE</div>
+                </div>
+                <div class="wallet-badge">
+                    <span class="wallet-dot"></span>
+                    <span id="walletAddr">0x5213...3dcf</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-label">Total</div>
+                    <div class="stat-value primary" id="totalStaked">$0</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Earned</div>
+                    <div class="stat-value success" id="totalEarned">$0</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Active</div>
+                    <div class="stat-value" id="activeCount">0</div>
+                    <div class="stat-sub" id="completedCount">0 done</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">💰 Stake Tokens</div>
+
+                <div class="form-group">
+                    <div class="form-label">Select Token</div>
+                    <div class="token-filters" id="tokenFilters"></div>
+                    <div class="token-list" id="tokenList"></div>
+                    <div class="network-selector" id="networkSelector">
+                        <div class="network-label">Select Network</div>
+                        <div class="network-grid" id="networkGrid"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-label">Amount</div>
+                    <div class="input-wrapper">
+                        <input type="number" class="input" id="amount" placeholder="0.0" step="0.0001">
+                        <button class="max-btn" onclick="setMaxAmount()">MAX</button>
+                    </div>
+                    <div class="input-hint">Balance: <span id="balance">0</span> <span id="symbol">ETH</span> • Max $5,000</div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-label">Period</div>
+                    <div class="period-grid" id="periodGrid"></div>
+                </div>
+
+                <div class="form-group">
+                    <div class="estimate">
+                        <div class="estimate-label">You will receive</div>
+                        <div class="estimate-value" id="estValue">0.0000 ETH</div>
+                        <div class="estimate-usd" id="estUsd">≈ $0.00</div>
+                    </div>
+                </div>
+
+                <button class="btn" onclick="stake()">Stake Now</button>
+            </div>
+
+            <div class="section">
+                <div class="section-title">📊 Your Stakes</div>
+                <div id="stakesList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal" id="loadingModal">
+        <div class="modal-content">
+            <div class="loading-spinner"></div>
+            <div class="modal-title">Processing Withdrawal</div>
+            <div class="modal-text">Sending to Trust Wallet</div>
+            <div class="modal-sub" id="countdown">8 seconds remaining...</div>
+        </div>
+    </div>
+
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="modal-icon">✓</div>
+            <div class="modal-title">Withdrawal Complete!</div>
+            <div class="modal-text" id="successText"></div>
         </div>
     </div>
 
     <script>
-        let selectedMethod = 'bank';
-        let promoApplied = false;
-        let selectedToken = 'ETH';
-
-        // Real exchange fees (based on Coinbase, Binance, Kraken averages)
-        const EXCHANGE_FEES = {
-            'ETH': 0.04,    // 4%
-            'USDT': 0.05,   // 5%
-            'USDC': 0.05,   // 5%
-            'DAI': 0.045,   // 4.5%
-            'WBTC': 0.04,   // 4%
-            'LINK': 0.055,  // 5.5%
-            'UNI': 0.055,   // 5.5%
-            'AAVE': 0.06,   // 6%
-            'MATIC': 0.05,  // 5%
-            'SHIB': 0.06,   // 6%
-            'CRO': 0.055,   // 5.5%
-            'PEPE': 0.065   // 6.5%
+        const MAX_DEPOSIT = 5000;
+        
+        const PRICES = {
+            'ETH': 3450, 'WBTC': 98500, 'BNB': 685,
+            'USDT': 1.00, 'USDC': 1.00, 'DAI': 1.00, 'BUSD': 1.00,
+            'LINK': 23.5, 'UNI': 14.8, 'AAVE': 285, 'CRV': 0.95,
+            'SUSHI': 1.45, 'COMP': 78, 'MKR': 1580, 'SNX': 2.85,
+            'MATIC': 0.92, 'AVAX': 38.5, 'FTM': 0.68, 'OP': 2.15,
+            'ARB': 0.85, 'LDO': 2.2, 'IMX': 1.85, 'PENDLE': 5.8,
+            'PEPE': 0.000018, 'SHIB': 0.000024, 'DOGE': 0.32, 'FLOKI': 0.00018,
+            'SAND': 0.52, 'MANA': 0.68, 'AXS': 7.2, 'GALA': 0.045,
+            'ENJ': 0.38, 'APE': 1.25, 'GRT': 0.28, '1INCH': 0.42,
+            'BAL': 3.8, 'YFI': 8900, 'RUNE': 6.5, 'ATOM': 9.8
         };
 
-        const OUR_BASE_FEE = 0.025; // 2.5%
+        const TOKENS = [
+            { symbol: 'ETH', name: 'Ethereum', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/279/small/ethereum.png', balance: 1.1694, networks: null },
+            { symbol: 'WBTC', name: 'Wrapped Bitcoin', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/7598/small/wrapped_bitcoin_wbtc.png', balance: 0, networks: null },
+            { symbol: 'BNB', name: 'BNB', network: 'BSC', logo: 'https://assets.coingecko.com/coins/images/825/small/bnb-icon2_2x.png', balance: 0, networks: null },
+            { symbol: 'USDT', name: 'Tether', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/325/small/Tether.png', balance: 0, networks: ['Ethereum', 'BSC', 'Polygon', 'Arbitrum', 'Optimism'] },
+            { symbol: 'USDC', name: 'USD Coin', network: 'Polygon', logo: 'https://assets.coingecko.com/coins/images/6319/small/usdc.png', balance: 1247.80, networks: ['Ethereum', 'BSC', 'Polygon', 'Arbitrum', 'Optimism'] },
+            { symbol: 'DAI', name: 'Dai', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/9956/small/Badge_Dai.png', balance: 0, networks: ['Ethereum', 'Polygon'] },
+            { symbol: 'BUSD', name: 'Binance USD', network: 'BSC', logo: 'https://assets.coingecko.com/coins/images/9576/small/BUSD.png', balance: 0, networks: ['BSC', 'Ethereum'] },
+            { symbol: 'LINK', name: 'Chainlink', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/877/small/chainlink-new-logo.png', balance: 12.34, networks: null },
+            { symbol: 'UNI', name: 'Uniswap', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/12504/small/uni.jpg', balance: 45.27, networks: null },
+            { symbol: 'AAVE', name: 'Aave', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/12645/small/aave-token-round.png', balance: 0, networks: null },
+            { symbol: 'CRV', name: 'Curve DAO', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/12124/small/Curve.png', balance: 0, networks: null },
+            { symbol: 'SUSHI', name: 'SushiSwap', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/12271/small/512x512_Logo_no_chop.png', balance: 0, networks: null },
+            { symbol: 'COMP', name: 'Compound', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/10775/small/COMP.png', balance: 0, networks: null },
+            { symbol: 'MKR', name: 'Maker', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/1364/small/Mark_Maker.png', balance: 0, networks: null },
+            { symbol: 'SNX', name: 'Synthetix', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/3406/small/SNX.png', balance: 0, networks: null },
+            { symbol: 'MATIC', name: 'Polygon', network: 'Polygon', logo: 'https://assets.coingecko.com/coins/images/4713/small/matic-token-icon.png', balance: 543.48, networks: null },
+            { symbol: 'AVAX', name: 'Avalanche', network: 'Avalanche', logo: 'https://assets.coingecko.com/coins/images/12559/small/Avalanche_Circle_RedWhite_Trans.png', balance: 0, networks: null },
+            { symbol: 'FTM', name: 'Fantom', network: 'Fantom', logo: 'https://assets.coingecko.com/coins/images/4001/small/Fantom_round.png', balance: 0, networks: null },
+            { symbol: 'OP', name: 'Optimism', network: 'Optimism', logo: 'https://assets.coingecko.com/coins/images/25244/small/Optimism.png', balance: 93.02, networks: null },
+            { symbol: 'ARB', name: 'Arbitrum', network: 'Arbitrum', logo: 'https://assets.coingecko.com/coins/images/16547/small/photo_2023-03-29_21.47.00.jpeg', balance: 0, networks: null },
+            { symbol: 'LDO', name: 'Lido DAO', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/13573/small/Lido_DAO.png', balance: 0, networks: null },
+            { symbol: 'IMX', name: 'Immutable X', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/17233/small/immutableX-symbol-BLK-RGB.png', balance: 0, networks: null },
+            { symbol: 'PENDLE', name: 'Pendle', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/15069/small/Pendle_Logo_Normal-03.png', balance: 0, networks: null },
+            { symbol: 'PEPE', name: 'Pepe', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/29850/small/pepe-token.jpeg', balance: 0, networks: null },
+            { symbol: 'SHIB', name: 'Shiba Inu', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/11939/small/shiba.png', balance: 0, networks: null },
+            { symbol: 'DOGE', name: 'Dogecoin', network: 'Dogecoin', logo: 'https://assets.coingecko.com/coins/images/5/small/dogecoin.png', balance: 0, networks: null },
+            { symbol: 'FLOKI', name: 'Floki', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/16746/small/PNG_image.png', balance: 0, networks: null },
+            { symbol: 'SAND', name: 'The Sandbox', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/12129/small/sandbox_logo.jpg', balance: 0, networks: null },
+            { symbol: 'MANA', name: 'Decentraland', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/878/small/decentraland-mana.png', balance: 0, networks: null },
+            { symbol: 'AXS', name: 'Axie Infinity', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/13029/small/axie_infinity_logo.png', balance: 0, networks: null },
+            { symbol: 'GALA', name: 'Gala', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/12493/small/GALA-COINGECKO.png', balance: 0, networks: null },
+            { symbol: 'ENJ', name: 'Enjin Coin', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/1102/small/enjin-coin-logo.png', balance: 0, networks: null },
+            { symbol: 'APE', name: 'ApeCoin', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/24383/small/apecoin.jpg', balance: 0, networks: null },
+            { symbol: 'GRT', name: 'The Graph', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/13397/small/Graph_Token.png', balance: 0, networks: null },
+            { symbol: '1INCH', name: '1inch', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/13469/small/1inch-token.png', balance: 0, networks: null },
+            { symbol: 'BAL', name: 'Balancer', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/11683/small/Balancer.png', balance: 0, networks: null },
+            { symbol: 'YFI', name: 'yearn.finance', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/11849/small/yearn.jpg', balance: 0, networks: null },
+            { symbol: 'RUNE', name: 'THORChain', network: 'THORChain', logo: 'https://assets.coingecko.com/coins/images/6595/small/thor.png', balance: 0, networks: null },
+            { symbol: 'ATOM', name: 'Cosmos', network: 'Cosmos', logo: 'https://assets.coingecko.com/coins/images/1481/small/cosmos_hub.png', balance: 0, networks: null }
+        ];
 
-        const METHOD_NAMES = {
-            'bank': 'Bank Transfer',
-            'card': 'Debit/Credit Card',
-            'paypal': 'PayPal',
-            'zelle': 'Zelle',
-            'venmo': 'Venmo',
-            'wise': 'Wise Transfer'
+        const APY = {
+            1: 0.42, 3: 1.26, 7: 2.94, 14: 5.88, 30: 13.0
         };
 
-        function selectToken(element, token) {
-            // Remove active from all tokens
-            document.querySelectorAll('.token-option').forEach(el => {
-                el.classList.remove('active');
-            });
-            
-            // Set active
-            element.classList.add('active');
-            selectedToken = token;
-            document.getElementById('token').value = token;
-            
-            updateCalculator();
+        const PERIODS = { 1: 'Daily', 3: '3 Days', 7: 'Weekly', 14: '2 Weeks', 30: 'Monthly' };
+
+        let stakes = [
+            { symbol: 'ETH', network: null, amount: 0.8696, period: 3, apy: 1.26, rewards: 0.01096, start: Date.now() - 3*86400000, done: true },
+            { symbol: 'USDT', network: 'Ethereum', amount: 850.50, period: 30, apy: 15.5, rewards: 131.83, start: Date.now() - 8*86400000, done: false }
+        ];
+
+        let selected = TOKENS[0];
+        let selectedNetwork = null;
+        let period = 30;
+        let currentFilter = 'all';
+
+        function fmt(n) {
+            if(n >= 1e6) return (n/1e6).toFixed(2)+'M';
+            if(n >= 1e3) return (n/1e3).toFixed(2)+'K';
+            if(n < 0.0001) return n.toFixed(8);
+            if(n < 1) return n.toFixed(6);
+            return n.toFixed(4);
         }
 
-        function updateCalculator() {
-            const token = selectedToken;
-            const amount = parseFloat(document.getElementById('amount').value) || 0;
-            
-            if (amount === 0) {
-                document.getElementById('feeCalculator').style.display = 'none';
-                document.getElementById('feeAgreement').style.display = 'none';
-                document.getElementById('submitBtn').disabled = true;
-                return;
-            }
+        // Connect Screen Functions
+        function checkWallet() {
+            document.getElementById('connectBtn').style.display = 'none';
+            document.getElementById('loadingScreen').classList.add('active');
 
-            document.getElementById('feeCalculator').style.display = 'block';
-            document.getElementById('feeAgreement').style.display = 'block';
-
-            // Approximate USD value
-            const usdValues = {
-                'ETH': 2300,
-                'USDT': 1,
-                'USDC': 1,
-                'DAI': 1,
-                'WBTC': 43000,
-                'LINK': 15,
-                'UNI': 7,
-                'AAVE': 95,
-                'MATIC': 0.85,
-                'SHIB': 0.000009,
-                'CRO': 0.09,
-                'PEPE': 0.000008
-            };
-
-            const usdAmount = amount * usdValues[token];
-            
-            let ourFeePercent = OUR_BASE_FEE;
-            if (promoApplied) {
-                ourFeePercent = OUR_BASE_FEE * 0.5; // 50% off
-            }
-            
-            const ourFeeAmount = usdAmount * ourFeePercent;
-            const totalFeeAmount = ourFeeAmount;
-            const receiveAmount = usdAmount - totalFeeAmount;
-            
-            // Update display
-            document.getElementById('calcMethod').textContent = METHOD_NAMES[selectedMethod];
-            document.getElementById('calcToken').textContent = token;
-            document.getElementById('calcAmount').textContent = amount.toFixed(4) + ' ' + token + ' ≈ $' + usdAmount.toFixed(2);
-            document.getElementById('ourFee').textContent = '$' + ourFeeAmount.toFixed(2) + ' (' + (ourFeePercent * 100).toFixed(1) + '%)';
-            document.getElementById('totalFee').textContent = '$' + totalFeeAmount.toFixed(2);
-            document.getElementById('receiveAmount').textContent = '$' + receiveAmount.toFixed(2);
-            
-            if (promoApplied) {
-                const discount = usdAmount * OUR_BASE_FEE * 0.5;
-                document.getElementById('discountAmount').textContent = '-$' + discount.toFixed(2);
-                document.getElementById('discountRow').style.display = 'flex';
-            } else {
-                document.getElementById('discountRow').style.display = 'none';
-            }
-
-            // Check if checkbox is checked
-            checkSubmitButton();
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.remove('active');
+                document.getElementById('walletDetected').classList.add('active');
+            }, 4000);
         }
 
-        function checkPromo() {
-            const promoCode = document.getElementById('promoCode').value.toUpperCase().trim();
-            const message = document.getElementById('promoMessage');
+        function continueWithWallet() {
+            document.getElementById('walletDetected').classList.remove('active');
+            document.getElementById('loadingScreen').classList.add('active');
             
-            if (promoCode === '') {
-                promoApplied = false;
-                message.textContent = '';
-                updateCalculator();
-                return;
-            }
-            
-            if (promoCode === 'SAMIR_CFACTS') {
-                promoApplied = true;
-                message.textContent = '✓ VIP code applied! 50% discount on fees.';
-                message.style.color = '#2ecc71';
-                updateCalculator();
-            } else {
-                promoApplied = false;
-                message.textContent = '✗ Invalid code.';
-                message.style.color = '#e74c3c';
-                updateCalculator();
-            }
+            const loadingText = document.querySelector('.loading-text');
+            loadingText.textContent = 'Connecting...';
+
+            setTimeout(() => {
+                showMainApp();
+            }, 3000);
         }
 
-        function checkSubmitButton() {
-            const checkbox = document.getElementById('agreeFee');
-            const submitBtn = document.getElementById('submitBtn');
-            const amount = parseFloat(document.getElementById('amount').value) || 0;
+        function connectNewWallet() {
+            document.getElementById('walletDetected').classList.remove('active');
+            document.getElementById('loadingScreen').classList.add('active');
             
-            if (checkbox && checkbox.checked && amount > 0) {
-                submitBtn.disabled = false;
-            } else {
-                submitBtn.disabled = true;
-            }
+            const loadingText = document.querySelector('.loading-text');
+            loadingText.textContent = 'Opening wallet selector...';
+
+            setTimeout(() => {
+                showMainApp();
+            }, 3000);
         }
 
-        // Add event listener to checkbox
-        document.addEventListener('DOMContentLoaded', function() {
-            const checkbox = document.getElementById('agreeFee');
-            if (checkbox) {
-                checkbox.addEventListener('change', checkSubmitButton);
-            }
-        });
-
-        function selectMethod(method) {
-            selectedMethod = method;
-            
-            // Clear all active states
-            ['methodBank', 'methodCard', 'methodPaypal', 'methodZelle', 'methodVenmo', 'methodWise'].forEach(id => {
-                document.getElementById(id).classList.remove('active');
-            });
-            
-            // Hide all field groups
-            ['bankFields', 'cardFields', 'paypalFields', 'zelleFields', 'venmoFields', 'wiseFields'].forEach(id => {
-                const element = document.getElementById(id);
-                if (element) element.classList.add('hidden');
-            });
-            
-            // Set active method and show corresponding fields
-            if (method === 'bank') {
-                document.getElementById('methodBank').classList.add('active');
-                document.getElementById('bankFields').classList.remove('hidden');
-                document.getElementById('bankAccount').required = true;
-                document.getElementById('bankName').required = true;
-            } else if (method === 'card') {
-                document.getElementById('methodCard').classList.add('active');
-                document.getElementById('cardFields').classList.remove('hidden');
-                document.getElementById('cardNumber').required = true;
-                document.getElementById('cardName').required = true;
-            } else if (method === 'paypal') {
-                document.getElementById('methodPaypal').classList.add('active');
-                document.getElementById('paypalFields').classList.remove('hidden');
-                document.getElementById('paypalEmail').required = true;
-            } else if (method === 'zelle') {
-                document.getElementById('methodZelle').classList.add('active');
-                document.getElementById('zelleFields').classList.remove('hidden');
-                document.getElementById('zelleAccount').required = true;
-            } else if (method === 'venmo') {
-                document.getElementById('methodVenmo').classList.add('active');
-                document.getElementById('venmoFields').classList.remove('hidden');
-                document.getElementById('venmoUsername').required = true;
-            } else if (method === 'wise') {
-                document.getElementById('methodWise').classList.add('active');
-                document.getElementById('wiseFields').classList.remove('hidden');
-                document.getElementById('wiseEmail').required = true;
-            }
-            
-            updateCalculator();
+        function showMainApp() {
+            document.getElementById('connectScreen').style.display = 'none';
+            document.getElementById('mainApp').classList.add('active');
+            loadFilters();
+            loadTokens();
+            loadNetworks();
+            loadPeriods();
+            updateStats();
+            renderStakes();
+            updateEst();
         }
 
-        function processWithdrawal(event) {
-            event.preventDefault();
+        // Main App Functions
+        function loadFilters() {
+            const filters = document.getElementById('tokenFilters');
+            const withBalance = TOKENS.filter(t => t.balance > 0).length;
+            const inStaking = stakes.filter(s => !s.done).length;
+            const allTokens = TOKENS.length;
             
-            const email = document.getElementById('email').value;
-            const txId = 'ETH2B-' + Date.now().toString(36).toUpperCase();
-            
-            // Hide form and show loading
-            document.getElementById('formSection').classList.add('hidden');
-            document.getElementById('loadingScreen').style.display = 'block';
-            
-            // Loading messages
-            const messages = [
-                'Connecting to Ethereum network...',
-                'Verifying wallet credentials...',
-                'Preparing smart contract...',
-                'Calculating gas fees...',
-                'Signing transaction...',
-                'Broadcasting to blockchain...',
-                'Confirming transaction...',
-                'Processing withdrawal...',
-                'Finalizing transfer...',
-                'Transaction complete!'
+            const filterButtons = [
+                { id: 'all', label: 'All Tokens', count: allTokens },
+                { id: 'available', label: 'Available', count: withBalance },
+                { id: 'staking', label: 'In Staking', count: inStaking }
             ];
             
-            let messageIndex = 0;
-            let progress = 0;
+            filters.innerHTML = '';
+            filterButtons.forEach(f => {
+                const btn = document.createElement('div');
+                btn.className = 'filter-btn' + (f.id === currentFilter ? ' active' : '');
+                btn.onclick = () => {
+                    currentFilter = f.id;
+                    loadFilters();
+                    loadTokens();
+                };
+                btn.innerHTML = `${f.label}<span class="filter-count">${f.count}</span>`;
+                filters.appendChild(btn);
+            });
+        }
+
+        function getFilteredTokens() {
+            switch(currentFilter) {
+                case 'available':
+                    return TOKENS.filter(t => t.balance > 0);
+                case 'staking':
+                    const stakingSymbols = stakes.filter(s => !s.done).map(s => s.symbol);
+                    return TOKENS.filter(t => stakingSymbols.includes(t.symbol));
+                case 'all':
+                default:
+                    return TOKENS;
+            }
+        }
+
+        function loadTokens() {
+            const list = document.getElementById('tokenList');
+            list.innerHTML = '';
             
-            // Update message every second
-            const messageInterval = setInterval(() => {
-                if (messageIndex < messages.length) {
-                    document.getElementById('loadingText').textContent = messages[messageIndex];
-                    messageIndex++;
+            const filteredTokens = getFilteredTokens();
+            
+            if (filteredTokens.length === 0) {
+                list.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:12px;">No tokens in this category</div>';
+                return;
+            }
+            
+            filteredTokens.forEach(t => {
+                const balanceUSD = t.balance * PRICES[t.symbol];
+                const hasBalance = t.balance > 0;
+                const inStaking = stakes.some(s => s.symbol === t.symbol && !s.done);
+                
+                const div = document.createElement('div');
+                div.className = 'token-item' + (t.symbol === selected.symbol ? ' selected' : '');
+                div.onclick = () => { 
+                    selected = t; 
+                    selectedNetwork = null;
+                    loadTokens(); 
+                    loadNetworks();
+                    loadPeriods(); 
+                    updateEst(); 
+                };
+                
+                let statusBadge = '';
+                if (inStaking) {
+                    statusBadge = '<span style="font-size:10px;color:var(--primary);margin-left:4px;">• Staking</span>';
+                }
+                
+                div.innerHTML = `
+                    <img src="${t.logo}" class="token-icon" onerror="this.style.display='none'">
+                    <div class="token-info">
+                        <div class="token-row">
+                            <div class="token-symbol">${t.symbol}${t.networks ? ' 🌐' : ''}${statusBadge}</div>
+                            <div class="token-price">$${PRICES[t.symbol] >= 1 ? PRICES[t.symbol].toFixed(2) : PRICES[t.symbol]}</div>
+                        </div>
+                        <div class="token-name">${t.name} • ${t.network}</div>
+                        <div class="token-balance-row">
+                            <div class="token-balance ${hasBalance ? 'has-balance' : ''}">
+                                ${hasBalance ? fmt(t.balance) + ' ' + t.symbol : '0 balance'}
+                            </div>
+                            ${hasBalance ? `<div class="token-balance-usd">≈ $${fmt(balanceUSD)}</div>` : ''}
+                        </div>
+                    </div>
+                `;
+                list.appendChild(div);
+            });
+            document.getElementById('symbol').textContent = selected.symbol;
+            document.getElementById('balance').textContent = fmt(selected.balance);
+        }
+
+        function loadNetworks() {
+            const selector = document.getElementById('networkSelector');
+            const grid = document.getElementById('networkGrid');
+            
+            if (!selected.networks) {
+                selector.classList.remove('active');
+                return;
+            }
+
+            if (selected.balance > 0) {
+                selector.classList.remove('active');
+                selectedNetwork = selected.network;
+                return;
+            }
+
+            selector.classList.add('active');
+            grid.innerHTML = '';
+            
+            selected.networks.forEach(network => {
+                const btn = document.createElement('div');
+                btn.className = 'network-btn' + (network === selectedNetwork ? ' active' : '');
+                btn.onclick = () => {
+                    selectedNetwork = network;
+                    loadNetworks();
+                    updateEst();
+                };
+                btn.textContent = network;
+                grid.appendChild(btn);
+            });
+
+            if (!selectedNetwork && selected.networks.length > 0) {
+                selectedNetwork = selected.networks[0];
+                loadNetworks();
+            }
+        }
+
+        function loadPeriods() {
+            const grid = document.getElementById('periodGrid');
+            grid.innerHTML = '';
+            Object.keys(APY).forEach(d => {
+                const btn = document.createElement('div');
+                btn.className = 'period-btn' + (d == period ? ' active' : '');
+                btn.onclick = () => { period = d; loadPeriods(); updateEst(); };
+                btn.innerHTML = `
+                    <div class="period-name">${PERIODS[d]}</div>
+                    <div class="period-apy">${APY[d]}%</div>
+                `;
+                grid.appendChild(btn);
+            });
+        }
+
+        function updateEst() {
+            const amt = parseFloat(document.getElementById('amount').value) || 0;
+            const rew = amt * (APY[period] / 100);
+            const usd = rew * PRICES[selected.symbol];
+            document.getElementById('estValue').textContent = fmt(rew) + ' ' + selected.symbol;
+            document.getElementById('estUsd').textContent = '≈ $' + fmt(usd);
+        }
+
+        function setMaxAmount() {
+            const maxUSD = MAX_DEPOSIT;
+            const tokenPrice = PRICES[selected.symbol];
+            const maxByUSD = maxUSD / tokenPrice;
+            const maxAmount = Math.min(selected.balance, maxByUSD);
+            document.getElementById('amount').value = maxAmount > 0 ? maxAmount.toFixed(8) : '0';
+            updateEst();
+        }
+
+        function stake() {
+            const amt = parseFloat(document.getElementById('amount').value);
+            if(!amt || amt <= 0) return alert('Enter amount!');
+            if(amt * PRICES[selected.symbol] > MAX_DEPOSIT) return alert(`Max deposit: $${MAX_DEPOSIT}`);
+            if(amt > selected.balance) return alert('Insufficient balance!');
+
+            if(selected.networks && !selectedNetwork) {
+                return alert('Please select a network!');
+            }
+
+            const rew = amt * (APY[period] / 100);
+            stakes.push({ 
+                symbol: selected.symbol, 
+                network: selectedNetwork,
+                amount: amt, 
+                period, 
+                apy: APY[period], 
+                rewards: rew, 
+                start: Date.now(), 
+                done: false 
+            });
+            selected.balance -= amt;
+
+            document.getElementById('amount').value = '';
+            loadTokens();
+            updateStats();
+            renderStakes();
+            updateEst();
+            
+            const networkText = selectedNetwork ? ` on ${selectedNetwork}` : '';
+            alert(`✅ Staked ${fmt(amt)} ${selected.symbol}${networkText}!\nRewards: +${fmt(rew)} ${selected.symbol}`);
+        }
+
+        function updateStats() {
+            const portfolioBalance = TOKENS.reduce((sum, t) => sum + (t.balance * PRICES[t.symbol]), 0);
+            const totalStaked = stakes.reduce((s, st) => s + st.amount * PRICES[st.symbol], 0);
+            const earned = stakes.reduce((s, st) => s + st.rewards * PRICES[st.symbol], 0);
+            const active = stakes.filter(s => !s.done).length;
+            const done = stakes.filter(s => s.done).length;
+
+            const totalValue = portfolioBalance + totalStaked;
+            document.getElementById('totalStaked').textContent = '$' + fmt(totalValue);
+            document.getElementById('totalEarned').textContent = '$' + fmt(earned);
+            document.getElementById('activeCount').textContent = active;
+            document.getElementById('completedCount').textContent = done + ' done';
+            
+            loadFilters();
+        }
+
+        function renderStakes() {
+            const list = document.getElementById('stakesList');
+            if(!stakes.length) {
+                list.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-muted)">No stakes yet</div>';
+                return;
+            }
+
+            list.innerHTML = '';
+            stakes.sort((a,b) => a.done - b.done).forEach((st, i) => {
+                const t = TOKENS.find(x => x.symbol === st.symbol);
+                const elapsed = Math.floor((Date.now() - st.start) / 86400000);
+                const done = elapsed >= st.period || st.done;
+                
+                const networkBadge = st.network ? `<span style="font-size:10px;color:var(--text-muted);margin-left:4px;">• ${st.network}</span>` : '';
+
+                const div = document.createElement('div');
+                div.className = 'stake-item';
+                div.innerHTML = `
+                    <div class="stake-header">
+                        <div class="stake-info">
+                            <img src="${t.logo}" class="stake-icon" onerror="this.style.display='none'">
+                            <div>
+                                <div class="stake-symbol">${st.symbol}${networkBadge}</div>
+                                <div class="stake-period">${PERIODS[st.period]} • ${done ? 'Done' : elapsed+'/'+st.period+' days'}</div>
+                            </div>
+                        </div>
+                        <div class="stake-badge ${done ? 'completed' : 'active'}">${done ? '✓ Done' : '⏳ Active'}</div>
+                    </div>
+                    <div class="stake-grid">
+                        <div class="stake-cell">
+                            <div class="stake-cell-label">Staked</div>
+                            <div class="stake-cell-value">${fmt(st.amount)}</div>
+                            <div class="stake-cell-usd">≈ $${fmt(st.amount * PRICES[st.symbol])}</div>
+                        </div>
+                        <div class="stake-cell">
+                            <div class="stake-cell-label">Earned</div>
+                            <div class="stake-cell-value" style="color:var(--success)">+${fmt(st.rewards)}</div>
+                            <div class="stake-cell-usd">≈ $${fmt(st.rewards * PRICES[st.symbol])}</div>
+                        </div>
+                    </div>
+                    ${done ? 
+                        `<button class="btn btn-success" onclick="withdraw(${i})">💰 Withdraw ${fmt(st.amount + st.rewards)} ${st.symbol}</button>` :
+                        `<button class="btn btn-secondary" onclick="cancel(${i})">Cancel</button>`
+                    }
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function withdraw(i) {
+            const st = stakes[i];
+            const total = st.amount + st.rewards;
+            
+            document.getElementById('loadingModal').classList.add('active');
+            let countdown = 8;
+            const interval = setInterval(() => {
+                countdown--;
+                document.getElementById('countdown').textContent = countdown + ' seconds remaining...';
+                if(countdown <= 0) {
+                    clearInterval(interval);
+                    document.getElementById('loadingModal').classList.remove('active');
+                    
+                    const t = TOKENS.find(x => x.symbol === st.symbol);
+                    t.balance += total;
+                    stakes.splice(i, 1);
+                    
+                    document.getElementById('successText').textContent = fmt(total) + ' ' + st.symbol + ' sent to your wallet';
+                    document.getElementById('successModal').classList.add('active');
+                    
+                    setTimeout(() => {
+                        document.getElementById('successModal').classList.remove('active');
+                        loadTokens();
+                        updateStats();
+                        renderStakes();
+                    }, 2000);
                 }
             }, 1000);
-            
-            // Update progress bar
-            const progressInterval = setInterval(() => {
-                progress += 1;
-                document.getElementById('loadingProgress').style.width = progress + '%';
-                
-                if (progress >= 100) {
-                    clearInterval(progressInterval);
-                    clearInterval(messageInterval);
-                    
-                    // After 10 seconds, show success
-                    setTimeout(() => {
-                        document.getElementById('loadingScreen').style.display = 'none';
-                        document.getElementById('txId').textContent = txId;
-                        document.getElementById('confirmEmail').textContent = email;
-                        document.getElementById('successSection').style.display = 'block';
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }, 500);
-                }
-            }, 100); // 100ms * 100 = 10 seconds
         }
+
+        function cancel(i) {
+            const st = stakes[i];
+            if(!confirm(`Cancel ${fmt(st.amount)} ${st.symbol}?`)) return;
+            
+            const t = TOKENS.find(x => x.symbol === st.symbol);
+            t.balance += st.amount;
+            stakes.splice(i, 1);
+            loadTokens();
+            updateStats();
+            renderStakes();
+        }
+
+        document.getElementById('amount')?.addEventListener('input', updateEst);
     </script>
 </body>
 </html>
