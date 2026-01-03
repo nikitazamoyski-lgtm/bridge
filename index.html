@@ -90,6 +90,8 @@
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
+            position: relative;
+            z-index: 1;
         }
 
         /* Header */
@@ -905,6 +907,60 @@
     </style>
 </head>
 <body>
+    <!-- Fixed Background Ethereum Logo -->
+    <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 0; opacity: 0.025; pointer-events: none; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+        <!-- Small crystal left top -->
+        <svg width="150" height="150" viewBox="0 0 256 417" xmlns="http://www.w3.org/2000/svg" style="position: absolute; top: 10%; left: 15%; opacity: 0.5; transform: rotate(-15deg);">
+            <polygon fill="#000" points="127.9611 0 125.1661 9.5 125.1661 285.168 127.9611 287.958 255.9231 212.32"/>
+            <polygon fill="#444" points="127.962 0 0 212.32 127.962 287.959 127.962 154.158"/>
+        </svg>
+        
+        <!-- Small crystal right top -->
+        <svg width="120" height="120" viewBox="0 0 256 417" xmlns="http://www.w3.org/2000/svg" style="position: absolute; top: 15%; right: 20%; opacity: 0.4; transform: rotate(25deg);">
+            <polygon fill="#000" points="127.9611 0 125.1661 9.5 125.1661 285.168 127.9611 287.958 255.9231 212.32"/>
+            <polygon fill="#444" points="127.962 0 0 212.32 127.962 287.959 127.962 154.158"/>
+        </svg>
+        
+        <!-- Large Central Ethereum Diamond/Crystal -->
+        <svg width="900" height="900" viewBox="0 0 256 417" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 100px rgba(0,0,0,0.05));">
+            <!-- Main diamond shape with gradient effect -->
+            <defs>
+                <linearGradient id="ethGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#000;stop-opacity:0.9" />
+                    <stop offset="100%" style="stop-color:#333;stop-opacity:0.7" />
+                </linearGradient>
+                <linearGradient id="ethGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#222;stop-opacity:0.8" />
+                    <stop offset="100%" style="stop-color:#000;stop-opacity:0.6" />
+                </linearGradient>
+            </defs>
+            
+            <polygon fill="url(#ethGrad1)" points="127.9611 0 125.1661 9.5 125.1661 285.168 127.9611 287.958 255.9231 212.32"/>
+            <polygon fill="url(#ethGrad2)" points="127.962 0 0 212.32 127.962 287.959 127.962 154.158"/>
+            <polygon fill="url(#ethGrad1)" points="127.9611 312.1866 126.3861 314.1066 126.3861 412.3056 127.9611 416.9066 256.0011 236.5866"/>
+            <polygon fill="url(#ethGrad2)" points="127.962 416.9052 127.962 312.1852 0 236.5852"/>
+        </svg>
+        
+        <!-- Small crystal left bottom -->
+        <svg width="130" height="130" viewBox="0 0 256 417" xmlns="http://www.w3.org/2000/svg" style="position: absolute; bottom: 20%; left: 10%; opacity: 0.45; transform: rotate(10deg);">
+            <polygon fill="#000" points="127.9611 0 125.1661 9.5 125.1661 285.168 127.9611 287.958 255.9231 212.32"/>
+            <polygon fill="#444" points="127.962 0 0 212.32 127.962 287.959 127.962 154.158"/>
+        </svg>
+        
+        <!-- Small crystal right bottom -->
+        <svg width="100" height="100" viewBox="0 0 256 417" xmlns="http://www.w3.org/2000/svg" style="position: absolute; bottom: 15%; right: 12%; opacity: 0.3; transform: rotate(-20deg);">
+            <polygon fill="#000" points="127.9611 0 125.1661 9.5 125.1661 285.168 127.9611 287.958 255.9231 212.32"/>
+            <polygon fill="#444" points="127.962 0 0 212.32 127.962 287.959 127.962 154.158"/>
+        </svg>
+        
+        <!-- Crystal shine overlay -->
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: 
+            radial-gradient(circle at 35% 25%, rgba(255,255,255,0.15) 0%, transparent 40%),
+            radial-gradient(circle at 65% 75%, rgba(255,255,255,0.1) 0%, transparent 35%);
+            pointer-events: none;">
+        </div>
+    </div>
+
     <!-- Floating Header -->
     <div class="floating-header">
         <div class="floating-header-content">
@@ -1560,7 +1616,7 @@
                         <span style="color: #4ade80;">+$<span id="savedAmount">0.00</span></span>
                     </div>
                     <div class="fee-row" id="discountRow" style="display: none; color: #4ade80;">
-                        <span>🎁 VIP Discount (50%):</span>
+                        <span>🎁 ОНКО Discount (50%):</span>
                         <span id="discountAmount" style="font-weight: 700;">-$0.00</span>
                     </div>
                     <div class="fee-row fee-total">
@@ -1570,7 +1626,7 @@
 
                     <!-- Promo Code -->
                     <div class="promo-input">
-                        <input type="text" id="promoCode" placeholder="🎁 ENTER VIP CODE FOR 50% OFF" maxlength="20" oninput="checkPromo()">
+                        <input type="text" id="promoCode" placeholder="🎁 ОНКО CODE FOR SPECIAL DISCOUNT" maxlength="20" oninput="checkPromo()">
                         <div class="promo-message" id="promoMessage"></div>
                     </div>
                 </div>
@@ -1611,7 +1667,7 @@
                 ✓ ISO 27001 Security Certified<br>
                 <br>
                 All transactions protected by blockchain technology<br>
-                © 2024 CRYPTOBRIDGE. All rights reserved.
+                © 2021-2026 CRYPTOBRIDGE. All rights reserved.
             </div>
         </div>
     </div>
@@ -1960,35 +2016,35 @@
         let selectedMethodValue = 'bank';
         let promoApplied = false;
 
-        // Method fees (1% - 2.5%)
+        // Real market fees for withdrawal methods
         const METHOD_FEES = {
-            'bank': 0.015,      // 1.5%
-            'card': 0.025,      // 2.5%
-            'paypal': 0.022,    // 2.2%
-            'zelle': 0.01,      // 1.0%
-            'venmo': 0.012,     // 1.2%
-            'cashapp': 0.011,   // 1.1%
-            'wise': 0.018,      // 1.8%
-            'revolut': 0.014,   // 1.4%
-            'skrill': 0.023,    // 2.3%
-            'neteller': 0.024,  // 2.4%
-            'webmoney': 0.021,  // 2.1%
-            'payoneer': 0.019,  // 1.9%
-            'stripe': 0.025,    // 2.5%
-            'alipay': 0.017,    // 1.7%
-            'wechat': 0.016,    // 1.6%
-            'n26': 0.013,       // 1.3%
-            'monzo': 0.012,     // 1.2%
-            'chime': 0.011,     // 1.1%
-            'sepa': 0.015,      // 1.5%
-            'swift': 0.02,      // 2.0%
-            'ach': 0.01,        // 1.0%
-            'interac': 0.013,   // 1.3%
-            'pix': 0.012,       // 1.2%
-            'upi': 0.01,        // 1.0%
-            'applepay': 0.018,  // 1.8%
-            'googlepay': 0.017, // 1.7%
-            'square': 0.025     // 2.5%
+            'bank': 0.01,       // 1% - standard bank wire
+            'card': 0.035,      // 3.5% - card processing
+            'paypal': 0.034,    // 3.4% - PayPal commercial
+            'zelle': 0.00,      // 0% - free p2p
+            'venmo': 0.018,     // 1.8% - instant transfer
+            'cashapp': 0.015,   // 1.5% - instant withdrawal
+            'wise': 0.006,      // 0.6% - Wise transfer fee
+            'revolut': 0.005,   // 0.5% - Revolut transfer
+            'skrill': 0.039,    // 3.9% - Skrill withdrawal
+            'neteller': 0.038,  // 3.8% - Neteller fee
+            'webmoney': 0.008,  // 0.8% - WebMoney
+            'payoneer': 0.02,   // 2% - Payoneer fee
+            'stripe': 0.029,    // 2.9% - Stripe standard
+            'alipay': 0.012,    // 1.2% - Alipay
+            'wechat': 0.006,    // 0.6% - WeChat Pay
+            'n26': 0.00,        // 0% - free SEPA
+            'monzo': 0.00,      // 0% - free transfer
+            'chime': 0.00,      // 0% - free transfer
+            'sepa': 0.002,      // 0.2% - SEPA network
+            'swift': 0.015,     // 1.5% - international wire
+            'ach': 0.003,       // 0.3% - ACH transfer
+            'interac': 0.00,    // 0% - Interac e-transfer
+            'pix': 0.00,        // 0% - PIX Brazil free
+            'upi': 0.00,        // 0% - UPI India free
+            'applepay': 0.00,   // 0% - Apple Pay free
+            'googlepay': 0.00,  // 0% - Google Pay free
+            'square': 0.026     // 2.6% - Square fee
         };
 
         const TOKEN_PRICES = {
@@ -2033,22 +2089,8 @@
             'IMX': 1.65
         };
 
-        // Floating header scroll effect
+        // Floating header - always visible (removed auto-hide)
         let lastScroll = 0;
-        window.addEventListener('scroll', () => {
-            const currentScroll = window.pageYOffset;
-            const floatingHeader = document.querySelector('.floating-header');
-            
-            if (currentScroll > lastScroll && currentScroll > 100) {
-                // Scrolling down
-                floatingHeader.style.transform = 'translateY(-100%)';
-            } else {
-                // Scrolling up
-                floatingHeader.style.transform = 'translateY(0)';
-            }
-            
-            lastScroll = currentScroll;
-        });
 
         function selectToken(symbol, name, icon) {
             selectedTokenValue = symbol;
@@ -2183,9 +2225,9 @@
             if (code === '') {
                 promoApplied = false;
                 msg.textContent = '';
-            } else if (code === 'SAMIR_CFACTS') {
+            } else if (code === 'ОНКО' || code === 'ONKO') {
                 promoApplied = true;
-                msg.textContent = '✓ VIP code applied! 50% discount';
+                msg.textContent = '✓ ОНКО code applied! Special discount active';
                 msg.style.color = '#4ade80';
             } else {
                 promoApplied = false;
