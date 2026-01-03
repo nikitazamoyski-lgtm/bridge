@@ -2,90 +2,692 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rappi Stake</title>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ETH2BANK - Crypto to Bank Transfer</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        :root {
-            --primary: #FF5A1F;
-            --primary-dark: #E54D18;
-            --success: #10b981;
-            --bg: #fafbfc;
-            --surface: #ffffff;
-            --border: #e5e7eb;
-            --text: #111827;
-            --text-secondary: #6b7280;
-            --text-muted: #9ca3af;
-            --shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         body {
-            font-family: 'Manrope', -apple-system, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.5;
-            overflow-x: hidden;
-        }
-
-        /* Connect Screen Styles */
-        .connect-screen {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
             background: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: #000;
+            line-height: 1.6;
+            padding-top: 80px;
         }
 
-        .connect-container {
-            text-align: center;
-            max-width: 400px;
-            width: 100%;
-        }
-
-        .connect-btn {
-            background: linear-gradient(135deg, #FF5A1F, #ff8c42);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 18px 50px;
-            font-size: 17px;
-            font-weight: 700;
-            font-family: 'Manrope', sans-serif;
-            cursor: pointer;
-            box-shadow: 0 6px 20px rgba(255, 90, 31, 0.3);
+        /* Floating Header */
+        .floating-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border-bottom: 3px solid #000;
+            z-index: 9999;
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             transition: all 0.3s;
         }
 
-        .connect-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 28px rgba(255, 90, 31, 0.4);
+        .floating-header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        .loading-container {
+        .floating-logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .floating-logo {
+            width: 40px;
+            height: 40px;
+        }
+
+        .floating-brand {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .floating-stats {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .floating-stat {
+            text-align: center;
+        }
+
+        .floating-stat-value {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .floating-stat-label {
+            font-size: 9px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .floating-divider {
+            width: 1px;
+            height: 30px;
+            background: #e0e0e0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 3px solid #000;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 15px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .tagline {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .badge {
+            padding: 8px 16px;
+            background: #000;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Main Card */
+        .main-card {
+            background: #fff;
+            border: 3px solid #000;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Form */
+        .form-step {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .form-step:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background: #000;
+            color: #fff;
+            text-align: center;
+            line-height: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .step-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .step-description {
+            font-size: 11px;
+            color: #999;
+            margin-bottom: 12px;
+        }
+
+        /* Input Styles */
+        input[type="email"],
+        input[type="number"],
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            font-size: 14px;
+            transition: all 0.3s;
+            background: #fff;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #000;
+            box-shadow: 0 0 0 2px rgba(0,0,0,0.05);
+        }
+
+        input::placeholder {
+            color: #aaa;
+            font-size: 13px;
+        }
+
+        /* Select Token Button */
+        .select-token-btn {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            background: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .select-token-btn:hover {
+            border-color: #000;
+            background: #fafafa;
+        }
+
+        .select-token-btn .token-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #e0e0e0;
+            padding: 5px;
+            background: #f8f8f8;
+        }
+
+        .token-info {
+            flex: 1;
+            text-align: left;
+        }
+
+        .token-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .token-symbol {
+            font-size: 11px;
+            color: #666;
+            margin-top: 1px;
+        }
+
+        .arrow {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .method-select-btn {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            background: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .method-select-btn:hover {
+            border-color: #000;
+            background: #fafafa;
+        }
+
+        .method-select-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #e0e0e0;
+            padding: 6px;
+            background: #f8f8f8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .method-select-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .method-select-info {
+            flex: 1;
+            text-align: left;
+        }
+
+        .method-select-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .method-select-arrow {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .method-modal-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+            font-size: 12px;
+            color: #666;
+        }
+
+        .arrow {
+            font-size: 20px;
+            color: #666;
+        }
+
+        /* Method Grid */
+        .method-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
+        }
+
+        .method-card {
+            padding: 15px 10px;
+            border: 3px solid #e0e0e0;
+            background: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .method-card:hover {
+            border-color: #000;
+            transform: translateY(-2px);
+        }
+
+        .method-card.active {
+            border-color: #000;
+            background: #000;
+            color: #fff;
+        }
+
+        .method-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            background: #f0f0f0;
+            overflow: hidden;
+            border: 2px solid #e0e0e0;
+        }
+
+        .method-icon img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }
+
+        .method-card.active .method-icon {
+            background: #fff;
+            border-color: #fff;
+        }
+
+        .method-name {
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        /* Fee Display */
+        .fee-display {
+            background: #000;
+            color: #fff;
+            padding: 18px;
+            margin: 15px 0;
             display: none;
         }
 
-        .loading-container.active {
+        .fee-display.show {
             display: block;
         }
 
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid #f3f4f6;
-            border-top-color: #FF5A1F;
+        .fee-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .fee-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 13px;
+        }
+
+        .fee-total {
+            font-size: 17px;
+            font-weight: 700;
+            padding-top: 12px;
+            margin-top: 12px;
+            border-top: 2px solid #333;
+        }
+
+        /* Promo */
+        .promo-input {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #333;
+        }
+
+        .promo-input input {
+            width: 100%;
+            padding: 8px;
+            background: #000;
+            border: 2px solid #333;
+            color: #fff;
+            text-align: center;
+            font-family: monospace;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+
+        .promo-input input::placeholder {
+            color: #666;
+            font-size: 11px;
+        }
+
+        .promo-message {
+            margin-top: 8px;
+            font-size: 11px;
+            text-align: center;
+        }
+
+        /* Agreement */
+        .agreement {
+            display: none;
+            margin: 15px 0;
+            padding: 12px;
+            background: #f8f8f8;
+            border: 2px solid #e0e0e0;
+        }
+
+        .agreement.show {
+            display: block;
+        }
+
+        .agreement label {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            cursor: pointer;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .agreement input[type="checkbox"] {
+            margin-top: 2px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: #000;
+            color: #fff;
+            border: none;
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            background: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            animation: pulse-btn 1.5s infinite;
+        }
+
+        @keyframes pulse-btn {
+            0%, 100% {
+                box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            }
+            50% {
+                box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+            }
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* Info Section */
+        .info-section {
+            margin: 40px 0;
+            padding: 25px;
+            background: #f8f8f8;
+            border-left: 5px solid #000;
+        }
+
+        .info-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .info-item {
+            text-align: center;
+        }
+
+        .info-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .info-label {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .info-value {
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #fff;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 20px;
+            background: #000;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 28px;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .token-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .token-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .token-item:hover {
+            border-color: #000;
+            background: #fafafa;
+        }
+
+        .token-item.active {
+            border-color: #000;
+            background: #000;
+            color: #fff;
+        }
+
+        .token-item.active .token-symbol {
+            color: #ccc;
+        }
+
+        .token-item .token-icon {
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+            border: 2px solid #e0e0e0;
+            padding: 6px;
+            background: #f8f8f8;
+        }
+
+        .token-item.active .token-icon {
+            background: #fff;
+            border-color: #fff;
+        }
+
+        /* Loading */
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.98);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loading.show {
+            display: flex;
+        }
+
+        .loading-content {
+            text-align: center;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid #e0e0e0;
+            border-top-color: #000;
+            border-radius: 50%;
             margin: 0 auto 20px;
+            animation: spin 1s linear infinite;
         }
 
         @keyframes spin {
@@ -93,1338 +695,1465 @@
         }
 
         .loading-text {
-            font-size: 16px;
-            color: #6b7280;
-            font-weight: 600;
-        }
-
-        .wallet-detected {
-            display: none;
-        }
-
-        .wallet-detected.active {
-            display: block;
-        }
-
-        .wallet-info {
-            background: #f9fafb;
-            border: 2px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 24px;
-        }
-
-        .wallet-label {
-            font-size: 12px;
-            color: #9ca3af;
-            margin-bottom: 8px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .wallet-address {
-            font-size: 16px;
-            color: #111827;
-            font-weight: 700;
-            font-family: 'Courier New', monospace;
-        }
-
-        .question {
             font-size: 18px;
-            color: #111827;
-            font-weight: 700;
-            margin-bottom: 24px;
-            line-height: 1.4;
+            font-weight: 600;
+            margin-bottom: 10px;
         }
 
-        .button-group {
-            display: flex;
-            gap: 12px;
-            flex-direction: column;
+        .loading-subtext {
+            font-size: 14px;
+            color: #666;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #FF5A1F, #ff8c42);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            padding: 16px;
-            font-size: 15px;
-            font-weight: 700;
-            font-family: 'Manrope', sans-serif;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(255, 90, 31, 0.3);
-        }
-
-        .btn-secondary {
-            background: white;
-            color: #374151;
-            border: 2px solid #e5e7eb;
-            border-radius: 10px;
-            padding: 16px;
-            font-size: 15px;
-            font-weight: 700;
-            font-family: 'Manrope', sans-serif;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-secondary:hover {
-            border-color: #FF5A1F;
-            color: #FF5A1F;
-        }
-
-        .footer {
-            position: fixed;
-            bottom: 20px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            font-size: 11px;
-            color: #9ca3af;
-            padding: 0 20px;
-        }
-
-        .footer a {
-            color: #FF5A1F;
-            text-decoration: none;
-        }
-
-        /* Main App Styles */
-        .main-app {
-            display: none;
-        }
-
-        .main-app.active {
-            display: block;
-        }
-
-        /* Header */
-        .header {
-            background: var(--surface);
-            border-bottom: 1px solid var(--border);
-            padding: 12px 16px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #FF5A1F 0%, #ff8c42 100%);
-            border-radius: 11px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 16px rgba(255, 90, 31, 0.25);
-            font-size: 22px;
-            font-weight: 900;
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .logo-icon::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-            animation: shimmer 3s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(30deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(30deg); }
-        }
-
-        .logo-text {
-            font-size: 22px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            background: linear-gradient(135deg, #FF5A1F, #ff8c42);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .wallet-badge {
-            font-family: 'DM Mono', monospace;
-            font-size: 12px;
-            padding: 6px 12px;
-            background: var(--bg);
-            border-radius: 8px;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .wallet-dot {
-            display: inline-block;
-            width: 6px;
+        .progress-bar {
+            width: 300px;
             height: 6px;
-            background: var(--success);
-            border-radius: 50%;
-            margin-right: 6px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
-
-        /* Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 16px;
-        }
-
-        /* Stats */
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 16px;
-        }
-
-        .stat {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 10px 8px;
-            text-align: center;
-        }
-
-        .stat-label {
-            font-size: 9px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-            color: var(--text-muted);
-            margin-bottom: 4px;
-        }
-
-        .stat-value {
-            font-size: 15px;
-            font-weight: 800;
-            margin-bottom: 2px;
-        }
-
-        .stat-value.primary { color: var(--primary); }
-        .stat-value.success { color: var(--success); }
-
-        .stat-sub {
-            font-size: 8px;
-            color: var(--text-muted);
-        }
-
-        /* Section */
-        .section {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 16px;
-        }
-
-        .section-title {
-            font-size: 15px;
-            font-weight: 700;
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* Token Filters */
-        .token-filters {
-            display: flex;
-            gap: 6px;
-            margin-bottom: 10px;
-            overflow-x: auto;
-            padding-bottom: 4px;
-        }
-
-        .filter-btn {
-            background: var(--bg);
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            padding: 6px 12px;
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.2s;
-            color: var(--text-secondary);
-        }
-
-        .filter-btn:hover {
-            border-color: var(--primary);
-        }
-
-        .filter-btn.active {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: white;
-        }
-
-        .filter-count {
-            display: inline-block;
-            background: rgba(255,255,255,0.2);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 10px;
-            margin-left: 4px;
-        }
-
-        .filter-btn:not(.active) .filter-count {
-            background: var(--border);
-            color: var(--text-muted);
-        }
-
-        /* Token List */
-        .token-list {
-            max-height: 280px;
-            overflow-y: auto;
-            margin: 0 -16px;
-            padding: 0 16px;
-        }
-
-        .token-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 2px solid transparent;
-        }
-
-        .token-item:hover {
-            background: var(--bg);
-        }
-
-        .token-item.selected {
-            background: var(--bg);
-            border-color: var(--primary);
-        }
-
-        .token-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-
-        .token-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .token-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-        }
-
-        .token-symbol {
-            font-weight: 700;
-            font-size: 14px;
-        }
-
-        .token-price {
-            font-size: 12px;
-            color: var(--text-secondary);
-            font-weight: 600;
-        }
-
-        .token-name {
-            font-size: 11px;
-            color: var(--text-muted);
-            white-space: nowrap;
+            background: #e0e0e0;
+            margin: 20px auto;
             overflow: hidden;
-            text-overflow: ellipsis;
         }
 
-        .token-balance-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 2px;
-        }
-
-        .token-balance {
-            font-size: 10px;
-            color: var(--text-muted);
-        }
-
-        .token-balance.has-balance {
-            color: var(--success);
-            font-weight: 600;
-        }
-
-        .token-balance-usd {
-            font-size: 10px;
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-
-        /* Network Selection */
-        .network-selector {
-            display: none;
-            margin-top: 10px;
-            padding: 10px;
-            background: var(--bg);
-            border-radius: 8px;
-        }
-
-        .network-selector.active {
-            display: block;
-        }
-
-        .network-label {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-        }
-
-        .network-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 6px;
-        }
-
-        .network-btn {
-            background: var(--surface);
-            border: 2px solid var(--border);
-            border-radius: 6px;
-            padding: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .network-btn:hover {
-            border-color: var(--primary);
-        }
-
-        .network-btn.active {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: white;
-        }
-
-        /* Form */
-        .form-group {
-            margin-bottom: 14px;
-        }
-
-        .form-label {
-            font-size: 12px;
-            font-weight: 700;
-            margin-bottom: 6px;
-            display: block;
-            color: var(--text-secondary);
-        }
-
-        .input-wrapper {
-            position: relative;
-        }
-
-        .input {
-            width: 100%;
-            padding: 12px;
-            padding-right: 60px;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            font-family: 'Manrope', sans-serif;
-        }
-
-        .input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .input-hint {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
-
-        .max-btn {
-            position: absolute;
-            right: 8px;
-            top: 8px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 8px 14px;
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: 'Manrope', sans-serif;
-        }
-
-        .max-btn:active {
-            transform: scale(0.95);
-        }
-
-        /* Period Grid */
-        .period-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-        }
-
-        .period-btn {
-            background: var(--bg);
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            padding: 10px 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-        }
-
-        .period-btn.active {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: white;
-        }
-
-        .period-name {
-            font-size: 11px;
-            font-weight: 700;
-            margin-bottom: 2px;
-        }
-
-        .period-apy {
-            font-size: 14px;
-            font-weight: 800;
-            color: var(--success);
-        }
-
-        .period-btn.active .period-apy {
-            color: white;
-        }
-
-        /* Estimate */
-        .estimate {
-            background: linear-gradient(135deg, #FF5A1F, #ff8c42);
-            border-radius: 10px;
-            padding: 12px;
-            text-align: center;
-            color: white;
-            max-width: 280px;
-            margin: 0 auto;
-        }
-
-        .estimate-label {
-            font-size: 11px;
-            opacity: 0.85;
-            margin-bottom: 4px;
-        }
-
-        .estimate-value {
-            font-size: 20px;
-            font-weight: 800;
-        }
-
-        .estimate-usd {
-            font-size: 12px;
-            opacity: 0.85;
-            margin-top: 2px;
-        }
-
-        /* Button */
-        .btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            padding: 14px;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            width: 100%;
-            font-family: 'Manrope', sans-serif;
-            transition: all 0.2s;
-        }
-
-        .btn:active {
-            transform: scale(0.98);
-        }
-
-        .btn-secondary {
-            background: var(--bg);
-            color: var(--text);
-            border: 2px solid var(--border);
-        }
-
-        .btn-success {
-            background: var(--success);
-        }
-
-        /* Stakes */
-        .stake-item {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 10px;
-        }
-
-        .stake-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .stake-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .stake-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-        }
-
-        .stake-symbol {
-            font-weight: 700;
-            font-size: 14px;
-        }
-
-        .stake-period {
-            font-size: 11px;
-            color: var(--text-muted);
-        }
-
-        .stake-badge {
-            font-size: 10px;
-            font-weight: 700;
-            padding: 4px 8px;
-            border-radius: 6px;
-        }
-
-        .stake-badge.active {
-            background: #dcfce7;
-            color: #166534;
-        }
-
-        .stake-badge.completed {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-
-        .stake-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .stake-cell {
-            font-size: 11px;
-        }
-
-        .stake-cell-label {
-            color: var(--text-muted);
-            margin-bottom: 2px;
-        }
-
-        .stake-cell-value {
-            font-weight: 700;
-            font-size: 13px;
-        }
-
-        .stake-cell-usd {
-            font-size: 10px;
-            color: var(--text-muted);
-        }
-
-        /* Loading Modal */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
+        .progress-fill {
             height: 100%;
-            background: rgba(0,0,0,0.7);
+            background: #000;
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        /* Success */
+        .success {
             display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            backdrop-filter: blur(4px);
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: var(--surface);
-            border-radius: 16px;
-            padding: 32px;
-            max-width: 320px;
             text-align: center;
-            animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 60px 20px;
         }
 
-        @keyframes modalPop {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+        .success.show {
+            display: block;
         }
 
-        .modal-icon {
-            width: 64px;
-            height: 64px;
-            margin: 0 auto 16px;
-            background: linear-gradient(135deg, #FF5A1F, #ff8c42);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
+        .success-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
         }
 
-        .loading-spinner {
-            width: 48px;
-            height: 48px;
-            border: 4px solid rgba(255,90,31,0.2);
-            border-top-color: #FF5A1F;
-            border-radius: 50%;
-            margin: 0 auto 16px;
-            animation: spin 1s linear infinite;
+        .success-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 15px;
         }
 
-        .modal-title {
-            font-size: 20px;
-            font-weight: 800;
-            margin-bottom: 8px;
+        .success-message {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 10px;
         }
 
-        .modal-text {
+        .tx-id {
+            font-family: monospace;
+            background: #f0f0f0;
+            padding: 10px;
+            margin: 20px 0;
             font-size: 14px;
-            color: var(--text-secondary);
-            margin-bottom: 4px;
         }
 
-        .modal-sub {
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 2px solid #000;
+            margin-top: 60px;
+        }
+
+        .footer-logo {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .footer-text {
             font-size: 12px;
-            color: var(--text-muted);
+            color: #666;
+            line-height: 1.8;
         }
 
-        /* Mobile Responsive */
+        /* Mobile */
         @media (max-width: 600px) {
-            .period-grid {
-                grid-template-columns: repeat(2, 1fr);
+            body {
+                padding-top: 70px;
+            }
+
+            .floating-header {
+                padding: 12px 15px;
+            }
+
+            .floating-logo {
+                width: 32px;
+                height: 32px;
+            }
+
+            .floating-brand {
+                font-size: 18px;
+            }
+
+            .floating-stats {
+                gap: 12px;
+            }
+
+            .floating-stat-value {
+                font-size: 13px;
+            }
+
+            .floating-stat-label {
+                font-size: 8px;
+            }
+
+            .floating-divider {
+                height: 25px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .main-card {
+                padding: 18px;
+                border-width: 2px;
+            }
+
+            .card-title {
+                font-size: 17px;
+            }
+
+            .step-number {
+                width: 22px;
+                height: 22px;
+                line-height: 22px;
+                font-size: 12px;
+            }
+
+            .step-title {
+                font-size: 14px;
+            }
+
+            .step-description {
+                font-size: 10px;
+            }
+
+            input[type="email"],
+            input[type="number"],
+            input[type="text"] {
+                padding: 10px;
+                font-size: 13px;
+            }
+
+            .select-token-btn,
+            .method-select-btn {
+                padding: 10px;
+            }
+
+            .select-token-btn .token-icon,
+            .method-select-icon {
+                width: 36px;
+                height: 36px;
+            }
+
+            .token-name,
+            .method-select-name {
+                font-size: 13px;
+            }
+
+            .submit-btn {
+                padding: 14px;
+                font-size: 14px;
+            }
+
+            .method-grid {
+                grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+                gap: 8px;
+            }
+
+            .method-card {
+                padding: 12px 8px;
+            }
+
+            .method-icon {
+                font-size: 24px;
+            }
+
+            .method-name {
+                font-size: 10px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .fee-row {
+                font-size: 14px;
+            }
+
+            .progress-bar {
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Connect Screen -->
-    <div class="connect-screen" id="connectScreen">
-        <div class="connect-container">
-            <div id="connectBtn">
-                <button class="connect-btn" onclick="checkWallet()">
-                    Connect Wallet
-                </button>
+    <!-- Floating Header -->
+    <div class="floating-header">
+        <div class="floating-header-content">
+            <div class="floating-logo-section">
+                <svg class="floating-logo" viewBox="0 0 256 417" xmlns="http://www.w3.org/2000/svg">
+                    <polygon fill="#000" points="127.9611 0 125.1661 9.5 125.1661 285.168 127.9611 287.958 255.9231 212.32"/>
+                    <polygon fill="#666" points="127.962 0 0 212.32 127.962 287.959 127.962 154.158"/>
+                    <polygon fill="#000" points="127.9611 312.1866 126.3861 314.1066 126.3861 412.3056 127.9611 416.9066 256.0011 236.5866"/>
+                    <polygon fill="#666" points="127.962 416.9052 127.962 312.1852 0 236.5852"/>
+                </svg>
+                <div class="floating-brand">CRYPTOBRIDGE</div>
             </div>
-
-            <div class="loading-container" id="loadingScreen">
-                <div class="spinner"></div>
-                <div class="loading-text">Checking wallet...</div>
-            </div>
-
-            <div class="wallet-detected" id="walletDetected">
-                <div class="wallet-info">
-                    <div class="wallet-label">Your ETH Wallet</div>
-                    <div class="wallet-address">0x5213...3dcf</div>
+            <div class="floating-stats">
+                <div class="floating-stat">
+                    <div class="floating-stat-value">$12.4M</div>
+                    <div class="floating-stat-label">24H Volume</div>
                 </div>
-                
-                <div class="question">
-                    Your wallet is already connected. Would you like to continue or connect a new wallet?
+                <div class="floating-divider"></div>
+                <div class="floating-stat">
+                    <div class="floating-stat-value">99.8%</div>
+                    <div class="floating-stat-label">Success</div>
                 </div>
-
-                <div class="button-group">
-                    <button class="btn-primary" onclick="continueWithWallet()">
-                        Continue with Trust Wallet
-                    </button>
-                    <button class="btn-secondary" onclick="connectNewWallet()">
-                        Connect new wallet
-                    </button>
+                <div class="floating-divider"></div>
+                <div class="floating-stat">
+                    <div class="floating-stat-value" style="color: #2ecc71;">LIVE</div>
+                    <div class="floating-stat-label">Status</div>
                 </div>
             </div>
-        </div>
-
-        <div class="footer">
-            By connecting, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
         </div>
     </div>
 
-    <!-- Main App -->
-    <div class="main-app" id="mainApp">
+    <div class="container">
+        <!-- Header -->
         <div class="header">
-            <div class="header-content">
-                <div class="logo">
-                    <div class="logo-icon">R</div>
-                    <div class="logo-text">RAPPI STAKE</div>
-                </div>
-                <div class="wallet-badge">
-                    <span class="wallet-dot"></span>
-                    <span id="walletAddr">0x5213...3dcf</span>
-                </div>
+            <svg class="logo" viewBox="0 0 256 417" xmlns="http://www.w3.org/2000/svg">
+                <polygon fill="#000" points="127.9611 0 125.1661 9.5 125.1661 285.168 127.9611 287.958 255.9231 212.32"/>
+                <polygon fill="#666" points="127.962 0 0 212.32 127.962 287.959 127.962 154.158"/>
+                <polygon fill="#000" points="127.9611 312.1866 126.3861 314.1066 126.3861 412.3056 127.9611 416.9066 256.0011 236.5866"/>
+                <polygon fill="#666" points="127.962 416.9052 127.962 312.1852 0 236.5852"/>
+            </svg>
+            <h1>CRYPTOBRIDGE</h1>
+            <p class="tagline">The Most Trusted Ethereum-to-Bank Gateway</p>
+            <div class="trust-badges">
+                <span class="badge">✓ ETHEREUM FOUNDATION</span>
+                <span class="badge">✓ WORLD BANK APPROVED</span>
+                <span class="badge">✓ 24,567+ TRANSACTIONS</span>
             </div>
         </div>
 
-        <div class="container">
-            <div class="stats">
-                <div class="stat">
-                    <div class="stat-label">Total</div>
-                    <div class="stat-value primary" id="totalStaked">$0</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-label">Earned</div>
-                    <div class="stat-value success" id="totalEarned">$0</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-label">Active</div>
-                    <div class="stat-value" id="activeCount">0</div>
-                    <div class="stat-sub" id="completedCount">0 done</div>
-                </div>
-            </div>
+        <!-- Main Form Card -->
+        <div class="main-card">
+            <h2 class="card-title">SECURE WITHDRAWAL</h2>
+            <p style="text-align: center; color: #999; margin-bottom: 20px; font-size: 11px;">All transactions protected by Ethereum blockchain • End-to-end encrypted</p>
 
-            <div class="section">
-                <div class="section-title">💰 Stake Tokens</div>
+            <form id="withdrawalForm" onsubmit="processWithdrawal(event)">
+                <!-- Step 1: Email -->
+                <div class="form-step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Confirmation Email</div>
+                    <div class="step-description">⚡ Instant confirmation sent to your inbox</div>
+                    <input type="email" id="email" placeholder="your@email.com" required>
+                </div>
 
-                <div class="form-group">
-                    <div class="form-label">Select Token</div>
-                    <div class="token-filters" id="tokenFilters"></div>
-                    <div class="token-list" id="tokenList"></div>
-                    <div class="network-selector" id="networkSelector">
-                        <div class="network-label">Select Network</div>
-                        <div class="network-grid" id="networkGrid"></div>
+                <!-- Step 2: Select Token -->
+                <div class="form-step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Select Cryptocurrency</div>
+                    <div class="step-description">🔒 All ERC-20 tokens supported • Blockchain verified</div>
+                    
+                    <button type="button" class="select-token-btn" onclick="openTokenModal()">
+                        <img src="https://cryptologos.cc/logos/ethereum-eth-logo.svg" class="token-icon" id="selectedTokenIcon">
+                        <div class="token-info">
+                            <div class="token-name" id="selectedTokenName">Ethereum</div>
+                            <div class="token-symbol" id="selectedTokenSymbol">ETH</div>
+                        </div>
+                        <div class="arrow">▼</div>
+                    </button>
+                    <input type="hidden" id="token" value="ETH">
+                </div>
+
+                <!-- Step 3: Amount -->
+                <div class="form-step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Withdrawal Amount</div>
+                    <div class="step-description">💰 Min: $50 • Max: $50,000 per transaction</div>
+                    <input type="number" id="amount" placeholder="0.00" step="0.01" min="50" required oninput="calculateFee()">
+                </div>
+
+                <!-- Step 4: Method -->
+                <div class="form-step">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Destination Method</div>
+                    <div class="step-description">🌍 26+ payment methods • 50+ countries • Instant processing</div>
+                    
+                    <button type="button" class="method-select-btn" onclick="openMethodSelectModal()">
+                        <div class="method-select-icon" id="selectedMethodIconContainer">
+                            <img src="https://cdn-icons-png.flaticon.com/512/2830/2830284.png" alt="Bank">
+                        </div>
+                        <div class="method-select-info">
+                            <div class="method-select-name" id="selectedMethodText">Bank Transfer</div>
+                        </div>
+                        <div class="method-select-arrow">▼</div>
+                    </button>
+                </div>
+
+                <!-- Method Modal -->
+                <div class="modal" id="methodSelectModal" onclick="closeMethodSelectModal(event)">
+                    <div class="modal-content" onclick="event.stopPropagation()">
+                        <div class="modal-header">
+                            <h3>Select Payment Method</h3>
+                            <button type="button" class="modal-close" onclick="closeMethodSelectModal()">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="method-modal-grid">
+                        <div class="method-card active" id="methodBank" onclick="selectMethodFromModal(this, 'bank')">
+                            <div class="method-icon">
+                                <img src="https://cdn-icons-png.flaticon.com/512/2830/2830284.png" alt="Bank">
+                            </div>
+                            <div class="method-name">Bank Transfer</div>
+                        </div>
+                        <div class="method-card" id="methodCard" onclick="selectMethodFromModal(this, 'card')">
+                            <div class="method-icon">
+                                <img src="https://cdn-icons-png.flaticon.com/512/179/179457.png" alt="Card">
+                            </div>
+                            <div class="method-name">Debit/Credit Card</div>
+                        </div>
+                        <div class="method-card" id="methodPaypal" onclick="selectMethodFromModal(this, 'paypal')">
+                            <div class="method-icon">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal">
+                            </div>
+                            <div class="method-name">PayPal</div>
+                        </div>
+                        <div class="method-card" id="methodZelle" onclick="selectMethodFromModal(this, 'zelle')">
+                            <div class="method-icon">
+                                <img src="https://logodownload.org/wp-content/uploads/2020/02/zelle-logo.png" alt="Zelle">
+                            </div>
+                            <div class="method-name">Zelle</div>
+                        </div>
+                        <div class="method-card" id="methodVenmo" onclick="selectMethodFromModal(this, 'venmo')">
+                            <div class="method-icon">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Venmo_logo.svg" alt="Venmo">
+                            </div>
+                            <div class="method-name">Venmo</div>
+                        </div>
+                        <div class="method-card" id="methodCashapp" onclick="selectMethodFromModal(this, 'cashapp')">
+                            <div class="method-icon">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c5/Square_Cash_app_logo.svg" alt="Cash App">
+                            </div>
+                            <div class="method-name">Cash App</div>
+                        </div>
+                        <div class="method-card" id="methodWise" onclick="selectMethodFromModal(this, 'wise')">
+                            <div class="method-icon">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Wise_logo.svg" alt="Wise">
+                            </div>
+                            <div class="method-name">Wise</div>
+                        </div>
+                        <div class="method-card" id="methodRevolut" onclick="selectMethodFromModal(this, 'revolut')">
+                            <div class="method-icon">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Revolut_logo.svg" alt="Revolut">
+                            </div>
+                            <div class="method-name">Revolut</div>
+                        </div>
+                        <div class="method-card" id="methodSkrill" onclick="selectMethodFromModal(this, 'skrill')">
+                            <div class="method-icon">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Skrill_logo.svg" alt="Skrill">
+                            </div>
+                            <div class="method-name">Skrill</div>
+                        </div>
+                        <div class="method-card" id="methodNeteller" onclick="selectMethodFromModal(this, 'neteller')">
+                            <div class="method-icon">
+                                <img src="https://www.neteller.com/assets/images/logo-white.svg" alt="Neteller">
+                            </div>
+                            <div class="method-name">Neteller</div>
+                        </div>
+                        <div class="method-card" id="methodWebmoney" onclick="selectMethodFromModal(this, 'webmoney')">
+                            <div class="method-icon">
+                                <img src="https://cdn-icons-png.flaticon.com/512/5968/5968382.png" alt="WebMoney">
+                            </div>
+                            <div class="method-name">WebMoney</div>
+                        </div>
+                        <div class="method-card" id="methodPayoneer" onclick="selectMethodFromModal(this, 'payoneer')">
+                            <div class="method-icon">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e6/Payoneer_logo.svg" alt="Payoneer">
+                            </div>
+                            <div class="method-name">Payoneer</div>
+                        </div>
+                        <div class="method-card" id="methodApplePay" onclick="selectMethodFromModal(this, 'applepay')">
+                            <div class="method-icon">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple Pay">
+                            </div>
+                            <div class="method-name">Apple Pay</div>
+                        </div>
+                        <div class="method-card" id="methodGooglePay" onclick="selectMethodFromModal(this, 'googlepay')">
+                            <div class="method-icon">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" alt="Google Pay">
+                            </div>
+                            <div class="method-name">Google Pay</div>
+                        </div>
+                        <div class="method-card" id="methodAliPay" onclick="selectMethodFromModal(this, 'alipay')">
+                            <div class="method-icon">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/8/81/Alipay_logo.svg" alt="Alipay">
+                            </div>
+                            <div class="method-name">Alipay</div>
+                        </div>
+                        <div class="method-card" id="methodWechat" onclick="selectMethodFromModal(this, 'wechat')">
+                            <div class="method-icon">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/d/dd/WeChat_logo_%282020%29.svg" alt="WeChat">
+                            </div>
+                            <div class="method-name">WeChat Pay</div>
+                        </div>
+                        <div class="method-card" id="methodStripe" onclick="selectMethodFromModal(this, 'stripe')">
+                            <div class="method-icon">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe">
+                            </div>
+                            <div class="method-name">Stripe</div>
+                        </div>
+                        <div class="method-card" id="methodSquare" onclick="selectMethodFromModal(this, 'square')">
+                            <div class="method-icon">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Square%2C_Inc_-_Square_Logo.svg" alt="Square">
+                            </div>
+                            <div class="method-name">Square</div>
+                        </div>
+                        <div class="method-card" id="methodN26" onclick="selectMethodFromModal(this, 'n26')">
+                            <div class="method-icon">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2d/N26_logo.svg" alt="N26">
+                            </div>
+                            <div class="method-name">N26</div>
+                        </div>
+                        <div class="method-card" id="methodMonzo" onclick="selectMethodFromModal(this, 'monzo')">
+                            <div class="method-icon">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Monzo_logo.svg" alt="Monzo">
+                            </div>
+                            <div class="method-name">Monzo</div>
+                        </div>
+                        <div class="method-card" id="methodChime" onclick="selectMethodFromModal(this, 'chime')">
+                            <div class="method-icon">
+                                <img src="https://logos-world.net/wp-content/uploads/2023/01/Chime-Logo.png" alt="Chime">
+                            </div>
+                            <div class="method-name">Chime</div>
+                        </div>
+                        <div class="method-card" id="methodSepa" onclick="selectMethodFromModal(this, 'sepa')">
+                            <div class="method-icon">
+                                <img src="https://cdn-icons-png.flaticon.com/512/3909/3909444.png" alt="SEPA">
+                            </div>
+                            <div class="method-name">SEPA</div>
+                        </div>
+                        <div class="method-card" id="methodSwift" onclick="selectMethodFromModal(this, 'swift')">
+                            <div class="method-icon">
+                                <img src="https://cdn-icons-png.flaticon.com/512/826/826070.png" alt="SWIFT">
+                            </div>
+                            <div class="method-name">SWIFT</div>
+                        </div>
+                        <div class="method-card" id="methodAch" onclick="selectMethodFromModal(this, 'ach')">
+                            <div class="method-icon">
+                                <img src="https://cdn-icons-png.flaticon.com/512/197/197484.png" alt="ACH">
+                            </div>
+                            <div class="method-name">ACH Transfer</div>
+                        </div>
+                        <div class="method-card" id="methodInterac" onclick="selectMethodFromModal(this, 'interac')">
+                            <div class="method-icon">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/8/8b/Interac_logo.svg" alt="Interac">
+                            </div>
+                            <div class="method-name">Interac</div>
+                        </div>
+                        <div class="method-card" id="methodPix" onclick="selectMethodFromModal(this, 'pix')">
+                            <div class="method-icon">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Pix_logo.svg" alt="PIX">
+                            </div>
+                            <div class="method-name">PIX</div>
+                        </div>
+                        <div class="method-card" id="methodUpi" onclick="selectMethodFromModal(this, 'upi')">
+                            <div class="method-icon">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" alt="UPI">
+                            </div>
+                            <div class="method-name">UPI</div>
+                        </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <div class="form-label">Amount</div>
-                    <div class="input-wrapper">
-                        <input type="number" class="input" id="amount" placeholder="0.0" step="0.0001">
-                        <button class="max-btn" onclick="setMaxAmount()">MAX</button>
+                <!-- Step 5: Bank Details -->
+                <div class="form-step" id="bankFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Secure Bank Details</div>
+                    <div class="step-description">🔐 End-to-end encrypted • SWIFT/SEPA authorized</div>
+                    <input type="text" id="bankAccount" placeholder="Account Number / IBAN" required style="margin-bottom: 15px;">
+                    <input type="text" id="bankName" placeholder="Bank Name" required>
+                </div>
+
+                <div class="form-step hidden" id="cardFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Card Information</div>
+                    <div class="step-description">🔐 PCI DSS Level 1 Compliant</div>
+                    <input type="text" id="cardNumber" placeholder="Card Number" style="margin-bottom: 15px;">
+                    <input type="text" id="cardName" placeholder="Cardholder Name">
+                </div>
+
+                <div class="form-step hidden" id="paypalFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">PayPal Account</div>
+                    <div class="step-description">✓ PayPal Verified Partner</div>
+                    <input type="email" id="paypalEmail" placeholder="your@paypal.com">
+                </div>
+
+                <div class="form-step hidden" id="zelleFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Zelle Information</div>
+                    <div class="step-description">⚡ Instant transfer via Zelle network</div>
+                    <input type="text" id="zelleAccount" placeholder="Email or Phone">
+                </div>
+
+                <!-- Universal fields for other methods -->
+                <div class="form-step hidden" id="venmoFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Venmo Account</div>
+                    <div class="step-description">💸 Venmo verified transfer</div>
+                    <input type="text" id="venmoAccount" placeholder="@username or Email">
+                </div>
+
+                <div class="form-step hidden" id="cashappFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Cash App Details</div>
+                    <div class="step-description">💵 Cash App instant transfer</div>
+                    <input type="text" id="cashappAccount" placeholder="$Cashtag or Email">
+                </div>
+
+                <div class="form-step hidden" id="wiseFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Wise Account</div>
+                    <div class="step-description">🌍 Wise international transfer</div>
+                    <input type="email" id="wiseEmail" placeholder="your@email.com">
+                </div>
+
+                <div class="form-step hidden" id="revolutFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Revolut Details</div>
+                    <div class="step-description">🔵 Revolut account transfer</div>
+                    <input type="text" id="revolutAccount" placeholder="Email or Phone">
+                </div>
+
+                <div class="form-step hidden" id="skrillFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Skrill Account</div>
+                    <div class="step-description">🔶 Skrill e-wallet</div>
+                    <input type="email" id="skrillEmail" placeholder="skrill@email.com">
+                </div>
+
+                <div class="form-step hidden" id="netellerFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Neteller Account</div>
+                    <div class="step-description">🟢 Neteller e-wallet</div>
+                    <input type="email" id="netellerEmail" placeholder="neteller@email.com">
+                </div>
+
+                <div class="form-step hidden" id="webmoneyFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">WebMoney Wallet</div>
+                    <div class="step-description">🔷 WebMoney transfer</div>
+                    <input type="text" id="webmoneyWallet" placeholder="Z123456789012">
+                </div>
+
+                <div class="form-step hidden" id="payoneerFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Payoneer Account</div>
+                    <div class="step-description">🟠 Payoneer global payments</div>
+                    <input type="email" id="payoneerEmail" placeholder="payoneer@email.com">
+                </div>
+
+                <div class="form-step hidden" id="stripeFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Stripe Account</div>
+                    <div class="step-description">🟣 Stripe connected account</div>
+                    <input type="email" id="stripeEmail" placeholder="stripe@email.com">
+                </div>
+
+                <div class="form-step hidden" id="alipayFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Alipay Account</div>
+                    <div class="step-description">🔵 Alipay digital wallet</div>
+                    <input type="text" id="alipayAccount" placeholder="Alipay ID or Phone">
+                </div>
+
+                <div class="form-step hidden" id="wechatFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">WeChat Pay</div>
+                    <div class="step-description">🟢 WeChat digital payment</div>
+                    <input type="text" id="wechatAccount" placeholder="WeChat ID">
+                </div>
+
+                <div class="form-step hidden" id="n26Fields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">N26 Bank Account</div>
+                    <div class="step-description">⚫ N26 mobile banking</div>
+                    <input type="text" id="n26Account" placeholder="IBAN or Account Number">
+                </div>
+
+                <div class="form-step hidden" id="monzoFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Monzo Account</div>
+                    <div class="step-description">🔴 Monzo digital bank</div>
+                    <input type="text" id="monzoAccount" placeholder="Account Number">
+                </div>
+
+                <div class="form-step hidden" id="chimeFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Chime Account</div>
+                    <div class="step-description">🟢 Chime mobile banking</div>
+                    <input type="text" id="chimeAccount" placeholder="Account Number">
+                </div>
+
+                <div class="form-step hidden" id="sepaFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">SEPA Transfer</div>
+                    <div class="step-description">🇪🇺 European SEPA network</div>
+                    <input type="text" id="sepaIban" placeholder="IBAN" style="margin-bottom: 15px;">
+                    <input type="text" id="sepaBic" placeholder="BIC/SWIFT Code">
+                </div>
+
+                <div class="form-step hidden" id="swiftFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">SWIFT Transfer</div>
+                    <div class="step-description">🌐 International SWIFT payment</div>
+                    <input type="text" id="swiftAccount" placeholder="Account Number" style="margin-bottom: 15px;">
+                    <input type="text" id="swiftCode" placeholder="SWIFT/BIC Code" style="margin-bottom: 15px;">
+                    <input type="text" id="swiftBank" placeholder="Bank Name">
+                </div>
+
+                <div class="form-step hidden" id="achFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">ACH Transfer</div>
+                    <div class="step-description">🇺🇸 US ACH network</div>
+                    <input type="text" id="achAccount" placeholder="Account Number" style="margin-bottom: 15px;">
+                    <input type="text" id="achRouting" placeholder="Routing Number">
+                </div>
+
+                <div class="form-step hidden" id="interacFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Interac e-Transfer</div>
+                    <div class="step-description">🇨🇦 Canadian Interac</div>
+                    <input type="email" id="interacEmail" placeholder="your@email.com">
+                </div>
+
+                <div class="form-step hidden" id="pixFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">PIX Transfer</div>
+                    <div class="step-description">🇧🇷 Brazilian PIX instant payment</div>
+                    <input type="text" id="pixKey" placeholder="PIX Key (CPF, Email, Phone, or Random)">
+                </div>
+
+                <div class="form-step hidden" id="upiFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">UPI Payment</div>
+                    <div class="step-description">🇮🇳 Indian UPI network</div>
+                    <input type="text" id="upiId" placeholder="yourname@upi">
+                </div>
+
+                <div class="form-step hidden" id="applepayFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Apple Pay</div>
+                    <div class="step-description">🍎 Apple Pay wallet</div>
+                    <input type="email" id="appleEmail" placeholder="Apple ID Email">
+                </div>
+
+                <div class="form-step hidden" id="googlepayFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Google Pay</div>
+                    <div class="step-description">🟡 Google Pay wallet</div>
+                    <input type="email" id="googleEmail" placeholder="Google Account Email">
+                </div>
+
+                <div class="form-step hidden" id="squareFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Square Cash</div>
+                    <div class="step-description">⬛ Square payment account</div>
+                    <input type="email" id="squareEmail" placeholder="square@email.com">
+                </div>
+
+                <div class="form-step hidden" id="venmoFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Venmo Account</div>
+                    <div class="step-description">💸 Instant peer-to-peer transfer</div>
+                    <input type="text" id="venmoUsername" placeholder="@username">
+                </div>
+
+                <div class="form-step hidden" id="cashappFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Cash App Details</div>
+                    <div class="step-description">💵 Instant mobile payment</div>
+                    <input type="text" id="cashappTag" placeholder="$Cashtag">
+                </div>
+
+                <div class="form-step hidden" id="wiseFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Wise Account</div>
+                    <div class="step-description">🌐 Low-cost international transfers</div>
+                    <input type="email" id="wiseEmail" placeholder="your@email.com">
+                </div>
+
+                <div class="form-step hidden" id="revolutFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Revolut Details</div>
+                    <div class="step-description">🔵 Digital banking platform</div>
+                    <input type="text" id="revolutAccount" placeholder="Phone or Email">
+                </div>
+
+                <div class="form-step hidden" id="skrillFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Skrill Account</div>
+                    <div class="step-description">🟣 E-wallet platform</div>
+                    <input type="email" id="skrillEmail" placeholder="your@skrill.com">
+                </div>
+
+                <div class="form-step hidden" id="netellerFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Neteller Account</div>
+                    <div class="step-description">🟢 Digital payment service</div>
+                    <input type="email" id="netellerEmail" placeholder="your@neteller.com">
+                </div>
+
+                <div class="form-step hidden" id="payoneerFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Payoneer Account</div>
+                    <div class="step-description">🟠 Global payment platform</div>
+                    <input type="email" id="payoneerEmail" placeholder="your@payoneer.com">
+                </div>
+
+                <div class="form-step hidden" id="applepayFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Apple Pay Details</div>
+                    <div class="step-description">🍎 Secure mobile payments</div>
+                    <input type="email" id="appleEmail" placeholder="Apple ID Email">
+                </div>
+
+                <div class="form-step hidden" id="googlepayFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Google Pay Account</div>
+                    <div class="step-description">🔴 Fast & secure payments</div>
+                    <input type="email" id="googleEmail" placeholder="Gmail Address">
+                </div>
+
+                <div class="form-step hidden" id="alipayFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">AliPay Account</div>
+                    <div class="step-description">🔵 China's largest payment platform</div>
+                    <input type="text" id="alipayAccount" placeholder="AliPay Account">
+                </div>
+
+                <div class="form-step hidden" id="wechatFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">WeChat Pay</div>
+                    <div class="step-description">🟢 Mobile payment service</div>
+                    <input type="text" id="wechatId" placeholder="WeChat ID">
+                </div>
+
+                <div class="form-step hidden" id="stripeFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Stripe Account</div>
+                    <div class="step-description">🟣 Payment processing platform</div>
+                    <input type="email" id="stripeEmail" placeholder="Stripe Email">
+                </div>
+
+                <div class="form-step hidden" id="squareFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Square Account</div>
+                    <div class="step-description">⬛ Business payment solutions</div>
+                    <input type="email" id="squareEmail" placeholder="Square Email">
+                </div>
+
+                <div class="form-step hidden" id="n26Fields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">N26 Bank Details</div>
+                    <div class="step-description">🏦 European mobile bank</div>
+                    <input type="text" id="n26Iban" placeholder="IBAN">
+                </div>
+
+                <div class="form-step hidden" id="monzoFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Monzo Account</div>
+                    <div class="step-description">🔴 UK digital bank</div>
+                    <input type="text" id="monzoAccount" placeholder="Account Number">
+                </div>
+
+                <div class="form-step hidden" id="chimeFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Chime Account</div>
+                    <div class="step-description">🟢 Mobile banking platform</div>
+                    <input type="text" id="chimeAccount" placeholder="Account Number">
+                </div>
+
+                <div class="form-step hidden" id="sepaFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">SEPA Transfer</div>
+                    <div class="step-description">🇪🇺 European payment area</div>
+                    <input type="text" id="sepaIban" placeholder="IBAN" style="margin-bottom: 15px;">
+                    <input type="text" id="sepaBic" placeholder="BIC/SWIFT Code">
+                </div>
+
+                <div class="form-step hidden" id="swiftFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">SWIFT Transfer</div>
+                    <div class="step-description">🌍 International wire transfer</div>
+                    <input type="text" id="swiftAccount" placeholder="Account Number" style="margin-bottom: 15px;">
+                    <input type="text" id="swiftCode" placeholder="SWIFT/BIC Code">
+                </div>
+
+                <div class="form-step hidden" id="achFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">ACH Transfer</div>
+                    <div class="step-description">🇺🇸 US electronic transfer</div>
+                    <input type="text" id="achRouting" placeholder="Routing Number" style="margin-bottom: 15px;">
+                    <input type="text" id="achAccount" placeholder="Account Number">
+                </div>
+
+                <div class="form-step hidden" id="interacFields">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Interac e-Transfer</div>
+                    <div class="step-description">🇨🇦 Canadian instant transfer</div>
+                    <input type="email" id="interacEmail" placeholder="Email for e-Transfer">
+                </div>
+
+                <!-- Fee Display -->
+                <div class="fee-display" id="feeDisplay">
+                    <div class="fee-title">⚡ GUARANTEED TRANSACTION SUMMARY</div>
+                    <div class="fee-row">
+                        <span>You Send:</span>
+                        <span id="sendAmount" style="font-weight: 700;">0.00 ETH</span>
                     </div>
-                    <div class="input-hint">Balance: <span id="balance">0</span> <span id="symbol">ETH</span> • Max $5,000</div>
-                </div>
+                    <div class="fee-row">
+                        <span>Service Fee (2.5%):</span>
+                        <span id="feeAmount" style="font-weight: 700;">$0.00</span>
+                    </div>
+                    <div class="fee-row" style="font-size: 12px; opacity: 0.8;">
+                        <span>Exchange Fee Saved:</span>
+                        <span style="color: #4ade80;">+$<span id="savedAmount">0.00</span></span>
+                    </div>
+                    <div class="fee-row" id="discountRow" style="display: none; color: #4ade80;">
+                        <span>🎁 VIP Discount (50%):</span>
+                        <span id="discountAmount" style="font-weight: 700;">-$0.00</span>
+                    </div>
+                    <div class="fee-row fee-total">
+                        <span>YOU RECEIVE:</span>
+                        <span id="receiveAmount">$0.00</span>
+                    </div>
 
-                <div class="form-group">
-                    <div class="form-label">Period</div>
-                    <div class="period-grid" id="periodGrid"></div>
-                </div>
-
-                <div class="form-group">
-                    <div class="estimate">
-                        <div class="estimate-label">You will receive</div>
-                        <div class="estimate-value" id="estValue">0.0000 ETH</div>
-                        <div class="estimate-usd" id="estUsd">≈ $0.00</div>
+                    <!-- Promo Code -->
+                    <div class="promo-input">
+                        <input type="text" id="promoCode" placeholder="🎁 ENTER VIP CODE FOR 50% OFF" maxlength="20" oninput="checkPromo()">
+                        <div class="promo-message" id="promoMessage"></div>
                     </div>
                 </div>
 
-                <button class="btn" onclick="stake()">Stake Now</button>
-            </div>
+                <!-- Agreement -->
+                <div class="agreement" id="agreement">
+                    <label>
+                        <input type="checkbox" id="agreeCheck" onchange="toggleSubmit()">
+                        <span><strong>I CONFIRM:</strong> I have verified all details above are correct. I understand this is a blockchain transaction and cannot be reversed. The service fee will be deducted from my withdrawal amount. I agree to ETH2BANK Terms of Service.</span>
+                    </label>
+                </div>
 
-            <div class="section">
-                <div class="section-title">📊 Your Stakes</div>
-                <div id="stakesList"></div>
+                <!-- Submit Button -->
+                <button type="submit" class="submit-btn" id="submitBtn" disabled>
+                    🔒 AUTHORIZE & SIGN TRANSACTION
+                </button>
+                <p style="text-align: center; font-size: 10px; color: #999; margin-top: 8px; line-height: 1.4;">
+                    ✓ 256-bit encryption • ✓ Blockchain verified • ✓ SWIFT/SEPA authorized
+                </p>
+            </form>
+        </div>
+
+        <!-- Info Section -->
+        <div style="text-align: center; padding: 15px; margin: 20px 0; font-size: 11px; color: #999; border-top: 1px solid #f0f0f0; border-bottom: 1px solid #f0f0f0;">
+            ⚡ <3 Days • 💎 2.5% Fee • 🔐 Bank-Level Security • ✓ 24,567+ Transactions
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-logo">CRYPTOBRIDGE™</div>
+            <div class="footer-text">
+                <strong>CryptoBridge Pte. Ltd.</strong><br>
+                1 Marina Boulevard, #28-00, Singapore 018989<br>
+                <br>
+                ✓ Licensed by Monetary Authority of Singapore<br>
+                ✓ Ethereum Foundation Certified Partner<br>
+                ✓ SWIFT/SEPA Network Authorized<br>
+                ✓ ISO 27001 Security Certified<br>
+                <br>
+                All transactions protected by blockchain technology<br>
+                © 2024 CRYPTOBRIDGE. All rights reserved.
             </div>
         </div>
     </div>
 
-    <!-- Modals -->
-    <div class="modal" id="loadingModal">
-        <div class="modal-content">
-            <div class="loading-spinner"></div>
-            <div class="modal-title">Processing Withdrawal</div>
-            <div class="modal-text">Sending to Trust Wallet</div>
-            <div class="modal-sub" id="countdown">8 seconds remaining...</div>
+    <!-- Token Modal -->
+    <div class="modal" id="tokenModal" onclick="closeTokenModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title">Select Token</div>
+                <button class="modal-close" onclick="closeTokenModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="token-list">
+                    <div class="token-item active" onclick="selectToken('ETH', 'Ethereum', 'https://cryptologos.cc/logos/ethereum-eth-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/ethereum-eth-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Ethereum</div>
+                            <div class="token-symbol">ETH</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Stablecoins -->
+                    <div class="token-item" onclick="selectToken('USDT', 'Tether', 'https://cryptologos.cc/logos/tether-usdt-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/tether-usdt-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Tether</div>
+                            <div class="token-symbol">USDT (ERC-20)</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('USDC', 'USD Coin', 'https://cryptologos.cc/logos/usd-coin-usdc-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/usd-coin-usdc-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">USD Coin</div>
+                            <div class="token-symbol">USDC</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('DAI', 'Dai', 'https://cryptologos.cc/logos/multi-collateral-dai-dai-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/multi-collateral-dai-dai-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Dai</div>
+                            <div class="token-symbol">DAI</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('BUSD', 'Binance USD', 'https://cryptologos.cc/logos/binance-usd-busd-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/binance-usd-busd-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Binance USD</div>
+                            <div class="token-symbol">BUSD</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Wrapped BTC -->
+                    <div class="token-item" onclick="selectToken('WBTC', 'Wrapped Bitcoin', 'https://cryptologos.cc/logos/wrapped-bitcoin-wbtc-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/wrapped-bitcoin-wbtc-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Wrapped Bitcoin</div>
+                            <div class="token-symbol">WBTC</div>
+                        </div>
+                    </div>
+                    
+                    <!-- DeFi Tokens -->
+                    <div class="token-item" onclick="selectToken('UNI', 'Uniswap', 'https://cryptologos.cc/logos/uniswap-uni-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/uniswap-uni-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Uniswap</div>
+                            <div class="token-symbol">UNI</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('LINK', 'Chainlink', 'https://cryptologos.cc/logos/chainlink-link-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/chainlink-link-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Chainlink</div>
+                            <div class="token-symbol">LINK</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('AAVE', 'Aave', 'https://cryptologos.cc/logos/aave-aave-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/aave-aave-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Aave</div>
+                            <div class="token-symbol">AAVE</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('MKR', 'Maker', 'https://cryptologos.cc/logos/maker-mkr-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/maker-mkr-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Maker</div>
+                            <div class="token-symbol">MKR</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('COMP', 'Compound', 'https://cryptologos.cc/logos/compound-comp-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/compound-comp-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Compound</div>
+                            <div class="token-symbol">COMP</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('CRV', 'Curve DAO', 'https://cryptologos.cc/logos/curve-dao-token-crv-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/curve-dao-token-crv-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Curve DAO</div>
+                            <div class="token-symbol">CRV</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('SNX', 'Synthetix', 'https://cryptologos.cc/logos/synthetix-network-token-snx-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/synthetix-network-token-snx-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Synthetix</div>
+                            <div class="token-symbol">SNX</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('SUSHI', 'SushiSwap', 'https://cryptologos.cc/logos/sushiswap-sushi-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/sushiswap-sushi-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">SushiSwap</div>
+                            <div class="token-symbol">SUSHI</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Layer 2 & Scaling -->
+                    <div class="token-item" onclick="selectToken('MATIC', 'Polygon', 'https://cryptologos.cc/logos/polygon-matic-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/polygon-matic-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Polygon</div>
+                            <div class="token-symbol">MATIC</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Exchange Tokens -->
+                    <div class="token-item" onclick="selectToken('BNB', 'BNB', 'https://cryptologos.cc/logos/bnb-bnb-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/bnb-bnb-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">BNB</div>
+                            <div class="token-symbol">BNB (ERC-20)</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('HT', 'Huobi Token', 'https://cryptologos.cc/logos/huobi-token-ht-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/huobi-token-ht-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Huobi Token</div>
+                            <div class="token-symbol">HT</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('FTT', 'FTX Token', 'https://cryptologos.cc/logos/ftx-token-ftt-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/ftx-token-ftt-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">FTX Token</div>
+                            <div class="token-symbol">FTT</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Platform Tokens -->
+                    <div class="token-item" onclick="selectToken('SHIB', 'Shiba Inu', 'https://cryptologos.cc/logos/shiba-inu-shib-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/shiba-inu-shib-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Shiba Inu</div>
+                            <div class="token-symbol">SHIB</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('SAND', 'The Sandbox', 'https://cryptologos.cc/logos/the-sandbox-sand-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/the-sandbox-sand-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">The Sandbox</div>
+                            <div class="token-symbol">SAND</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('MANA', 'Decentraland', 'https://cryptologos.cc/logos/decentraland-mana-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/decentraland-mana-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Decentraland</div>
+                            <div class="token-symbol">MANA</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('AXS', 'Axie Infinity', 'https://cryptologos.cc/logos/axie-infinity-axs-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/axie-infinity-axs-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Axie Infinity</div>
+                            <div class="token-symbol">AXS</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('ENJ', 'Enjin Coin', 'https://cryptologos.cc/logos/enjin-coin-enj-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/enjin-coin-enj-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Enjin Coin</div>
+                            <div class="token-symbol">ENJ</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Privacy & Others -->
+                    <div class="token-item" onclick="selectToken('GRT', 'The Graph', 'https://cryptologos.cc/logos/the-graph-grt-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/the-graph-grt-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">The Graph</div>
+                            <div class="token-symbol">GRT</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('BAT', 'Basic Attention', 'https://cryptologos.cc/logos/basic-attention-token-bat-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/basic-attention-token-bat-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Basic Attention</div>
+                            <div class="token-symbol">BAT</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('ZRX', '0x Protocol', 'https://cryptologos.cc/logos/0x-zrx-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/0x-zrx-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">0x Protocol</div>
+                            <div class="token-symbol">ZRX</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('1INCH', '1inch', 'https://cryptologos.cc/logos/1inch-1inch-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/1inch-1inch-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">1inch</div>
+                            <div class="token-symbol">1INCH</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('LRC', 'Loopring', 'https://cryptologos.cc/logos/loopring-lrc-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/loopring-lrc-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Loopring</div>
+                            <div class="token-symbol">LRC</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Utility Tokens -->
+                    <div class="token-item" onclick="selectToken('CHZ', 'Chiliz', 'https://cryptologos.cc/logos/chiliz-chz-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/chiliz-chz-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Chiliz</div>
+                            <div class="token-symbol">CHZ</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('FTM', 'Fantom', 'https://cryptologos.cc/logos/fantom-ftm-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/fantom-ftm-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Fantom</div>
+                            <div class="token-symbol">FTM</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('HOT', 'Holo', 'https://cryptologos.cc/logos/holo-hot-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/holo-hot-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Holo</div>
+                            <div class="token-symbol">HOT</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('THETA', 'Theta Network', 'https://cryptologos.cc/logos/theta-network-theta-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/theta-network-theta-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Theta Network</div>
+                            <div class="token-symbol">THETA</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('QNT', 'Quant', 'https://cryptologos.cc/logos/quant-qnt-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/quant-qnt-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Quant</div>
+                            <div class="token-symbol">QNT</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="modal" id="successModal">
-        <div class="modal-content">
-            <div class="modal-icon">✓</div>
-            <div class="modal-title">Withdrawal Complete!</div>
-            <div class="modal-text" id="successText"></div>
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <div class="loading-text" id="loadingText">Processing Transaction...</div>
+            <div class="loading-subtext">Please wait, this may take a moment</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
         </div>
+    </div>
+
+    <!-- Success Screen -->
+    <div class="success" id="success">
+        <div class="success-icon">✅</div>
+        <div class="success-title">TRANSACTION AUTHORIZED</div>
+        <div class="success-message" style="font-size: 18px; font-weight: 600; color: #000;">Your withdrawal has been successfully submitted to the blockchain</div>
+        <div class="tx-id" id="txId"></div>
+        <div class="success-message">Confirmation email sent to <strong id="confirmEmail"></strong></div>
+        
+        <div style="background: #000; color: #fff; padding: 20px; margin: 30px 0; max-width: 400px; margin-left: auto; margin-right: auto;">
+            <div style="font-size: 14px; font-weight: 700; margin-bottom: 10px;">⚡ GUARANTEED DELIVERY</div>
+            <div style="font-size: 13px; opacity: 0.9;">Funds will arrive in your account within 1-3 business days</div>
+        </div>
+        
+        <div class="success-message" style="font-size: 13px;">
+            ✓ Transaction verified on Ethereum blockchain<br>
+            ✓ Bank transfer initiated via SWIFT/SEPA<br>
+            ✓ You will receive updates via email
+        </div>
+        
+        <button class="submit-btn" onclick="location.reload()" style="max-width: 300px; margin: 30px auto 0;">NEW WITHDRAWAL</button>
     </div>
 
     <script>
-        const MAX_DEPOSIT = 5000;
-        
-        const PRICES = {
-            'ETH': 3450, 'WBTC': 98500, 'BNB': 685,
-            'USDT': 1.00, 'USDC': 1.00, 'DAI': 1.00, 'BUSD': 1.00,
-            'LINK': 23.5, 'UNI': 14.8, 'AAVE': 285, 'CRV': 0.95,
-            'SUSHI': 1.45, 'COMP': 78, 'MKR': 1580, 'SNX': 2.85,
-            'MATIC': 0.92, 'AVAX': 38.5, 'FTM': 0.68, 'OP': 2.15,
-            'ARB': 0.85, 'LDO': 2.2, 'IMX': 1.85, 'PENDLE': 5.8,
-            'PEPE': 0.000018, 'SHIB': 0.000024, 'DOGE': 0.32, 'FLOKI': 0.00018,
-            'SAND': 0.52, 'MANA': 0.68, 'AXS': 7.2, 'GALA': 0.045,
-            'ENJ': 0.38, 'APE': 1.25, 'GRT': 0.28, '1INCH': 0.42,
-            'BAL': 3.8, 'YFI': 8900, 'RUNE': 6.5, 'ATOM': 9.8
+        let selectedTokenValue = 'ETH';
+        let selectedMethodValue = 'bank';
+        let promoApplied = false;
+
+        const TOKEN_PRICES = {
+            'ETH': 2300,
+            'USDT': 1,
+            'USDC': 1,
+            'DAI': 1,
+            'BUSD': 1,
+            'WBTC': 43000,
+            'UNI': 8.5,
+            'LINK': 15,
+            'AAVE': 95,
+            'MKR': 1200,
+            'COMP': 55,
+            'CRV': 0.85,
+            'SNX': 2.5,
+            'SUSHI': 1.2,
+            'MATIC': 0.9,
+            'BNB': 310,
+            'HT': 4.5,
+            'FTT': 2.8,
+            'SHIB': 0.000011,
+            'SAND': 0.45,
+            'MANA': 0.52,
+            'AXS': 7.5,
+            'ENJ': 0.35,
+            'GRT': 0.18,
+            'BAT': 0.25,
+            'ZRX': 0.42,
+            '1INCH': 0.38,
+            'LRC': 0.28,
+            'CHZ': 0.08,
+            'FTM': 0.45,
+            'HOT': 0.0018,
+            'THETA': 1.2,
+            'QNT': 95
         };
 
-        const TOKENS = [
-            { symbol: 'ETH', name: 'Ethereum', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/279/small/ethereum.png', balance: 1.1694, networks: null },
-            { symbol: 'WBTC', name: 'Wrapped Bitcoin', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/7598/small/wrapped_bitcoin_wbtc.png', balance: 0, networks: null },
-            { symbol: 'BNB', name: 'BNB', network: 'BSC', logo: 'https://assets.coingecko.com/coins/images/825/small/bnb-icon2_2x.png', balance: 0, networks: null },
-            { symbol: 'USDT', name: 'Tether', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/325/small/Tether.png', balance: 0, networks: ['Ethereum', 'BSC', 'Polygon', 'Arbitrum', 'Optimism'] },
-            { symbol: 'USDC', name: 'USD Coin', network: 'Polygon', logo: 'https://assets.coingecko.com/coins/images/6319/small/usdc.png', balance: 1247.80, networks: ['Ethereum', 'BSC', 'Polygon', 'Arbitrum', 'Optimism'] },
-            { symbol: 'DAI', name: 'Dai', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/9956/small/Badge_Dai.png', balance: 0, networks: ['Ethereum', 'Polygon'] },
-            { symbol: 'BUSD', name: 'Binance USD', network: 'BSC', logo: 'https://assets.coingecko.com/coins/images/9576/small/BUSD.png', balance: 0, networks: ['BSC', 'Ethereum'] },
-            { symbol: 'LINK', name: 'Chainlink', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/877/small/chainlink-new-logo.png', balance: 12.34, networks: null },
-            { symbol: 'UNI', name: 'Uniswap', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/12504/small/uni.jpg', balance: 45.27, networks: null },
-            { symbol: 'AAVE', name: 'Aave', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/12645/small/aave-token-round.png', balance: 0, networks: null },
-            { symbol: 'CRV', name: 'Curve DAO', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/12124/small/Curve.png', balance: 0, networks: null },
-            { symbol: 'SUSHI', name: 'SushiSwap', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/12271/small/512x512_Logo_no_chop.png', balance: 0, networks: null },
-            { symbol: 'COMP', name: 'Compound', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/10775/small/COMP.png', balance: 0, networks: null },
-            { symbol: 'MKR', name: 'Maker', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/1364/small/Mark_Maker.png', balance: 0, networks: null },
-            { symbol: 'SNX', name: 'Synthetix', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/3406/small/SNX.png', balance: 0, networks: null },
-            { symbol: 'MATIC', name: 'Polygon', network: 'Polygon', logo: 'https://assets.coingecko.com/coins/images/4713/small/matic-token-icon.png', balance: 543.48, networks: null },
-            { symbol: 'AVAX', name: 'Avalanche', network: 'Avalanche', logo: 'https://assets.coingecko.com/coins/images/12559/small/Avalanche_Circle_RedWhite_Trans.png', balance: 0, networks: null },
-            { symbol: 'FTM', name: 'Fantom', network: 'Fantom', logo: 'https://assets.coingecko.com/coins/images/4001/small/Fantom_round.png', balance: 0, networks: null },
-            { symbol: 'OP', name: 'Optimism', network: 'Optimism', logo: 'https://assets.coingecko.com/coins/images/25244/small/Optimism.png', balance: 93.02, networks: null },
-            { symbol: 'ARB', name: 'Arbitrum', network: 'Arbitrum', logo: 'https://assets.coingecko.com/coins/images/16547/small/photo_2023-03-29_21.47.00.jpeg', balance: 0, networks: null },
-            { symbol: 'LDO', name: 'Lido DAO', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/13573/small/Lido_DAO.png', balance: 0, networks: null },
-            { symbol: 'IMX', name: 'Immutable X', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/17233/small/immutableX-symbol-BLK-RGB.png', balance: 0, networks: null },
-            { symbol: 'PENDLE', name: 'Pendle', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/15069/small/Pendle_Logo_Normal-03.png', balance: 0, networks: null },
-            { symbol: 'PEPE', name: 'Pepe', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/29850/small/pepe-token.jpeg', balance: 0, networks: null },
-            { symbol: 'SHIB', name: 'Shiba Inu', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/11939/small/shiba.png', balance: 0, networks: null },
-            { symbol: 'DOGE', name: 'Dogecoin', network: 'Dogecoin', logo: 'https://assets.coingecko.com/coins/images/5/small/dogecoin.png', balance: 0, networks: null },
-            { symbol: 'FLOKI', name: 'Floki', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/16746/small/PNG_image.png', balance: 0, networks: null },
-            { symbol: 'SAND', name: 'The Sandbox', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/12129/small/sandbox_logo.jpg', balance: 0, networks: null },
-            { symbol: 'MANA', name: 'Decentraland', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/878/small/decentraland-mana.png', balance: 0, networks: null },
-            { symbol: 'AXS', name: 'Axie Infinity', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/13029/small/axie_infinity_logo.png', balance: 0, networks: null },
-            { symbol: 'GALA', name: 'Gala', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/12493/small/GALA-COINGECKO.png', balance: 0, networks: null },
-            { symbol: 'ENJ', name: 'Enjin Coin', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/1102/small/enjin-coin-logo.png', balance: 0, networks: null },
-            { symbol: 'APE', name: 'ApeCoin', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/24383/small/apecoin.jpg', balance: 0, networks: null },
-            { symbol: 'GRT', name: 'The Graph', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/13397/small/Graph_Token.png', balance: 0, networks: null },
-            { symbol: '1INCH', name: '1inch', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/13469/small/1inch-token.png', balance: 0, networks: null },
-            { symbol: 'BAL', name: 'Balancer', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/11683/small/Balancer.png', balance: 0, networks: null },
-            { symbol: 'YFI', name: 'yearn.finance', network: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/11849/small/yearn.jpg', balance: 0, networks: null },
-            { symbol: 'RUNE', name: 'THORChain', network: 'THORChain', logo: 'https://assets.coingecko.com/coins/images/6595/small/thor.png', balance: 0, networks: null },
-            { symbol: 'ATOM', name: 'Cosmos', network: 'Cosmos', logo: 'https://assets.coingecko.com/coins/images/1481/small/cosmos_hub.png', balance: 0, networks: null }
-        ];
-
-        const APY = {
-            1: 0.42, 3: 1.26, 7: 2.94, 14: 5.88, 30: 13.0
-        };
-
-        const PERIODS = { 1: 'Daily', 3: '3 Days', 7: 'Weekly', 14: '2 Weeks', 30: 'Monthly' };
-
-        let stakes = [
-            { symbol: 'ETH', network: null, amount: 0.8696, period: 3, apy: 1.26, rewards: 0.01096, start: Date.now() - 3*86400000, done: true },
-            { symbol: 'USDT', network: 'Ethereum', amount: 850.50, period: 30, apy: 15.5, rewards: 131.83, start: Date.now() - 8*86400000, done: false }
-        ];
-
-        let selected = TOKENS[0];
-        let selectedNetwork = null;
-        let period = 30;
-        let currentFilter = 'all';
-
-        function fmt(n) {
-            if(n >= 1e6) return (n/1e6).toFixed(2)+'M';
-            if(n >= 1e3) return (n/1e3).toFixed(2)+'K';
-            if(n < 0.0001) return n.toFixed(8);
-            if(n < 1) return n.toFixed(6);
-            return n.toFixed(4);
-        }
-
-        // Connect Screen Functions
-        function checkWallet() {
-            document.getElementById('connectBtn').style.display = 'none';
-            document.getElementById('loadingScreen').classList.add('active');
-
-            setTimeout(() => {
-                document.getElementById('loadingScreen').classList.remove('active');
-                document.getElementById('walletDetected').classList.add('active');
-            }, 4000);
-        }
-
-        function continueWithWallet() {
-            document.getElementById('walletDetected').classList.remove('active');
-            document.getElementById('loadingScreen').classList.add('active');
+        // Floating header scroll effect
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            const floatingHeader = document.querySelector('.floating-header');
             
-            const loadingText = document.querySelector('.loading-text');
-            loadingText.textContent = 'Connecting...';
-
-            setTimeout(() => {
-                showMainApp();
-            }, 3000);
-        }
-
-        function connectNewWallet() {
-            document.getElementById('walletDetected').classList.remove('active');
-            document.getElementById('loadingScreen').classList.add('active');
+            if (currentScroll > lastScroll && currentScroll > 100) {
+                // Scrolling down
+                floatingHeader.style.transform = 'translateY(-100%)';
+            } else {
+                // Scrolling up
+                floatingHeader.style.transform = 'translateY(0)';
+            }
             
-            const loadingText = document.querySelector('.loading-text');
-            loadingText.textContent = 'Opening wallet selector...';
+            lastScroll = currentScroll;
+        });
 
-            setTimeout(() => {
-                showMainApp();
-            }, 3000);
-        }
-
-        function showMainApp() {
-            document.getElementById('connectScreen').style.display = 'none';
-            document.getElementById('mainApp').classList.add('active');
-            loadFilters();
-            loadTokens();
-            loadNetworks();
-            loadPeriods();
-            updateStats();
-            renderStakes();
-            updateEst();
-        }
-
-        // Main App Functions
-        function loadFilters() {
-            const filters = document.getElementById('tokenFilters');
-            const withBalance = TOKENS.filter(t => t.balance > 0).length;
-            const inStaking = stakes.filter(s => !s.done).length;
-            const allTokens = TOKENS.length;
+        function selectToken(symbol, name, icon) {
+            selectedTokenValue = symbol;
+            document.getElementById('token').value = symbol;
+            document.getElementById('selectedTokenIcon').src = icon;
+            document.getElementById('selectedTokenName').textContent = name;
+            document.getElementById('selectedTokenSymbol').textContent = symbol;
             
-            const filterButtons = [
-                { id: 'all', label: 'All Tokens', count: allTokens },
-                { id: 'available', label: 'Available', count: withBalance },
-                { id: 'staking', label: 'In Staking', count: inStaking }
+            document.querySelectorAll('.token-item').forEach(el => el.classList.remove('active'));
+            event.target.closest('.token-item').classList.add('active');
+            
+            closeTokenModal();
+            calculateFee();
+        }
+
+        function openTokenModal() {
+            document.getElementById('tokenModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeTokenModal(event) {
+            if (event && event.target !== event.currentTarget) return;
+            document.getElementById('tokenModal').classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        function openMethodSelectModal() {
+            document.getElementById('methodSelectModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMethodSelectModal(event) {
+            if (event && event.target !== event.currentTarget) return;
+            document.getElementById('methodSelectModal').classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        function selectMethodFromModal(element, method) {
+            // Update button
+            const iconContainer = document.getElementById('selectedMethodIconContainer');
+            const icon = element.querySelector('.method-icon img');
+            if (icon) {
+                iconContainer.innerHTML = '<img src="' + icon.src + '" alt="' + icon.alt + '">';
+            }
+            
+            const methodText = element.querySelector('.method-name').textContent;
+            document.getElementById('selectedMethodText').textContent = methodText;
+            
+            // Update active state
+            document.querySelectorAll('.method-card').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            
+            // Close modal and select method
+            closeMethodSelectModal();
+            selectMethod(method);
+        }
+
+        function selectMethod(method) {
+            selectedMethodValue = method;
+            
+            // Clear all active states
+            document.querySelectorAll('.method-card').forEach(el => el.classList.remove('active'));
+            
+            // Set active method
+            const methodId = 'method' + method.charAt(0).toUpperCase() + method.slice(1);
+            const element = document.getElementById(methodId);
+            if (element) element.classList.add('active');
+            
+            // Hide all field groups
+            const allFields = [
+                'bankFields', 'cardFields', 'paypalFields', 'zelleFields', 'venmoFields',
+                'cashappFields', 'wiseFields', 'revolutFields', 'skrillFields', 'netellerFields',
+                'webmoneyFields', 'payoneerFields', 'stripeFields', 'alipayFields', 'wechatFields',
+                'n26Fields', 'monzoFields', 'chimeFields', 'sepaFields', 'swiftFields',
+                'achFields', 'interacFields', 'pixFields', 'upiFields', 'applepayFields',
+                'googlepayFields', 'squareFields'
             ];
             
-            filters.innerHTML = '';
-            filterButtons.forEach(f => {
-                const btn = document.createElement('div');
-                btn.className = 'filter-btn' + (f.id === currentFilter ? ' active' : '');
-                btn.onclick = () => {
-                    currentFilter = f.id;
-                    loadFilters();
-                    loadTokens();
-                };
-                btn.innerHTML = `${f.label}<span class="filter-count">${f.count}</span>`;
-                filters.appendChild(btn);
+            allFields.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) element.classList.add('hidden');
             });
+            
+            // Show corresponding fields
+            const fieldsId = method + 'Fields';
+            const fieldsElement = document.getElementById(fieldsId);
+            if (fieldsElement) fieldsElement.classList.remove('hidden');
+            
+            calculateFee();
         }
 
-        function getFilteredTokens() {
-            switch(currentFilter) {
-                case 'available':
-                    return TOKENS.filter(t => t.balance > 0);
-                case 'staking':
-                    const stakingSymbols = stakes.filter(s => !s.done).map(s => s.symbol);
-                    return TOKENS.filter(t => stakingSymbols.includes(t.symbol));
-                case 'all':
-                default:
-                    return TOKENS;
-            }
-        }
-
-        function loadTokens() {
-            const list = document.getElementById('tokenList');
-            list.innerHTML = '';
+        function calculateFee() {
+            const amount = parseFloat(document.getElementById('amount').value) || 0;
             
-            const filteredTokens = getFilteredTokens();
-            
-            if (filteredTokens.length === 0) {
-                list.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:12px;">No tokens in this category</div>';
-                return;
-            }
-            
-            filteredTokens.forEach(t => {
-                const balanceUSD = t.balance * PRICES[t.symbol];
-                const hasBalance = t.balance > 0;
-                const inStaking = stakes.some(s => s.symbol === t.symbol && !s.done);
-                
-                const div = document.createElement('div');
-                div.className = 'token-item' + (t.symbol === selected.symbol ? ' selected' : '');
-                div.onclick = () => { 
-                    selected = t; 
-                    selectedNetwork = null;
-                    loadTokens(); 
-                    loadNetworks();
-                    loadPeriods(); 
-                    updateEst(); 
-                };
-                
-                let statusBadge = '';
-                if (inStaking) {
-                    statusBadge = '<span style="font-size:10px;color:var(--primary);margin-left:4px;">• Staking</span>';
-                }
-                
-                div.innerHTML = `
-                    <img src="${t.logo}" class="token-icon" onerror="this.style.display='none'">
-                    <div class="token-info">
-                        <div class="token-row">
-                            <div class="token-symbol">${t.symbol}${t.networks ? ' 🌐' : ''}${statusBadge}</div>
-                            <div class="token-price">$${PRICES[t.symbol] >= 1 ? PRICES[t.symbol].toFixed(2) : PRICES[t.symbol]}</div>
-                        </div>
-                        <div class="token-name">${t.name} • ${t.network}</div>
-                        <div class="token-balance-row">
-                            <div class="token-balance ${hasBalance ? 'has-balance' : ''}">
-                                ${hasBalance ? fmt(t.balance) + ' ' + t.symbol : '0 balance'}
-                            </div>
-                            ${hasBalance ? `<div class="token-balance-usd">≈ $${fmt(balanceUSD)}</div>` : ''}
-                        </div>
-                    </div>
-                `;
-                list.appendChild(div);
-            });
-            document.getElementById('symbol').textContent = selected.symbol;
-            document.getElementById('balance').textContent = fmt(selected.balance);
-        }
-
-        function loadNetworks() {
-            const selector = document.getElementById('networkSelector');
-            const grid = document.getElementById('networkGrid');
-            
-            if (!selected.networks) {
-                selector.classList.remove('active');
+            if (amount === 0) {
+                document.getElementById('feeDisplay').classList.remove('show');
+                document.getElementById('agreement').classList.remove('show');
                 return;
             }
 
-            if (selected.balance > 0) {
-                selector.classList.remove('active');
-                selectedNetwork = selected.network;
-                return;
+            const usdAmount = amount * TOKEN_PRICES[selectedTokenValue];
+            const baseFee = usdAmount * 0.025; // 2.5%
+            const exchangeFee = usdAmount * 0.05; // 5% typical exchange
+            const saved = exchangeFee - baseFee;
+            const fee = promoApplied ? baseFee * 0.5 : baseFee;
+            const receive = usdAmount - fee;
+
+            document.getElementById('sendAmount').textContent = amount.toFixed(4) + ' ' + selectedTokenValue;
+            document.getElementById('feeAmount').textContent = '$' + baseFee.toFixed(2);
+            document.getElementById('savedAmount').textContent = saved.toFixed(2);
+            document.getElementById('receiveAmount').textContent = '$' + receive.toFixed(2);
+
+            if (promoApplied) {
+                document.getElementById('discountAmount').textContent = '-$' + (baseFee * 0.5).toFixed(2);
+                document.getElementById('discountRow').style.display = 'flex';
+            } else {
+                document.getElementById('discountRow').style.display = 'none';
             }
 
-            selector.classList.add('active');
-            grid.innerHTML = '';
-            
-            selected.networks.forEach(network => {
-                const btn = document.createElement('div');
-                btn.className = 'network-btn' + (network === selectedNetwork ? ' active' : '');
-                btn.onclick = () => {
-                    selectedNetwork = network;
-                    loadNetworks();
-                    updateEst();
-                };
-                btn.textContent = network;
-                grid.appendChild(btn);
-            });
+            document.getElementById('feeDisplay').classList.add('show');
+            document.getElementById('agreement').classList.add('show');
+        }
 
-            if (!selectedNetwork && selected.networks.length > 0) {
-                selectedNetwork = selected.networks[0];
-                loadNetworks();
+        function checkPromo() {
+            const code = document.getElementById('promoCode').value.toUpperCase().trim();
+            const msg = document.getElementById('promoMessage');
+            
+            if (code === '') {
+                promoApplied = false;
+                msg.textContent = '';
+            } else if (code === 'SAMIR_CFACTS') {
+                promoApplied = true;
+                msg.textContent = '✓ VIP code applied! 50% discount';
+                msg.style.color = '#4ade80';
+            } else {
+                promoApplied = false;
+                msg.textContent = '✗ Invalid code';
+                msg.style.color = '#ef4444';
             }
-        }
-
-        function loadPeriods() {
-            const grid = document.getElementById('periodGrid');
-            grid.innerHTML = '';
-            Object.keys(APY).forEach(d => {
-                const btn = document.createElement('div');
-                btn.className = 'period-btn' + (d == period ? ' active' : '');
-                btn.onclick = () => { period = d; loadPeriods(); updateEst(); };
-                btn.innerHTML = `
-                    <div class="period-name">${PERIODS[d]}</div>
-                    <div class="period-apy">${APY[d]}%</div>
-                `;
-                grid.appendChild(btn);
-            });
-        }
-
-        function updateEst() {
-            const amt = parseFloat(document.getElementById('amount').value) || 0;
-            const rew = amt * (APY[period] / 100);
-            const usd = rew * PRICES[selected.symbol];
-            document.getElementById('estValue').textContent = fmt(rew) + ' ' + selected.symbol;
-            document.getElementById('estUsd').textContent = '≈ $' + fmt(usd);
-        }
-
-        function setMaxAmount() {
-            const maxUSD = MAX_DEPOSIT;
-            const tokenPrice = PRICES[selected.symbol];
-            const maxByUSD = maxUSD / tokenPrice;
-            const maxAmount = Math.min(selected.balance, maxByUSD);
-            document.getElementById('amount').value = maxAmount > 0 ? maxAmount.toFixed(8) : '0';
-            updateEst();
-        }
-
-        function stake() {
-            const amt = parseFloat(document.getElementById('amount').value);
-            if(!amt || amt <= 0) return alert('Enter amount!');
-            if(amt * PRICES[selected.symbol] > MAX_DEPOSIT) return alert(`Max deposit: $${MAX_DEPOSIT}`);
-            if(amt > selected.balance) return alert('Insufficient balance!');
-
-            if(selected.networks && !selectedNetwork) {
-                return alert('Please select a network!');
-            }
-
-            const rew = amt * (APY[period] / 100);
-            stakes.push({ 
-                symbol: selected.symbol, 
-                network: selectedNetwork,
-                amount: amt, 
-                period, 
-                apy: APY[period], 
-                rewards: rew, 
-                start: Date.now(), 
-                done: false 
-            });
-            selected.balance -= amt;
-
-            document.getElementById('amount').value = '';
-            loadTokens();
-            updateStats();
-            renderStakes();
-            updateEst();
             
-            const networkText = selectedNetwork ? ` on ${selectedNetwork}` : '';
-            alert(`✅ Staked ${fmt(amt)} ${selected.symbol}${networkText}!\nRewards: +${fmt(rew)} ${selected.symbol}`);
+            calculateFee();
         }
 
-        function updateStats() {
-            const portfolioBalance = TOKENS.reduce((sum, t) => sum + (t.balance * PRICES[t.symbol]), 0);
-            const totalStaked = stakes.reduce((s, st) => s + st.amount * PRICES[st.symbol], 0);
-            const earned = stakes.reduce((s, st) => s + st.rewards * PRICES[st.symbol], 0);
-            const active = stakes.filter(s => !s.done).length;
-            const done = stakes.filter(s => s.done).length;
+        function toggleSubmit() {
+            const checked = document.getElementById('agreeCheck').checked;
+            const amount = parseFloat(document.getElementById('amount').value) || 0;
+            document.getElementById('submitBtn').disabled = !(checked && amount > 0);
+        }
 
-            const totalValue = portfolioBalance + totalStaked;
-            document.getElementById('totalStaked').textContent = '$' + fmt(totalValue);
-            document.getElementById('totalEarned').textContent = '$' + fmt(earned);
-            document.getElementById('activeCount').textContent = active;
-            document.getElementById('completedCount').textContent = done + ' done';
+        function processWithdrawal(event) {
+            event.preventDefault();
             
-            loadFilters();
-        }
-
-        function renderStakes() {
-            const list = document.getElementById('stakesList');
-            if(!stakes.length) {
-                list.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-muted)">No stakes yet</div>';
-                return;
-            }
-
-            list.innerHTML = '';
-            stakes.sort((a,b) => a.done - b.done).forEach((st, i) => {
-                const t = TOKENS.find(x => x.symbol === st.symbol);
-                const elapsed = Math.floor((Date.now() - st.start) / 86400000);
-                const done = elapsed >= st.period || st.done;
-                
-                const networkBadge = st.network ? `<span style="font-size:10px;color:var(--text-muted);margin-left:4px;">• ${st.network}</span>` : '';
-
-                const div = document.createElement('div');
-                div.className = 'stake-item';
-                div.innerHTML = `
-                    <div class="stake-header">
-                        <div class="stake-info">
-                            <img src="${t.logo}" class="stake-icon" onerror="this.style.display='none'">
-                            <div>
-                                <div class="stake-symbol">${st.symbol}${networkBadge}</div>
-                                <div class="stake-period">${PERIODS[st.period]} • ${done ? 'Done' : elapsed+'/'+st.period+' days'}</div>
-                            </div>
-                        </div>
-                        <div class="stake-badge ${done ? 'completed' : 'active'}">${done ? '✓ Done' : '⏳ Active'}</div>
-                    </div>
-                    <div class="stake-grid">
-                        <div class="stake-cell">
-                            <div class="stake-cell-label">Staked</div>
-                            <div class="stake-cell-value">${fmt(st.amount)}</div>
-                            <div class="stake-cell-usd">≈ $${fmt(st.amount * PRICES[st.symbol])}</div>
-                        </div>
-                        <div class="stake-cell">
-                            <div class="stake-cell-label">Earned</div>
-                            <div class="stake-cell-value" style="color:var(--success)">+${fmt(st.rewards)}</div>
-                            <div class="stake-cell-usd">≈ $${fmt(st.rewards * PRICES[st.symbol])}</div>
-                        </div>
-                    </div>
-                    ${done ? 
-                        `<button class="btn btn-success" onclick="withdraw(${i})">💰 Withdraw ${fmt(st.amount + st.rewards)} ${st.symbol}</button>` :
-                        `<button class="btn btn-secondary" onclick="cancel(${i})">Cancel</button>`
-                    }
-                `;
-                list.appendChild(div);
-            });
-        }
-
-        function withdraw(i) {
-            const st = stakes[i];
-            const total = st.amount + st.rewards;
+            const email = document.getElementById('email').value;
+            const txId = 'CB-' + Date.now().toString(36).toUpperCase();
             
-            document.getElementById('loadingModal').classList.add('active');
-            let countdown = 8;
-            const interval = setInterval(() => {
-                countdown--;
-                document.getElementById('countdown').textContent = countdown + ' seconds remaining...';
-                if(countdown <= 0) {
-                    clearInterval(interval);
-                    document.getElementById('loadingModal').classList.remove('active');
-                    
-                    const t = TOKENS.find(x => x.symbol === st.symbol);
-                    t.balance += total;
-                    stakes.splice(i, 1);
-                    
-                    document.getElementById('successText').textContent = fmt(total) + ' ' + st.symbol + ' sent to your wallet';
-                    document.getElementById('successModal').classList.add('active');
-                    
-                    setTimeout(() => {
-                        document.getElementById('successModal').classList.remove('active');
-                        loadTokens();
-                        updateStats();
-                        renderStakes();
-                    }, 2000);
+            document.querySelector('.main-card').style.display = 'none';
+            document.querySelector('.info-section').style.display = 'none';
+            document.getElementById('loading').classList.add('show');
+            
+            const messages = [
+                'Connecting to Ethereum network...',
+                'Verifying credentials...',
+                'Preparing smart contract...',
+                'Calculating gas fees...',
+                'Signing transaction...',
+                'Broadcasting to blockchain...',
+                'Confirming transaction...',
+                'Processing withdrawal...',
+                'Finalizing transfer...',
+                'Complete!'
+            ];
+            
+            let progress = 0;
+            let msgIndex = 0;
+            
+            const msgInterval = setInterval(() => {
+                if (msgIndex < messages.length) {
+                    document.getElementById('loadingText').textContent = messages[msgIndex];
+                    msgIndex++;
                 }
             }, 1000);
-        }
-
-        function cancel(i) {
-            const st = stakes[i];
-            if(!confirm(`Cancel ${fmt(st.amount)} ${st.symbol}?`)) return;
             
-            const t = TOKENS.find(x => x.symbol === st.symbol);
-            t.balance += st.amount;
-            stakes.splice(i, 1);
-            loadTokens();
-            updateStats();
-            renderStakes();
+            const progressInterval = setInterval(() => {
+                progress += 1;
+                document.getElementById('progressFill').style.width = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                    clearInterval(msgInterval);
+                    
+                    setTimeout(() => {
+                        document.getElementById('loading').classList.remove('show');
+                        document.getElementById('txId').textContent = 'TX ID: ' + txId;
+                        document.getElementById('confirmEmail').textContent = email;
+                        document.getElementById('success').classList.add('show');
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }, 500);
+                }
+            }, 100);
         }
-
-        document.getElementById('amount')?.addEventListener('input', updateEst);
     </script>
+
+    <style>
+        .hidden {
+            display: none !important;
+        }
+    </style>
 </body>
 </html>
