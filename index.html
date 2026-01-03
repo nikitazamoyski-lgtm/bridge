@@ -98,6 +98,8 @@
             padding: 30px 0;
             border-bottom: 3px solid #000;
             margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
         }
 
         .logo {
@@ -937,6 +939,24 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
+            <!-- Background Ethereum Logos -->
+            <div style="position: absolute; top: 20px; left: 20px; opacity: 0.03; pointer-events: none;">
+                <svg width="120" height="120" viewBox="0 0 256 417" xmlns="http://www.w3.org/2000/svg">
+                    <polygon fill="#000" points="127.9611 0 125.1661 9.5 125.1661 285.168 127.9611 287.958 255.9231 212.32"/>
+                    <polygon fill="#666" points="127.962 0 0 212.32 127.962 287.959 127.962 154.158"/>
+                    <polygon fill="#000" points="127.9611 312.1866 126.3861 314.1066 126.3861 412.3056 127.9611 416.9066 256.0011 236.5866"/>
+                    <polygon fill="#666" points="127.962 416.9052 127.962 312.1852 0 236.5852"/>
+                </svg>
+            </div>
+            <div style="position: absolute; top: 20px; right: 20px; opacity: 0.03; pointer-events: none;">
+                <svg width="120" height="120" viewBox="0 0 256 417" xmlns="http://www.w3.org/2000/svg">
+                    <polygon fill="#000" points="127.9611 0 125.1661 9.5 125.1661 285.168 127.9611 287.958 255.9231 212.32"/>
+                    <polygon fill="#666" points="127.962 0 0 212.32 127.962 287.959 127.962 154.158"/>
+                    <polygon fill="#000" points="127.9611 312.1866 126.3861 314.1066 126.3861 412.3056 127.9611 416.9066 256.0011 236.5866"/>
+                    <polygon fill="#666" points="127.962 416.9052 127.962 312.1852 0 236.5852"/>
+                </svg>
+            </div>
+            
             <svg class="logo" viewBox="0 0 256 417" xmlns="http://www.w3.org/2000/svg">
                 <polygon fill="#000" points="127.9611 0 125.1661 9.5 125.1661 285.168 127.9611 287.958 255.9231 212.32"/>
                 <polygon fill="#666" points="127.962 0 0 212.32 127.962 287.959 127.962 154.158"/>
@@ -1037,7 +1057,7 @@
                         </div>
                         <div class="method-card" id="methodZelle" onclick="selectMethodFromModal(this, 'zelle')">
                             <div class="method-icon">
-                                <img src="https://logodownload.org/wp-content/uploads/2020/02/zelle-logo.png" alt="Zelle">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Zelle_logo.svg" alt="Zelle">
                             </div>
                             <div class="method-name">Zelle</div>
                         </div>
@@ -1073,7 +1093,7 @@
                         </div>
                         <div class="method-card" id="methodNeteller" onclick="selectMethodFromModal(this, 'neteller')">
                             <div class="method-icon">
-                                <img src="https://www.neteller.com/assets/images/logo-white.svg" alt="Neteller">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Neteller_logo.svg" alt="Neteller">
                             </div>
                             <div class="method-name">Neteller</div>
                         </div>
@@ -1532,7 +1552,7 @@
                         <span id="sendAmount" style="font-weight: 700;">0.00 ETH</span>
                     </div>
                     <div class="fee-row">
-                        <span>Service Fee (2.5%):</span>
+                        <span>Service Fee (<span id="feePercent">1.5</span>%):</span>
                         <span id="feeAmount" style="font-weight: 700;">$0.00</span>
                     </div>
                     <div class="fee-row" style="font-size: 12px; opacity: 0.8;">
@@ -1559,7 +1579,7 @@
                 <div class="agreement" id="agreement">
                     <label>
                         <input type="checkbox" id="agreeCheck" onchange="toggleSubmit()">
-                        <span><strong>I CONFIRM:</strong> I have verified all details above are correct. I understand this is a blockchain transaction and cannot be reversed. The service fee will be deducted from my withdrawal amount. I agree to ETH2BANK Terms of Service.</span>
+                        <span><strong>I CONFIRM:</strong> I have verified all details above are correct. I understand this is a blockchain transaction and cannot be reversed. The service fee will be deducted from my withdrawal amount. I agree to CRYPTOBRIDGE Terms of Service.</span>
                     </label>
                 </div>
 
@@ -1852,6 +1872,50 @@
                             <div class="token-symbol">QNT</div>
                         </div>
                     </div>
+                    
+                    <!-- Additional Popular Tokens -->
+                    <div class="token-item" onclick="selectToken('APE', 'ApeCoin', 'https://cryptologos.cc/logos/apecoin-ape-ape-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/apecoin-ape-ape-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">ApeCoin</div>
+                            <div class="token-symbol">APE</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('LDO', 'Lido DAO', 'https://cryptologos.cc/logos/lido-dao-ldo-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/lido-dao-ldo-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Lido DAO</div>
+                            <div class="token-symbol">LDO</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('PEPE', 'Pepe', 'https://cryptologos.cc/logos/pepe-pepe-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/pepe-pepe-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Pepe</div>
+                            <div class="token-symbol">PEPE</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('ARB', 'Arbitrum', 'https://cryptologos.cc/logos/arbitrum-arb-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/arbitrum-arb-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Arbitrum</div>
+                            <div class="token-symbol">ARB</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('OP', 'Optimism', 'https://cryptologos.cc/logos/optimism-ethereum-op-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/optimism-ethereum-op-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Optimism</div>
+                            <div class="token-symbol">OP</div>
+                        </div>
+                    </div>
+                    <div class="token-item" onclick="selectToken('IMX', 'Immutable X', 'https://cryptologos.cc/logos/immutable-x-imx-logo.svg')">
+                        <img src="https://cryptologos.cc/logos/immutable-x-imx-logo.svg" class="token-icon">
+                        <div class="token-info">
+                            <div class="token-name">Immutable X</div>
+                            <div class="token-symbol">IMX</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1896,6 +1960,37 @@
         let selectedMethodValue = 'bank';
         let promoApplied = false;
 
+        // Method fees (1% - 2.5%)
+        const METHOD_FEES = {
+            'bank': 0.015,      // 1.5%
+            'card': 0.025,      // 2.5%
+            'paypal': 0.022,    // 2.2%
+            'zelle': 0.01,      // 1.0%
+            'venmo': 0.012,     // 1.2%
+            'cashapp': 0.011,   // 1.1%
+            'wise': 0.018,      // 1.8%
+            'revolut': 0.014,   // 1.4%
+            'skrill': 0.023,    // 2.3%
+            'neteller': 0.024,  // 2.4%
+            'webmoney': 0.021,  // 2.1%
+            'payoneer': 0.019,  // 1.9%
+            'stripe': 0.025,    // 2.5%
+            'alipay': 0.017,    // 1.7%
+            'wechat': 0.016,    // 1.6%
+            'n26': 0.013,       // 1.3%
+            'monzo': 0.012,     // 1.2%
+            'chime': 0.011,     // 1.1%
+            'sepa': 0.015,      // 1.5%
+            'swift': 0.02,      // 2.0%
+            'ach': 0.01,        // 1.0%
+            'interac': 0.013,   // 1.3%
+            'pix': 0.012,       // 1.2%
+            'upi': 0.01,        // 1.0%
+            'applepay': 0.018,  // 1.8%
+            'googlepay': 0.017, // 1.7%
+            'square': 0.025     // 2.5%
+        };
+
         const TOKEN_PRICES = {
             'ETH': 2300,
             'USDT': 1,
@@ -1929,7 +2024,13 @@
             'FTM': 0.45,
             'HOT': 0.0018,
             'THETA': 1.2,
-            'QNT': 95
+            'QNT': 95,
+            'APE': 1.8,
+            'LDO': 2.1,
+            'PEPE': 0.0000012,
+            'ARB': 1.15,
+            'OP': 2.3,
+            'IMX': 1.65
         };
 
         // Floating header scroll effect
@@ -2049,14 +2150,18 @@
             }
 
             const usdAmount = amount * TOKEN_PRICES[selectedTokenValue];
-            const baseFee = usdAmount * 0.025; // 2.5%
+            const feeRate = METHOD_FEES[selectedMethodValue] || 0.025;
+            const baseFee = usdAmount * feeRate;
             const exchangeFee = usdAmount * 0.05; // 5% typical exchange
             const saved = exchangeFee - baseFee;
             const fee = promoApplied ? baseFee * 0.5 : baseFee;
             const receive = usdAmount - fee;
 
+            const feePercent = (feeRate * 100).toFixed(1);
+
             document.getElementById('sendAmount').textContent = amount.toFixed(4) + ' ' + selectedTokenValue;
             document.getElementById('feeAmount').textContent = '$' + baseFee.toFixed(2);
+            document.getElementById('feePercent').textContent = feePercent + '%';
             document.getElementById('savedAmount').textContent = saved.toFixed(2);
             document.getElementById('receiveAmount').textContent = '$' + receive.toFixed(2);
 
