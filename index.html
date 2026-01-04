@@ -287,10 +287,6 @@
         .method-select-icon {
             width: 40px;
             height: 40px;
-            border-radius: 50%;
-            border: 2px solid #e0e0e0;
-            padding: 6px;
-            background: #f8f8f8;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -361,25 +357,21 @@
         .method-icon {
             width: 56px;
             height: 56px;
-            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 12px;
-            background: #f0f0f0;
             overflow: hidden;
-            border: 2px solid #e0e0e0;
         }
 
         .method-icon img {
-            width: 80%;
-            height: 80%;
+            width: 100%;
+            height: 100%;
             object-fit: contain;
         }
 
         .method-card.active .method-icon {
-            background: #fff;
-            border-color: #fff;
+            opacity: 1;
         }
 
         .method-name {
@@ -908,22 +900,15 @@
 </head>
 <body>
     <!-- Fixed Background Ethereum Logo -->
-    <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 0; opacity: 0.025; pointer-events: none; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-        <!-- Small crystal left top -->
-        <svg width="150" height="150" viewBox="0 0 256 417" xmlns="http://www.w3.org/2000/svg" style="position: absolute; top: 10%; left: 15%; opacity: 0.5; transform: rotate(-15deg);">
+    <div style="position: fixed; top: 50%; right: -200px; transform: translateY(-50%); z-index: 0; opacity: 0.03; pointer-events: none;">
+        <!-- Small crystal decorations -->
+        <svg width="120" height="120" viewBox="0 0 256 417" xmlns="http://www.w3.org/2000/svg" style="position: absolute; top: -100px; right: 400px; opacity: 0.4; transform: rotate(25deg);">
             <polygon fill="#000" points="127.9611 0 125.1661 9.5 125.1661 285.168 127.9611 287.958 255.9231 212.32"/>
             <polygon fill="#444" points="127.962 0 0 212.32 127.962 287.959 127.962 154.158"/>
         </svg>
         
-        <!-- Small crystal right top -->
-        <svg width="120" height="120" viewBox="0 0 256 417" xmlns="http://www.w3.org/2000/svg" style="position: absolute; top: 15%; right: 20%; opacity: 0.4; transform: rotate(25deg);">
-            <polygon fill="#000" points="127.9611 0 125.1661 9.5 125.1661 285.168 127.9611 287.958 255.9231 212.32"/>
-            <polygon fill="#444" points="127.962 0 0 212.32 127.962 287.959 127.962 154.158"/>
-        </svg>
-        
-        <!-- Large Central Ethereum Diamond/Crystal -->
-        <svg width="900" height="900" viewBox="0 0 256 417" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 100px rgba(0,0,0,0.05));">
-            <!-- Main diamond shape with gradient effect -->
+        <!-- Large Right-side Ethereum Diamond/Crystal -->
+        <svg width="1000" height="1000" viewBox="0 0 256 417" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(-20px 0 80px rgba(0,0,0,0.05));">
             <defs>
                 <linearGradient id="ethGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" style="stop-color:#000;stop-opacity:0.9" />
@@ -941,22 +926,14 @@
             <polygon fill="url(#ethGrad2)" points="127.962 416.9052 127.962 312.1852 0 236.5852"/>
         </svg>
         
-        <!-- Small crystal left bottom -->
-        <svg width="130" height="130" viewBox="0 0 256 417" xmlns="http://www.w3.org/2000/svg" style="position: absolute; bottom: 20%; left: 10%; opacity: 0.45; transform: rotate(10deg);">
-            <polygon fill="#000" points="127.9611 0 125.1661 9.5 125.1661 285.168 127.9611 287.958 255.9231 212.32"/>
-            <polygon fill="#444" points="127.962 0 0 212.32 127.962 287.959 127.962 154.158"/>
-        </svg>
-        
-        <!-- Small crystal right bottom -->
-        <svg width="100" height="100" viewBox="0 0 256 417" xmlns="http://www.w3.org/2000/svg" style="position: absolute; bottom: 15%; right: 12%; opacity: 0.3; transform: rotate(-20deg);">
+        <svg width="100" height="100" viewBox="0 0 256 417" xmlns="http://www.w3.org/2000/svg" style="position: absolute; bottom: -150px; right: 350px; opacity: 0.35; transform: rotate(-20deg);">
             <polygon fill="#000" points="127.9611 0 125.1661 9.5 125.1661 285.168 127.9611 287.958 255.9231 212.32"/>
             <polygon fill="#444" points="127.962 0 0 212.32 127.962 287.959 127.962 154.158"/>
         </svg>
         
         <!-- Crystal shine overlay -->
-        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: 
-            radial-gradient(circle at 35% 25%, rgba(255,255,255,0.15) 0%, transparent 40%),
-            radial-gradient(circle at 65% 75%, rgba(255,255,255,0.1) 0%, transparent 35%);
+        <div style="position: absolute; top: 0; left: -500px; width: 1000px; height: 1000px; background: 
+            radial-gradient(circle at 30% 30%, rgba(255,255,255,0.12) 0%, transparent 40%);
             pointer-events: none;">
         </div>
     </div>
@@ -995,24 +972,6 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <!-- Background Ethereum Logos -->
-            <div style="position: absolute; top: 20px; left: 20px; opacity: 0.03; pointer-events: none;">
-                <svg width="120" height="120" viewBox="0 0 256 417" xmlns="http://www.w3.org/2000/svg">
-                    <polygon fill="#000" points="127.9611 0 125.1661 9.5 125.1661 285.168 127.9611 287.958 255.9231 212.32"/>
-                    <polygon fill="#666" points="127.962 0 0 212.32 127.962 287.959 127.962 154.158"/>
-                    <polygon fill="#000" points="127.9611 312.1866 126.3861 314.1066 126.3861 412.3056 127.9611 416.9066 256.0011 236.5866"/>
-                    <polygon fill="#666" points="127.962 416.9052 127.962 312.1852 0 236.5852"/>
-                </svg>
-            </div>
-            <div style="position: absolute; top: 20px; right: 20px; opacity: 0.03; pointer-events: none;">
-                <svg width="120" height="120" viewBox="0 0 256 417" xmlns="http://www.w3.org/2000/svg">
-                    <polygon fill="#000" points="127.9611 0 125.1661 9.5 125.1661 285.168 127.9611 287.958 255.9231 212.32"/>
-                    <polygon fill="#666" points="127.962 0 0 212.32 127.962 287.959 127.962 154.158"/>
-                    <polygon fill="#000" points="127.9611 312.1866 126.3861 314.1066 126.3861 412.3056 127.9611 416.9066 256.0011 236.5866"/>
-                    <polygon fill="#666" points="127.962 416.9052 127.962 312.1852 0 236.5852"/>
-                </svg>
-            </div>
-            
             <svg class="logo" viewBox="0 0 256 417" xmlns="http://www.w3.org/2000/svg">
                 <polygon fill="#000" points="127.9611 0 125.1661 9.5 125.1661 285.168 127.9611 287.958 255.9231 212.32"/>
                 <polygon fill="#666" points="127.962 0 0 212.32 127.962 287.959 127.962 154.158"/>
@@ -1075,7 +1034,7 @@
                     
                     <button type="button" class="method-select-btn" onclick="openMethodSelectModal()">
                         <div class="method-select-icon" id="selectedMethodIconContainer">
-                            <img src="https://cdn-icons-png.flaticon.com/512/2830/2830284.png" alt="Bank">
+                            <img src="https://cdn-icons-png.flaticon.com/512/1087/1087815.png" alt="Bank">
                         </div>
                         <div class="method-select-info">
                             <div class="method-select-name" id="selectedMethodText">Bank Transfer</div>
@@ -1095,61 +1054,61 @@
                             <div class="method-modal-grid">
                         <div class="method-card active" id="methodBank" onclick="selectMethodFromModal(this, 'bank')">
                             <div class="method-icon">
-                                <img src="https://cdn-icons-png.flaticon.com/512/2830/2830284.png" alt="Bank">
+                                <img src="https://cdn-icons-png.flaticon.com/512/1087/1087815.png" alt="Bank">
                             </div>
                             <div class="method-name">Bank Transfer</div>
                         </div>
                         <div class="method-card" id="methodCard" onclick="selectMethodFromModal(this, 'card')">
                             <div class="method-icon">
-                                <img src="https://cdn-icons-png.flaticon.com/512/179/179457.png" alt="Card">
+                                <img src="https://cdn-icons-png.flaticon.com/512/633/633611.png" alt="Card">
                             </div>
                             <div class="method-name">Debit/Credit Card</div>
                         </div>
                         <div class="method-card" id="methodPaypal" onclick="selectMethodFromModal(this, 'paypal')">
                             <div class="method-icon">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal">
+                                <img src="https://cdn-icons-png.flaticon.com/512/174/174861.png" alt="PayPal">
                             </div>
                             <div class="method-name">PayPal</div>
                         </div>
                         <div class="method-card" id="methodZelle" onclick="selectMethodFromModal(this, 'zelle')">
                             <div class="method-icon">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Zelle_logo.svg" alt="Zelle">
+                                <img src="https://cdn-icons-png.flaticon.com/512/6124/6124998.png" alt="Zelle">
                             </div>
                             <div class="method-name">Zelle</div>
                         </div>
                         <div class="method-card" id="methodVenmo" onclick="selectMethodFromModal(this, 'venmo')">
                             <div class="method-icon">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Venmo_logo.svg" alt="Venmo">
+                                <img src="https://cdn-icons-png.flaticon.com/512/5968/5968830.png" alt="Venmo">
                             </div>
                             <div class="method-name">Venmo</div>
                         </div>
                         <div class="method-card" id="methodCashapp" onclick="selectMethodFromModal(this, 'cashapp')">
                             <div class="method-icon">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c5/Square_Cash_app_logo.svg" alt="Cash App">
+                                <img src="https://cdn-icons-png.flaticon.com/512/6124/6124991.png" alt="Cash App">
                             </div>
                             <div class="method-name">Cash App</div>
                         </div>
                         <div class="method-card" id="methodWise" onclick="selectMethodFromModal(this, 'wise')">
                             <div class="method-icon">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Wise_logo.svg" alt="Wise">
+                                <img src="https://cdn-icons-png.flaticon.com/512/5968/5968382.png" alt="Wise">
                             </div>
                             <div class="method-name">Wise</div>
                         </div>
                         <div class="method-card" id="methodRevolut" onclick="selectMethodFromModal(this, 'revolut')">
                             <div class="method-icon">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Revolut_logo.svg" alt="Revolut">
+                                <img src="https://cdn-icons-png.flaticon.com/512/5968/5968350.png" alt="Revolut">
                             </div>
                             <div class="method-name">Revolut</div>
                         </div>
                         <div class="method-card" id="methodSkrill" onclick="selectMethodFromModal(this, 'skrill')">
                             <div class="method-icon">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Skrill_logo.svg" alt="Skrill">
+                                <img src="https://cdn-icons-png.flaticon.com/512/5968/5968427.png" alt="Skrill">
                             </div>
                             <div class="method-name">Skrill</div>
                         </div>
                         <div class="method-card" id="methodNeteller" onclick="selectMethodFromModal(this, 'neteller')">
                             <div class="method-icon">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Neteller_logo.svg" alt="Neteller">
+                                <img src="https://cdn-icons-png.flaticon.com/512/6124/6124997.png" alt="Neteller">
                             </div>
                             <div class="method-name">Neteller</div>
                         </div>
@@ -1161,73 +1120,79 @@
                         </div>
                         <div class="method-card" id="methodPayoneer" onclick="selectMethodFromModal(this, 'payoneer')">
                             <div class="method-icon">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e6/Payoneer_logo.svg" alt="Payoneer">
+                                <img src="https://cdn-icons-png.flaticon.com/512/5968/5968331.png" alt="Payoneer">
                             </div>
                             <div class="method-name">Payoneer</div>
                         </div>
-                        <div class="method-card" id="methodApplePay" onclick="selectMethodFromModal(this, 'applepay')">
+                        <div class="method-card" id="methodStripe" onclick="selectMethodFromModal(this, 'stripe')">
                             <div class="method-icon">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple Pay">
+                                <img src="https://cdn-icons-png.flaticon.com/512/5968/5968382.png" alt="Stripe">
                             </div>
-                            <div class="method-name">Apple Pay</div>
+                            <div class="method-name">Stripe</div>
                         </div>
-                        <div class="method-card" id="methodGooglePay" onclick="selectMethodFromModal(this, 'googlepay')">
+                        <div class="method-card" id="methodAlipay" onclick="selectMethodFromModal(this, 'alipay')">
                             <div class="method-icon">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" alt="Google Pay">
-                            </div>
-                            <div class="method-name">Google Pay</div>
-                        </div>
-                        <div class="method-card" id="methodAliPay" onclick="selectMethodFromModal(this, 'alipay')">
-                            <div class="method-icon">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/8/81/Alipay_logo.svg" alt="Alipay">
+                                <img src="https://cdn-icons-png.flaticon.com/512/5968/5968304.png" alt="Alipay">
                             </div>
                             <div class="method-name">Alipay</div>
                         </div>
                         <div class="method-card" id="methodWechat" onclick="selectMethodFromModal(this, 'wechat')">
                             <div class="method-icon">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/d/dd/WeChat_logo_%282020%29.svg" alt="WeChat">
+                                <img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png" alt="WeChat">
                             </div>
                             <div class="method-name">WeChat Pay</div>
                         </div>
-                        <div class="method-card" id="methodStripe" onclick="selectMethodFromModal(this, 'stripe')">
-                            <div class="method-icon">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe">
-                            </div>
-                            <div class="method-name">Stripe</div>
-                        </div>
-                        <div class="method-card" id="methodSquare" onclick="selectMethodFromModal(this, 'square')">
-                            <div class="method-icon">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Square%2C_Inc_-_Square_Logo.svg" alt="Square">
-                            </div>
-                            <div class="method-name">Square</div>
-                        </div>
                         <div class="method-card" id="methodN26" onclick="selectMethodFromModal(this, 'n26')">
                             <div class="method-icon">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2d/N26_logo.svg" alt="N26">
+                                <img src="https://cdn-icons-png.flaticon.com/512/1087/1087815.png" alt="N26">
                             </div>
                             <div class="method-name">N26</div>
                         </div>
                         <div class="method-card" id="methodMonzo" onclick="selectMethodFromModal(this, 'monzo')">
                             <div class="method-icon">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Monzo_logo.svg" alt="Monzo">
+                                <img src="https://cdn-icons-png.flaticon.com/512/1087/1087815.png" alt="Monzo">
                             </div>
                             <div class="method-name">Monzo</div>
                         </div>
                         <div class="method-card" id="methodChime" onclick="selectMethodFromModal(this, 'chime')">
                             <div class="method-icon">
-                                <img src="https://logos-world.net/wp-content/uploads/2023/01/Chime-Logo.png" alt="Chime">
+                                <img src="https://cdn-icons-png.flaticon.com/512/1087/1087815.png" alt="Chime">
                             </div>
                             <div class="method-name">Chime</div>
                         </div>
+                        <div class="method-card" id="methodApplePay" onclick="selectMethodFromModal(this, 'applepay')">
+                            <div class="method-icon">
+                                <img src="https://cdn-icons-png.flaticon.com/512/731/731985.png" alt="Apple Pay">
+                            </div>
+                            <div class="method-name">Apple Pay</div>
+                        </div>
+                        <div class="method-card" id="methodGooglePay" onclick="selectMethodFromModal(this, 'googlepay')">
+                            <div class="method-icon">
+                                <img src="https://cdn-icons-png.flaticon.com/512/6124/6124998.png" alt="Google Pay">
+                            </div>
+                            <div class="method-name">Google Pay</div>
+                        </div>
+                        <div class="method-card" id="methodAliPay" onclick="selectMethodFromModal(this, 'alipay')">
+                            <div class="method-icon">
+                                <img src="https://cdn-icons-png.flaticon.com/512/5968/5968304.png" alt="Alipay">
+                            </div>
+                            <div class="method-name">Alipay</div>
+                        </div>
+                        <div class="method-card" id="methodSquare" onclick="selectMethodFromModal(this, 'square')">
+                            <div class="method-icon">
+                                <img src="https://cdn-icons-png.flaticon.com/512/5968/5968382.png" alt="Square">
+                            </div>
+                            <div class="method-name">Square</div>
+                        </div>
                         <div class="method-card" id="methodSepa" onclick="selectMethodFromModal(this, 'sepa')">
                             <div class="method-icon">
-                                <img src="https://cdn-icons-png.flaticon.com/512/3909/3909444.png" alt="SEPA">
+                                <img src="https://cdn-icons-png.flaticon.com/512/555/555526.png" alt="SEPA">
                             </div>
                             <div class="method-name">SEPA</div>
                         </div>
                         <div class="method-card" id="methodSwift" onclick="selectMethodFromModal(this, 'swift')">
                             <div class="method-icon">
-                                <img src="https://cdn-icons-png.flaticon.com/512/826/826070.png" alt="SWIFT">
+                                <img src="https://cdn-icons-png.flaticon.com/512/2231/2231778.png" alt="SWIFT">
                             </div>
                             <div class="method-name">SWIFT</div>
                         </div>
@@ -1239,19 +1204,19 @@
                         </div>
                         <div class="method-card" id="methodInterac" onclick="selectMethodFromModal(this, 'interac')">
                             <div class="method-icon">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/8/8b/Interac_logo.svg" alt="Interac">
+                                <img src="https://cdn-icons-png.flaticon.com/512/197/197430.png" alt="Interac">
                             </div>
                             <div class="method-name">Interac</div>
                         </div>
                         <div class="method-card" id="methodPix" onclick="selectMethodFromModal(this, 'pix')">
                             <div class="method-icon">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Pix_logo.svg" alt="PIX">
+                                <img src="https://cdn-icons-png.flaticon.com/512/197/197386.png" alt="PIX">
                             </div>
                             <div class="method-name">PIX</div>
                         </div>
                         <div class="method-card" id="methodUpi" onclick="selectMethodFromModal(this, 'upi')">
                             <div class="method-icon">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" alt="UPI">
+                                <img src="https://cdn-icons-png.flaticon.com/512/197/197419.png" alt="UPI">
                             </div>
                             <div class="method-name">UPI</div>
                         </div>
