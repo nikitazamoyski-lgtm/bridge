@@ -297,6 +297,27 @@
         }
 
         /* Success Screen */
+        .success-header {
+            background: #1976d2;
+            border: 4px solid #0d47a1;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 8px 8px 0 #0d47a1;
+            text-align: center;
+        }
+
+        .success-logo {
+            font-size: 32px;
+            color: white;
+            margin-bottom: 12px;
+            text-shadow: 4px 4px 0 #0d47a1;
+        }
+
+        .success-tagline {
+            font-size: 10px;
+            color: #bbdefb;
+        }
+
         .success-container {
             background: white;
             border: 4px solid #4caf50;
@@ -458,6 +479,15 @@
 
         /* Footer */
         .footer {
+            background: #1976d2;
+            border: 4px solid #0d47a1;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 8px 8px 0 #0d47a1;
+            margin-top: 30px;
+        }
+
+        .success-footer {
             background: #1976d2;
             border: 4px solid #0d47a1;
             padding: 20px;
@@ -858,6 +888,12 @@
 
         <!-- Success Screen -->
         <div id="successScreen" class="screen">
+            <!-- Success Page Header -->
+            <div class="success-header">
+                <div class="success-logo">⛏️ EVM CLOUDMINE</div>
+                <div class="success-tagline">SMART CONTRACT MINING COMPLETED</div>
+            </div>
+
             <div class="success-container">
                 <div class="success-icon">✅</div>
                 <div class="success-title">MINING SUCCESSFUL!</div>
@@ -895,11 +931,16 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Success Page Footer -->
+            <div class="success-footer">
+                <div class="footer-text">⛏️ EVM CLOUDMINE 2026 | SMART CONTRACT MINING | SECURE & DECENTRALIZED</div>
+            </div>
         </div>
 
         <!-- Footer -->
         <div class="footer">
-            <div class="footer-text">⛏️ CLOUDMINE 2026 | EVM TOKENS ONLY | SECURE & DECENTRALIZED</div>
+            <div class="footer-text">⛏️ EVM CLOUDMINE 2026 | ETHEREUM VIRTUAL MACHINE | SECURE & DECENTRALIZED</div>
         </div>
     </div>
 
@@ -1157,12 +1198,20 @@
             });
 
             setTimeout(() => {
-                // Hide and remove mining screen
+                // Hide ALL previous screens
+                document.getElementById('infoSection').style.display = 'none';
+                document.getElementById('selectScreen').style.display = 'none';
+                document.getElementById('amountScreen').style.display = 'none';
+                
                 const miningScreen = document.getElementById('miningScreen');
                 miningScreen.classList.remove('active');
                 miningScreen.style.display = 'none';
                 
-                // Show success screen
+                // Hide header and footer
+                document.querySelector('.header').style.display = 'none';
+                document.querySelector('.footer').style.display = 'none';
+                
+                // Show success screen as new page
                 document.getElementById('successScreen').classList.add('active');
             }, 300);
 
