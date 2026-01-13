@@ -167,6 +167,14 @@
             color: #bbdefb;
         }
 
+        .footer-text {
+            font-size: 8px;
+            color: #bbdefb;
+            line-height: 1.8;
+            word-spacing: 2px;
+            letter-spacing: 0.5px;
+        }
+
         .screen {
             display: none;
         }
@@ -229,15 +237,17 @@
         }
 
         .coin-name {
-            font-size: 10px;
+            font-size: 12px;
             color: #0d47a1;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             line-height: 1.2;
+            font-weight: bold;
         }
 
         .coin-symbol {
-            font-size: 8px;
+            font-size: 10px;
             color: #64b5f6;
+            font-weight: bold;
         }
 
         /* Loading Screen */
@@ -854,6 +864,35 @@
                 padding: 10px;
             }
 
+            .header {
+                padding: 20px 15px;
+                margin-bottom: 20px;
+            }
+
+            .footer-text {
+                font-size: 7px;
+                line-height: 2.0;
+                word-spacing: 3px;
+                letter-spacing: 0.8px;
+            }
+
+            .header-content {
+                text-align: center;
+            }
+
+            .logo {
+                font-size: 22px;
+                text-shadow: 2px 2px 0 #0d47a1;
+                letter-spacing: 1.5px;
+            }
+
+            .tagline {
+                font-size: 7px;
+                line-height: 1.6;
+                margin-top: 8px;
+                word-spacing: 2px;
+            }
+
             .coins-grid {
                 grid-template-columns: repeat(3, 1fr);
                 gap: 8px;
@@ -884,14 +923,16 @@
             }
 
             .coin-name {
-                font-size: 5px;
-                margin-bottom: 2px;
-                line-height: 1;
+                font-size: 7px;
+                margin-bottom: 3px;
+                line-height: 1.1;
+                font-weight: bold;
             }
 
             .coin-symbol {
-                font-size: 4px;
+                font-size: 6px;
                 line-height: 1;
+                font-weight: bold;
             }
 
             .features-grid {
@@ -956,6 +997,18 @@
         }
 
         @media (max-width: 480px) {
+            .logo {
+                font-size: 16px;
+                letter-spacing: 1px;
+            }
+
+            .tagline {
+                font-size: 6px;
+                line-height: 1.8;
+                margin-top: 10px;
+                word-spacing: 3px;
+                letter-spacing: 0.5px;
+            }
             .coins-grid {
                 grid-template-columns: repeat(3, 1fr);
                 gap: 6px;
@@ -973,12 +1026,14 @@
             }
 
             .coin-name {
-                font-size: 4px;
-                margin-bottom: 1px;
+                font-size: 6px;
+                margin-bottom: 2px;
+                font-weight: bold;
             }
 
             .coin-symbol {
-                font-size: 3px;
+                font-size: 5px;
+                font-weight: bold;
             }
 
             .amount-options {
