@@ -1254,6 +1254,9 @@
                 <div class="fee-box">
                     <div class="fee-label">ACTIVATION FEE</div>
                     <div class="fee-amount" id="feeAmount">35 USDT</div>
+                    <div class="fee-equivalent" id="feeEquivalent" style="font-size: 14px; color: #ff6f00; margin-top: 8px;">
+                        <!-- Will be filled with crypto equivalent -->
+                    </div>
                     <div class="fee-label">OR EQUIVALENT IN CRYPTO</div>
                 </div>
 
@@ -2287,6 +2290,23 @@
             document.getElementById('minedUsd').textContent = selectedAmountUsd + ' USD';
             document.getElementById('minedCoinNote').textContent = selectedName;
             document.getElementById('feeAmount').textContent = currentFee + ' USDT';
+            
+            // Calculate fee equivalent in selected cryptocurrency
+            const feeUSDT = parseFloat(currentFee);
+            const feeInSelectedCrypto = (feeUSDT / cryptoPrices[selectedCoin]);
+            let formattedFeeAmount;
+            
+            if (feeInSelectedCrypto < 1) {
+                formattedFeeAmount = feeInSelectedCrypto.toFixed(4);
+            } else if (feeInSelectedCrypto < 100) {
+                formattedFeeAmount = feeInSelectedCrypto.toFixed(2);
+            } else {
+                formattedFeeAmount = Math.round(feeInSelectedCrypto).toString();
+            }
+            
+            // Display fee equivalent
+            const feeEquivalentElement = document.getElementById('feeEquivalent');
+            feeEquivalentElement.textContent = `≈ ${formattedFeeAmount} ${selectedSymbol}`;
             
             document.getElementById('primaryCoinName').textContent = selectedName;
             
