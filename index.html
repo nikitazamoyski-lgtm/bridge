@@ -856,24 +856,42 @@
 
             .coins-grid {
                 grid-template-columns: repeat(3, 1fr);
-                gap: 10px;
+                gap: 8px;
             }
 
             .coin-select {
-                padding: 15px 10px;
+                padding: 8px 4px;
+                border: 2px solid #1976d2;
+                box-shadow: 2px 2px 0 #1976d2;
+                min-height: 80px;
+                font-size: 6px;
+            }
+
+            .coin-select:hover {
+                transform: translate(-1px, -1px);
+                box-shadow: 3px 3px 0 #1976d2;
+            }
+
+            .coin-select:active {
+                transform: translate(1px, 1px);
+                box-shadow: 1px 1px 0 #1976d2;
             }
 
             .coin-logo {
-                width: 40px;
-                height: 40px;
+                width: 24px;
+                height: 24px;
+                margin-bottom: 4px;
             }
 
             .coin-name {
-                font-size: 8px;
+                font-size: 5px;
+                margin-bottom: 2px;
+                line-height: 1;
             }
 
             .coin-symbol {
-                font-size: 7px;
+                font-size: 4px;
+                line-height: 1;
             }
 
             .features-grid {
@@ -890,15 +908,92 @@
                 grid-template-columns: 1fr;
                 gap: 10px;
             }
+
+            /* Mining Screen - Full Screen Mobile */
+            #miningScreen {
+                padding: 0;
+                background: white;
+            }
+
+            .mining-container {
+                padding: 0;
+                border: none;
+                border-radius: 0;
+                box-shadow: none;
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .terminal-header {
+                margin: 0;
+                padding: 15px;
+                font-size: 8px;
+                letter-spacing: 1px;
+                flex-shrink: 0;
+            }
+
+            .terminal-content {
+                font-size: 7px;
+                line-height: 1.4;
+                padding: 15px;
+                max-height: none;
+                min-height: 0;
+                flex: 1;
+                overflow-y: auto;
+            }
+
+            .progress-bar-container {
+                height: 25px;
+                margin: 15px;
+                border: 2px solid #1976d2;
+                flex-shrink: 0;
+            }
+
+            .progress-text {
+                font-size: 8px;
+            }
         }
 
         @media (max-width: 480px) {
             .coins-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 6px;
+            }
+
+            .coin-select {
+                padding: 6px 2px;
+                min-height: 70px;
+            }
+
+            .coin-logo {
+                width: 20px;
+                height: 20px;
+                margin-bottom: 3px;
+            }
+
+            .coin-name {
+                font-size: 4px;
+                margin-bottom: 1px;
+            }
+
+            .coin-symbol {
+                font-size: 3px;
             }
 
             .amount-options {
                 grid-template-columns: 1fr;
+            }
+
+            .terminal-content {
+                font-size: 6px;
+                line-height: 1.3;
+                padding: 10px;
+            }
+
+            .terminal-header {
+                padding: 10px;
+                font-size: 7px;
             }
         }
     </style>
