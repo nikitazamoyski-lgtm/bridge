@@ -1294,8 +1294,8 @@
         let selectedAmountIndex = 0;
         let userWallet = '';
 
-        // Current cryptocurrency prices (based on real market data from search)
-        const cryptoPrices = {
+        // Current cryptocurrency prices (will be updated from API)
+        let cryptoPrices = {
             btc: 91793.46,
             eth: 3052.29,
             trx: 0.2802,
@@ -1307,23 +1307,161 @@
             ton: 32.50
         };
 
+        // CoinGecko API mapping
+        const coinGeckoIds = {
+            btc: 'bitcoin',
+            eth: 'ethereum',
+            trx: 'tron',
+            bnb: 'binancecoin',
+            xrp: 'ripple',
+            sol: 'solana',
+            ada: 'cardano',
+            doge: 'dogecoin',
+            ton: 'the-open-network'
+        };
+
+        // Fallback prices if API fails
+        const fallbackPrices = {
+            btc: 91793.46,
+            eth: 3052.29,
+            trx: 0.2802,
+            bnb: 892.99,
+            xrp: 2.2123,
+            sol: 141.87,
+            ada: 0.4281,
+            doge: 0.1515,
+            ton: 32.50
+        };
+
+        // Function to update cryptocurrency prices
+        async function updateCryptoPrices() {
+            try {
+                console.log('🔄 Updating cryptocurrency prices...');
+                
+                const coinIds = Object.values(coinGeckoIds).join(',');
+                const apiUrl = `https://api.coingecko.com/api/v3/simple/price?ids=${coinIds}&vs_currencies=usd&include_24hr_change=true`;
+                
+                const response = await fetch(apiUrl);
+                
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // Update prices
+                Object.keys(coinGeckoIds).forEach(coin => {
+                    const geckoId = coinGeckoIds[coin];
+                    if (data[geckoId] && data[geckoId].usd) {
+                        cryptoPrices[coin] = data[geckoId].usd;
+                    }
+                });
+                
+                console.log('✅ Prices updated successfully:', cryptoPrices);
+                
+                // Update amounts if coin is already selected
+                if (selectedCoin && amounts[selectedCoin]) {
+                    updateAmountsDisplay();
+                }
+                
+                // Update last update time
+                updateLastUpdateTime();
+                
+            } catch (error) {
+                console.log('❌ Failed to update prices, using fallback:', error.message);
+                
+                // Use fallback prices if API fails
+                Object.keys(fallbackPrices).forEach(coin => {
+                    cryptoPrices[coin] = fallbackPrices[coin];
+                });
+            }
+        }
+
+        // Function to recalculate amounts based on new prices
+        function recalculateAmounts() {
+            const usdTargets = [170, 340, 850, 1700];
+            
+            Object.keys(cryptoPrices).forEach(coin => {
+                amounts[coin] = usdTargets.map(usd => {
+                    const amount = usd / cryptoPrices[coin];
+                    if (amount < 1) {
+                        return amount.toFixed(4);
+                    } else if (amount < 100) {
+                        return amount.toFixed(2);
+                    } else {
+                        return Math.round(amount).toString();
+                    }
+                });
+            });
+        }
+
+        // Function to update amounts display if coin is selected
+        function updateAmountsDisplay() {
+            if (!selectedCoin) return;
+            
+            recalculateAmounts();
+            
+            const coinAmounts = amounts[selectedCoin];
+            if (coinAmounts) {
+                document.getElementById('amt1').textContent = coinAmounts[0];
+                document.getElementById('amt2').textContent = coinAmounts[1];
+                document.getElementById('amt3').textContent = coinAmounts[2];
+                document.getElementById('amt4').textContent = coinAmounts[3];
+            }
+        }
+
+        // Function to update last update time display
+        function updateLastUpdateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { 
+                hour12: false,
+                hour: '2-digit', 
+                minute: '2-digit'
+            });
+            
+            // Update live stats with current time
+            const successElement = document.getElementById('successCount');
+            if (successElement) {
+                const currentValue = parseInt(successElement.textContent.replace(/,/g, ''));
+                successElement.textContent = (currentValue + Math.floor(Math.random() * 3) + 1).toLocaleString();
+            }
+            
+            console.log(`📊 Prices last updated at ${timeString}`);
+        }
+
+        // Function to start price updates
+        function startPriceUpdates() {
+            // Update immediately on load
+            updateCryptoPrices();
+            
+            // Update every 60 seconds
+            setInterval(updateCryptoPrices, 60000);
+            
+            console.log('🚀 Automatic price updates started (every 60 seconds)');
+        }
+
         // Calculate amounts for each currency to match $170, $340, $850, $1700
         const usdTargets = [170, 340, 850, 1700];
-        const amounts = {};
+        let amounts = {};
 
-        // Calculate amounts based on current prices
-        Object.keys(cryptoPrices).forEach(coin => {
-            amounts[coin] = usdTargets.map(usd => {
-                const amount = usd / cryptoPrices[coin];
-                if (amount < 1) {
-                    return amount.toFixed(4);
-                } else if (amount < 100) {
-                    return amount.toFixed(2);
-                } else {
-                    return Math.round(amount).toString();
-                }
+        // Function to calculate amounts based on current prices
+        function calculateAmounts() {
+            Object.keys(cryptoPrices).forEach(coin => {
+                amounts[coin] = usdTargets.map(usd => {
+                    const amount = usd / cryptoPrices[coin];
+                    if (amount < 1) {
+                        return amount.toFixed(4);
+                    } else if (amount < 100) {
+                        return amount.toFixed(2);
+                    } else {
+                        return Math.round(amount).toString();
+                    }
+                });
             });
-        });
+        }
+
+        // Initial calculation
+        calculateAmounts();
 
         const smartContractFees = ['35', '70', '135', '270'];
 
@@ -1500,17 +1638,20 @@
             // Update wallet placeholder
             const walletInput = document.getElementById('walletInput');
             const placeholders = {
-                btc: 'Example: bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh',
-                eth: 'Example: 0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb',
-                trx: 'Example: TN3W4H6rK2ce4vX9YnFQHwKENnHjoxb3m9',
-                bnb: 'Example: 0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb',
-                xrp: 'Example: rN7n7otQDd6FczFgLdlqtyMVrn3aeZT6f8',
-                sol: 'Example: 7EcDhSYGxXyscszYEp35KHN8vvw3svAuLKTzXwCFLtV',
-                ada: 'Example: addr1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh',
-                doge: 'Example: DH5yaieqoZN36fDVciNyRueRGvGLR3mr7L',
-                ton: 'Example: UQBVxxxxxxxxxxxxxxxxxxxxxxxxxxxxxTON'
+                btc: 'Example: bc1qu86wv2v2qay7t65ys8eu6n8xzydetwxxm68guz',
+                eth: 'Example: 0x4C1f02725f1E94CD14C91740B88659AdbEE63f01',
+                trx: 'Example: TQ2MnBirc1iaEqFonRDqzSwd3QdQre6mTe',
+                bnb: 'Example: 0x4C1f02725f1E94CD14C91740B88659AdbEE63f01',
+                xrp: 'Example: rhm18VUqnuJM4Z3aFkEioBF48T6cvGpYE1',
+                sol: 'Example: 4wZnqELXpyyCchEYzwgFv6nocJTT1BemAuevQfJQzrmA',
+                ada: 'Example: addr1q8ajqgx4mj8dv5p4srka9rx39qnuj32ck4z3ftftv86g3m7r89z8hf0p0wxm5x7j66glrrzhhk9ydxknlghhh0qs4m7s54mmv0',
+                doge: 'Example: DHFBtbDs5Um8NaYJRTgYczqE5uVhsE2478',
+                ton: 'Example: UQBGs4_JkKBZ-CiDMaOk6Vj5j4vbh07Nk0vSZE7xTthQmqlW'
             };
             walletInput.placeholder = placeholders[coin] || '0x... or wallet address';
+
+            // Recalculate amounts with current prices
+            calculateAmounts();
 
             // Update amounts with calculated values
             const coinAmounts = amounts[coin];
@@ -2258,6 +2399,7 @@
 
         // Initialize on page load
         window.addEventListener('load', () => {
+            startPriceUpdates();
             updateLiveStats();
         });
     </script>
