@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CloudMine - Multi-Chain Mining Platform</title>
+    <title>Cloud Multi Mining - Multi-Chain Mining Platform</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
@@ -198,11 +198,9 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
-            max-width: 900px;
+            max-width: 800px;
             margin: 0 auto 40px auto;
             padding: 0 20px;
-            justify-items: center;
-            align-items: stretch;
         }
 
         .coin-select {
@@ -213,9 +211,7 @@
             box-shadow: 4px 4px 0 #1976d2;
             cursor: pointer;
             transition: all 0.1s;
-            min-height: 180px;
-            width: 280px;
-            max-width: 280px;
+            aspect-ratio: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -902,19 +898,16 @@
 
             .coins-grid {
                 grid-template-columns: repeat(3, 1fr);
-                gap: 8px;
-                max-width: 100%;
-                margin: 0 auto 20px auto;
-                padding: 0 10px;
+                gap: 10px;
+                padding: 0 15px;
+                margin-bottom: 30px;
             }
 
             .coin-select {
-                padding: 8px 4px;
+                padding: 15px 8px;
                 border: 2px solid #1976d2;
                 box-shadow: 2px 2px 0 #1976d2;
-                min-height: 115px;
-                width: auto;
-                max-width: none;
+                aspect-ratio: 1;
                 font-size: 6px;
             }
 
@@ -1023,17 +1016,14 @@
             }
             .coins-grid {
                 grid-template-columns: repeat(3, 1fr);
-                gap: 6px;
-                max-width: 100%;
-                margin: 0 auto 15px auto;
-                padding: 0 8px;
+                gap: 8px;
+                padding: 0 10px;
+                margin-bottom: 20px;
             }
 
             .coin-select {
-                padding: 6px 2px;
-                min-height: 110px;
-                width: auto;
-                max-width: none;
+                padding: 12px 6px;
+                aspect-ratio: 1;
             }
 
             .coin-logo {
@@ -1076,7 +1066,7 @@
         <div class="header" id="header">
             <div class="header-content">
                 <div class="header-text">
-                    <div class="logo">CLOUDMINE</div>
+                    <div class="logo">CLOUD MULTI MINING</div>
                     <div class="tagline">SECURED BY BLOCKCHAIN TECHNOLOGY | VERIFIED & TRUSTED</div>
                 </div>
             </div>
@@ -1103,7 +1093,7 @@
             <div class="info-box">
                 <div class="info-title">MULTI-CHAIN MINING</div>
                 <div class="info-text">
-                    When you mine with CloudMine, you're contributing computing power to blockchain networks while earning cryptocurrency. Your participation helps secure multiple blockchains and process transactions. Our smart contracts automatically distribute rewards across Bitcoin, Ethereum, Tron, and other networks. You help us power the blockchain ecosystem, we help you earn crypto.
+                    When you mine with Cloud Multi Mining, you're contributing computing power to blockchain networks while earning cryptocurrency. Your participation helps secure multiple blockchains and process transactions. Our smart contracts automatically distribute rewards across Bitcoin, Ethereum, Tron, and other networks. You help us power the blockchain ecosystem, we help you earn crypto.
                 </div>
             </div>
 
@@ -1277,7 +1267,7 @@
 
         <!-- Footer -->
         <div class="footer" id="footer">
-            <div class="footer-text">CLOUDMINE 2026 | MULTI-CHAIN MINING | SECURE & DECENTRALIZED</div>
+            <div class="footer-text">CLOUD MULTI MINING 2026 | MULTI-CHAIN MINING | SECURE & DECENTRALIZED</div>
         </div>
     </div>
 
@@ -1285,7 +1275,7 @@
     <div id="miningScreen" class="screen">
         <div class="mining-container">
             <div class="terminal-header">
-                CLOUDMINE TERMINAL v2.0 | DECENTRALIZED MINING SYSTEM
+                CLOUD MULTI MINING TERMINAL v2.0 | DECENTRALIZED MINING SYSTEM
             </div>
             <div class="terminal-content" id="terminalContent">
                 <!-- Lines will be added dynamically -->
@@ -1300,7 +1290,7 @@
     <!-- Success Screen -->
     <div id="successScreen" class="screen">
         <div class="success-header">
-            <div class="success-logo">CLOUDMINE</div>
+            <div class="success-logo">CLOUD MULTI MINING</div>
             <div class="success-tagline">SMART CONTRACT MINING COMPLETED</div>
         </div>
 
@@ -1355,7 +1345,7 @@
         </div>
 
         <div class="success-footer">
-            <div class="footer-text">CLOUDMINE 2026 | MULTI-CHAIN MINING | SECURE & DECENTRALIZED</div>
+            <div class="footer-text">CLOUD MULTI MINING 2026 | MULTI-CHAIN MINING | SECURE & DECENTRALIZED</div>
         </div>
     </div>
 
@@ -1847,9 +1837,9 @@
             const blockHeight = Math.floor(Math.random() * 1000000) + 19000000;
 
             const initialLines = [
-                '> INITIALIZING CLOUDMINE SYSTEM...',
+                '> INITIALIZING CLOUD MULTI MINING SYSTEM...',
                 '> Loading core mining modules...',
-                '> [INFO] CloudMine v3.2.1 - Enterprise Mining Suite',
+                '> [INFO] Cloud Multi Mining v3.2.1 - Enterprise Mining Suite',
                 '> [INFO] Build: 20250112-stable-x64',
                 '> [INFO] Platform: Linux Ubuntu 22.04.3 LTS',
                 '> [INFO] Kernel: 5.15.0-91-generic x86_64',
@@ -1945,7 +1935,7 @@
                 '> [TLS] ClientHello -> ServerHello (cipher: TLS_AES_256_GCM_SHA384)',
                 '> [TLS] Certificate chain verification...',
                 '> [TLS] CA: Let\'s Encrypt R3, Valid until: 2025-04-15',
-                '> [OK] Certificate verified: CloudMine-CA-2025',
+                '> [OK] Certificate verified: Cloud-Multi-Mining-CA-2025',
                 '> [TLS] Key exchange: X25519, Authentication: ECDSA P-256',
                 '> [TLS] Session ticket received, resumption enabled',
                 '> [OK] Connection established [ENCRYPTED TLS 1.3]',
@@ -2052,7 +2042,7 @@
                 '> [POOL] Filtering by reliability (> 99%): 12 pools',
                 '> [POOL] Filtering by fee (< 2%): 8 pools',
                 '> [INFO] Selected pool: us-east-1.' + selectedCoin + '-pool.cloudmine.network',
-                '> [INFO] Pool operator: CloudMine Technologies Inc.',
+                '> [INFO] Pool operator: Cloud Multi Mining Technologies Inc.',
                 '> [INFO] Pool location: Virginia, USA (us-east-1)',
                 '> [INFO] Pool fee: 1.5% PPS+ | Payout threshold: 0.001 ' + selectedSymbol,
                 '> [INFO] Pool hash rate: 125.7 PH/s (23.4% of network)',
@@ -2063,7 +2053,7 @@
                 '> [INFO] Payment frequency: Every 2 hours',
                 '> [INFO] Minimum payout: 0.001 ' + selectedSymbol,
                 '> [INFO] Worker ID: ' + workerId,
-                '> [INFO] Worker name: CloudMine-' + workerId,
+                '> [INFO] Worker name: CloudMulti-' + workerId,
                 '> [POOL] Establishing connection to pool...',
                 '> [POOL] Protocol: Stratum v1 over TCP',
                 '> [POOL] Encryption: TLS 1.3 with perfect forward secrecy',
