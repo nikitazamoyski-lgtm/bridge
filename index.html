@@ -2423,37 +2423,22 @@
 
         // Popular tokens that can be bridged (Top 30 EVM tokens)
         const tokens = {
+            // Native Tokens
             eth: {
                 symbol: 'ETH',
                 name: 'Ethereum',
                 logo: 'https://assets.coingecko.com/coins/images/279/standard/ethereum.png?1696501628',
                 geckoId: 'ethereum',
                 decimals: 18,
-                nativeChain: 'ethereum'
-            },
-            wbtc: {
-                symbol: 'WBTC',
-                name: 'Wrapped Bitcoin',
-                logo: 'https://assets.coingecko.com/coins/images/7598/standard/wrapped_bitcoin_wbtc.png?1696507857',
-                geckoId: 'wrapped-bitcoin',
-                decimals: 8,
-                nativeChain: null
-            },
-            usdt: {
-                symbol: 'USDT',
-                name: 'Tether USD',
-                logo: 'https://assets.coingecko.com/coins/images/325/standard/Tether.png?1696501661',
-                geckoId: 'tether',
-                decimals: 6,
-                nativeChain: null
-            },
-            usdc: {
-                symbol: 'USDC',
-                name: 'USD Coin',
-                logo: 'https://assets.coingecko.com/coins/images/6319/standard/usdc.png?1696506694',
-                geckoId: 'usd-coin',
-                decimals: 6,
-                nativeChain: null
+                chains: {
+                    ethereum: { native: true, contract: null },
+                    arbitrum: { native: true, contract: null },
+                    optimism: { native: true, contract: null },
+                    base: { native: true, contract: null },
+                    polygon: { native: false, contract: '0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619' },
+                    avalanche: { native: false, contract: '0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB' },
+                    bsc: { native: false, contract: '0x2170Ed0880ac9A755fd29B2688956BD959F933F8' }
+                }
             },
             bnb: {
                 symbol: 'BNB',
@@ -2461,7 +2446,11 @@
                 logo: 'https://assets.coingecko.com/coins/images/825/standard/bnb-icon2_2x.png?1696501970',
                 geckoId: 'binancecoin',
                 decimals: 18,
-                nativeChain: 'bsc'
+                chains: {
+                    bsc: { native: true, contract: null },
+                    ethereum: { native: false, contract: '0xB8c77482e45F1F44dE1745F52C74426C631bDD52' },
+                    polygon: { native: false, contract: '0x3BA4c387f786bFEE076A58914F5Bd38d668B42c3' }
+                }
             },
             pol: {
                 symbol: 'POL',
@@ -2469,23 +2458,22 @@
                 logo: 'https://assets.coingecko.com/coins/images/4713/standard/polygon.png?1698233684',
                 geckoId: 'polygon-ecosystem-token',
                 decimals: 18,
-                nativeChain: 'polygon'
+                chains: {
+                    polygon: { native: true, contract: null },
+                    ethereum: { native: false, contract: '0x455e53CBB86018Ac2B8092FdCd39d8444aFFC3F6' }
+                }
             },
-            dai: {
-                symbol: 'DAI',
-                name: 'Dai Stablecoin',
-                logo: 'https://assets.coingecko.com/coins/images/9956/standard/Badge_Dai.png?1696509996',
-                geckoId: 'dai',
+            avax: {
+                symbol: 'AVAX',
+                name: 'Avalanche',
+                logo: 'https://assets.coingecko.com/coins/images/12559/standard/Avalanche_Circle_RedWhite_Trans.png?1696512369',
+                geckoId: 'avalanche-2',
                 decimals: 18,
-                nativeChain: null
-            },
-            link: {
-                symbol: 'LINK',
-                name: 'Chainlink',
-                logo: 'https://assets.coingecko.com/coins/images/877/standard/chainlink-new-logo.png?1696502009',
-                geckoId: 'chainlink',
-                decimals: 18,
-                nativeChain: null
+                chains: {
+                    avalanche: { native: true, contract: null },
+                    ethereum: { native: false, contract: '0x85f138bfEE4ef8e540890CFb48F620571d67Eda3' },
+                    bsc: { native: false, contract: '0x1CE0c2827e2eF14D5C4f29a091d735A204794041' }
+                }
             },
             arb: {
                 symbol: 'ARB',
@@ -2493,7 +2481,10 @@
                 logo: 'https://assets.coingecko.com/coins/images/16547/standard/photo_2023-03-29_21.47.00.jpeg?1696516109',
                 geckoId: 'arbitrum',
                 decimals: 18,
-                nativeChain: 'arbitrum'
+                chains: {
+                    arbitrum: { native: false, contract: '0x912CE59144191C1204E64559FE8253a0e49E6548' },
+                    ethereum: { native: false, contract: '0xB50721BCf8d664c30412Cfbc6cf7a15145234ad1' }
+                }
             },
             op: {
                 symbol: 'OP',
@@ -2501,15 +2492,92 @@
                 logo: 'https://assets.coingecko.com/coins/images/25244/standard/Optimism.png?1696524385',
                 geckoId: 'optimism',
                 decimals: 18,
-                nativeChain: 'optimism'
+                chains: {
+                    optimism: { native: false, contract: '0x4200000000000000000000000000000000000042' },
+                    ethereum: { native: false, contract: '0x4200000000000000000000000000000000000042' }
+                }
             },
+            
+            // Stablecoins
+            usdt: {
+                symbol: 'USDT',
+                name: 'Tether USD',
+                logo: 'https://assets.coingecko.com/coins/images/325/standard/Tether.png?1696501661',
+                geckoId: 'tether',
+                decimals: 6,
+                chains: {
+                    ethereum: { native: false, contract: '0xdAC17F958D2ee523a2206206994597C13D831ec7' },
+                    bsc: { native: false, contract: '0x55d398326f99059fF775485246999027B3197955' },
+                    polygon: { native: false, contract: '0xc2132D05D31c914a87C6611C10748AEb04B58e8F' },
+                    arbitrum: { native: false, contract: '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9' },
+                    optimism: { native: false, contract: '0x94b008aA00579c1307B0EF2c499aD98a8ce58e58' },
+                    avalanche: { native: false, contract: '0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7' },
+                    base: { native: false, contract: '0x...' }
+                }
+            },
+            usdc: {
+                symbol: 'USDC',
+                name: 'USD Coin',
+                logo: 'https://assets.coingecko.com/coins/images/6319/standard/usdc.png?1696506694',
+                geckoId: 'usd-coin',
+                decimals: 6,
+                chains: {
+                    ethereum: { native: false, contract: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48' },
+                    bsc: { native: false, contract: '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d' },
+                    polygon: { native: false, contract: '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174' },
+                    arbitrum: { native: false, contract: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831' },
+                    optimism: { native: false, contract: '0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85' },
+                    avalanche: { native: false, contract: '0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E' },
+                    base: { native: false, contract: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913' }
+                }
+            },
+            dai: {
+                symbol: 'DAI',
+                name: 'Dai Stablecoin',
+                logo: 'https://assets.coingecko.com/coins/images/9956/standard/Badge_Dai.png?1696509996',
+                geckoId: 'dai',
+                decimals: 18,
+                chains: {
+                    ethereum: { native: false, contract: '0x6B175474E89094C44Da98b954EedeAC495271d0F' },
+                    bsc: { native: false, contract: '0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3' },
+                    polygon: { native: false, contract: '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063' },
+                    arbitrum: { native: false, contract: '0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1' },
+                    optimism: { native: false, contract: '0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1' },
+                    avalanche: { native: false, contract: '0xd586E7F844cEa2F87f50152665BCbc2C279D8d70' }
+                }
+            },
+            
+            // Wrapped Bitcoin
+            wbtc: {
+                symbol: 'WBTC',
+                name: 'Wrapped Bitcoin',
+                logo: 'https://assets.coingecko.com/coins/images/7598/standard/wrapped_bitcoin_wbtc.png?1696507857',
+                geckoId: 'wrapped-bitcoin',
+                decimals: 8,
+                chains: {
+                    ethereum: { native: false, contract: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599' },
+                    bsc: { native: false, contract: '0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c' },
+                    polygon: { native: false, contract: '0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6' },
+                    arbitrum: { native: false, contract: '0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f' },
+                    optimism: { native: false, contract: '0x68f180fcCe6836688e9084f035309E29Bf0A2095' },
+                    avalanche: { native: false, contract: '0x50b7545627a5162F82A992c33b87aDc75187B218' }
+                }
+            },
+            
+            // DeFi Tokens
             uni: {
                 symbol: 'UNI',
                 name: 'Uniswap',
                 logo: 'https://assets.coingecko.com/coins/images/12504/standard/uni.jpg?1696512319',
                 geckoId: 'uniswap',
                 decimals: 18,
-                nativeChain: null
+                chains: {
+                    ethereum: { native: false, contract: '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984' },
+                    polygon: { native: false, contract: '0xb33EaAd8d922B1083446DC23f610c2567fB5180f' },
+                    arbitrum: { native: false, contract: '0xFa7F8980b0f1E64A2062791cc3b0871572f1F7f0' },
+                    optimism: { native: false, contract: '0x6fd9d7AD17242c41f7131d257212c54A0e816691' },
+                    bsc: { native: false, contract: '0xBf5140A22578168FD562DCcF235E5D43A02ce9B1' }
+                }
             },
             aave: {
                 symbol: 'AAVE',
@@ -2517,7 +2585,28 @@
                 logo: 'https://assets.coingecko.com/coins/images/12645/standard/AAVE.png?1696512452',
                 geckoId: 'aave',
                 decimals: 18,
-                nativeChain: null
+                chains: {
+                    ethereum: { native: false, contract: '0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9' },
+                    polygon: { native: false, contract: '0xD6DF932A45C0f255f85145f286eA0b292B21C90B' },
+                    arbitrum: { native: false, contract: '0xba5DdD1f9d7F570dc94a51479a000E3BCE967196' },
+                    optimism: { native: false, contract: '0x76FB31fb4af56892A25e32cFC43De717950c9278' },
+                    avalanche: { native: false, contract: '0x63a72806098Bd3D9520cC43356dD78afe5D386D9' }
+                }
+            },
+            link: {
+                symbol: 'LINK',
+                name: 'Chainlink',
+                logo: 'https://assets.coingecko.com/coins/images/877/standard/chainlink-new-logo.png?1696502009',
+                geckoId: 'chainlink',
+                decimals: 18,
+                chains: {
+                    ethereum: { native: false, contract: '0x514910771AF9Ca656af840dff83E8264EcF986CA' },
+                    bsc: { native: false, contract: '0xF8A0BF9cF54Bb92F17374d9e9A321E6a111a51bD' },
+                    polygon: { native: false, contract: '0x53E0bca35eC356BD5ddDFebbD1Fc0fD03FaBad39' },
+                    arbitrum: { native: false, contract: '0xf97f4df75117a78c1A5a0DBb814Af92458539FB4' },
+                    optimism: { native: false, contract: '0x350a791Bfc2C21F9Ed5d10980Dad2e2638ffa7f6' },
+                    avalanche: { native: false, contract: '0x5947BB275c521040051D82396192181b413227A3' }
+                }
             },
             crv: {
                 symbol: 'CRV',
@@ -2525,7 +2614,13 @@
                 logo: 'https://assets.coingecko.com/coins/images/12124/standard/Curve.png?1696511967',
                 geckoId: 'curve-dao-token',
                 decimals: 18,
-                nativeChain: null
+                chains: {
+                    ethereum: { native: false, contract: '0xD533a949740bb3306d119CC777fa900bA034cd52' },
+                    polygon: { native: false, contract: '0x172370d5Cd63279eFa6d502DAB29171933a610AF' },
+                    arbitrum: { native: false, contract: '0x11cDb42B0EB46D95f990BeDD4695A6e3fA034978' },
+                    optimism: { native: false, contract: '0x0994206dfE8De6Ec6920FF4D779B0d950605Fb53' },
+                    avalanche: { native: false, contract: '0x249848BeCA43aC405b8102Ec90Dd5F22CA513c06' }
+                }
             },
             mkr: {
                 symbol: 'MKR',
@@ -2533,7 +2628,11 @@
                 logo: 'https://assets.coingecko.com/coins/images/1364/standard/Mark_Maker.png?1696502423',
                 geckoId: 'maker',
                 decimals: 18,
-                nativeChain: null
+                chains: {
+                    ethereum: { native: false, contract: '0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2' },
+                    polygon: { native: false, contract: '0x6f7C932e7684666C9fd1d44527765433e01fF61d' },
+                    arbitrum: { native: false, contract: '0x2e9a6Df78E42a30712c10a9Dc4b1C8656f8F2879' }
+                }
             },
             snx: {
                 symbol: 'SNX',
@@ -2541,13 +2640,81 @@
                 logo: 'https://assets.coingecko.com/coins/images/3406/standard/SNX.png?1696504103',
                 geckoId: 'synthetix-network-token',
                 decimals: 18,
-                nativeChain: null
+                chains: {
+                    ethereum: { native: false, contract: '0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F' },
+                    optimism: { native: false, contract: '0x8700dAec35aF8Ff88c16BdF0418774CB3D7599B4' },
+                    polygon: { native: false, contract: '0x50B728D8D964fd00C2d0AAD81718b71311feF68a' },
+                    arbitrum: { native: false, contract: '0xcBA56Cd8216FCBBF3fA6DF6137F3147cBcA37D60' }
+                }
             },
             comp: {
                 symbol: 'COMP',
                 name: 'Compound',
                 logo: 'https://assets.coingecko.com/coins/images/10775/standard/COMP.png?1696510737',
                 geckoId: 'compound-governance-token',
+                decimals: 18,
+                chains: {
+                    ethereum: { native: false, contract: '0xc00e94Cb662C3520282E6f5717214004A7f26888' },
+                    polygon: { native: false, contract: '0x8505b9d2254A7Ae468c0E9dd10Ccea3A837aef5c' },
+                    arbitrum: { native: false, contract: '0x354A6dA3fcde098F8389cad84b0182725c6C91dE' },
+                    base: { native: false, contract: '0x9e1028F5F1D5eDE59748FFceE5532509976840E0' }
+                }
+            },
+            
+            // Additional Popular Tokens
+            pepe: {
+                symbol: 'PEPE',
+                name: 'Pepe',
+                logo: 'https://assets.coingecko.com/coins/images/29850/standard/pepe-token.jpeg?1696528776',
+                geckoId: 'pepe',
+                decimals: 18,
+                chains: {
+                    ethereum: { native: false, contract: '0x6982508145454Ce325dDbE47a25d4ec3d2311933' },
+                    bsc: { native: false, contract: '0x25d887Ce7a35172C62FeBFD67a1856F20FaEbB00' },
+                    arbitrum: { native: false, contract: '0x25d887Ce7a35172C62FeBFD67a1856F20FaEbB00' },
+                    base: { native: false, contract: '0x...' }
+                }
+            },
+            shib: {
+                symbol: 'SHIB',
+                name: 'Shiba Inu',
+                logo: 'https://assets.coingecko.com/coins/images/11939/standard/shiba.png?1696511800',
+                geckoId: 'shiba-inu',
+                decimals: 18,
+                chains: {
+                    ethereum: { native: false, contract: '0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE' },
+                    bsc: { native: false, contract: '0x2859e4544C4bB03966803b044A93563Bd2D0DD4D' },
+                    polygon: { native: false, contract: '0x6f8a06447Ff6FcF75d803135a7de15CE88C1d4ec' }
+                }
+            },
+            weth: {
+                symbol: 'WETH',
+                name: 'Wrapped Ether',
+                logo: 'https://assets.coingecko.com/coins/images/2518/standard/weth.png?1696503332',
+                geckoId: 'weth',
+                decimals: 18,
+                chains: {
+                    ethereum: { native: false, contract: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2' },
+                    arbitrum: { native: false, contract: '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1' },
+                    optimism: { native: false, contract: '0x4200000000000000000000000000000000000006' },
+                    polygon: { native: false, contract: '0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619' },
+                    base: { native: false, contract: '0x4200000000000000000000000000000000000006' },
+                    avalanche: { native: false, contract: '0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB' }
+                }
+            },
+            matic: {
+                symbol: 'MATIC',
+                name: 'Polygon (old)',
+                logo: 'https://assets.coingecko.com/coins/images/4713/standard/polygon.png?1698233684',
+                geckoId: 'matic-network',
+                decimals: 18,
+                chains: {
+                    ethereum: { native: false, contract: '0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0' },
+                    bsc: { native: false, contract: '0xCC42724C6683B7E57334c4E856f4c9965ED682bD' },
+                    polygon: { native: false, contract: '0x0000000000000000000000000000000000001010' }
+                }
+            }
+        };
                 decimals: 18,
                 nativeChain: null
             },
@@ -2780,25 +2947,6 @@
                 name: 'Loopring',
                 logo: 'https://assets.coingecko.com/coins/images/913/standard/LRC.png?1696502034',
                 geckoId: 'loopring',
-                decimals: 18,
-                nativeChain: null
-            },
-            weth: {
-                symbol: 'WETH',
-                name: 'Wrapped Ether',
-                logo: 'https://assets.coingecko.com/coins/images/2518/standard/weth.png?1696503332',
-                geckoId: 'weth',
-                decimals: 18,
-                nativeChain: null
-            },
-            usdp: {
-                symbol: 'USDP',
-                name: 'Pax Dollar',
-                logo: 'https://assets.coingecko.com/coins/images/6013/standard/Pax_Dollar.png?1696506427',
-                geckoId: 'paxos-standard',
-                decimals: 18,
-                nativeChain: null
-            }
         };
 
         // Bridge contract data
@@ -4185,30 +4333,14 @@
                 selectedFromToken = key;
                 updateTokenDisplay('from', token);
                 
-                // If token has native chain, auto-select that chain
-                if (token.nativeChain) {
-                    selectedFromChain = token.nativeChain;
-                    updateChainDisplay('from', chains[token.nativeChain]);
-                    // Lock the chain selector
-                    document.getElementById('fromChainSelector').classList.add('locked');
-                } else {
-                    // Unlock the chain selector
-                    document.getElementById('fromChainSelector').classList.remove('locked');
-                }
+                // Token can be on any chain now - unlock selector
+                document.getElementById('fromChainSelector').classList.remove('locked');
             } else {
                 selectedToToken = key;
                 updateTokenDisplay('to', token);
                 
-                // If token has native chain, auto-select that chain
-                if (token.nativeChain) {
-                    selectedToChain = token.nativeChain;
-                    updateChainDisplay('to', chains[token.nativeChain]);
-                    // Lock the chain selector
-                    document.getElementById('toChainSelector').classList.add('locked');
-                } else {
-                    // Unlock the chain selector
-                    document.getElementById('toChainSelector').classList.remove('locked');
-                }
+                // Token can be on any chain now - unlock selector  
+                document.getElementById('toChainSelector').classList.remove('locked');
             }
             
             closeTokenModal();
