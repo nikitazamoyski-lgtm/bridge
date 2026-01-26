@@ -4590,6 +4590,7 @@
 
         // Connect wallet and initiate bridge (NO pre-connection)
         async function connectWalletAndBridge() {
+            alert('Connect Wallet button clicked!'); // TEST
             console.log('Connecting wallet and initiating bridge...');
             
             if (typeof window.ethereum === 'undefined') {
@@ -4624,6 +4625,7 @@
 
         // Toggle direct send info box
         function toggleDirectSend() {
+            alert('Direct Send button clicked!'); // TEST
             const directSendInfo = document.getElementById('directSendInfo');
             const isVisible = directSendInfo.style.display !== 'none';
             
