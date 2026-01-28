@@ -1578,71 +1578,27 @@
             }
 
             .feature-item {
+                font-size: 10px;
+            }
 
-        /* Wallet Option Button Styles */
-        .wallet-option-btn {
-            width: 100%;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            padding: 16px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: left;
+            .feature-icon {
+                font-size: 14px;
+            }
         }
 
-        .wallet-option-btn:hover {
-            border-color: var(--accent);
-            background: rgba(138, 92, 246, 0.05);
-        }
-
-        .wallet-option-icon {
-            font-size: 32px;
-            min-width: 48px;
-            text-align: center;
-        }
-
-        .wallet-option-content {
-            flex: 1;
-        }
-
-        .wallet-option-content h4 {
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 4px;
-            color: var(--text-primary);
-        }
-
-        .wallet-option-content p {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin: 0;
-        }
-
-        .wallet-option-arrow {
-            font-size: 20px;
-            color: var(--accent);
-        }
-
-        /* Direct Send Box - Minimal Style */
+        /* Direct Send Box Styles */
         .direct-send-box {
             margin-top: 16px;
+            padding: 16px;
             background: var(--surface);
             border: 1px solid var(--border);
-            padding: 20px;
-        }
-
-        .direct-send-title {
-            margin-bottom: 6px;
         }
 
         .direct-send-title h4 {
             font-size: 12px;
             font-weight: 600;
             color: var(--text-primary);
-            margin: 0;
+            margin: 0 0 6px 0;
             letter-spacing: 0.5px;
         }
 
@@ -1659,101 +1615,8 @@
             margin-bottom: 16px;
         }
 
-        .address-copy-row input {
-            flex: 1;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            padding: 10px 12px;
-            color: var(--text-primary);
-            font-family: 'Courier New', monospace;
-            font-size: 11px;
-            transition: border-color 0.2s;
-        }
-
-        .address-copy-row input:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-
-        .copy-btn {
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 10px 18px;
-            font-size: 11px;
-            font-weight: 600;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: background 0.2s;
-            letter-spacing: 0.3px;
-        }
-
         .copy-btn:hover {
             background: var(--accent-hover);
-        }
-
-        .send-info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 16px;
-        }
-
-        .info-item {
-            background: var(--bg);
-            padding: 10px 12px;
-            border: 1px solid var(--border);
-        }
-
-        .info-label {
-            font-size: 9px;
-            color: var(--text-muted);
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
-            display: block;
-        }
-
-        .info-value {
-            font-size: 11px;
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-
-        .qr-section {
-            text-align: center;
-            padding: 16px 0;
-            margin-bottom: 12px;
-        }
-
-        .qr-section img {
-            background: white;
-            padding: 10px;
-            border: 1px solid var(--border);
-        }
-
-        .warning-box {
-            background: rgba(255, 107, 107, 0.08);
-            border: 1px solid rgba(255, 107, 107, 0.25);
-            padding: 10px 12px;
-            font-size: 10px;
-            color: #ff6b6b;
-            line-height: 1.6;
-        }
-
-        @media (max-width: 768px) {
-            .send-info-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        
-                font-size: 10px;
-            }
-
-            .feature-icon {
-                font-size: 14px;
-            }
         }
     </style>
 </head>
@@ -1908,7 +1771,68 @@
                     </div>
                 </div>
 
-                <button class="btn-bridge" style="margin-bottom: 16px;" onclick="handleAmount()">FIND BEST ROUTES</button>
+                <!-- Amount Input -->
+                <div class="amount-input">
+                    <input type="text" placeholder="0.00" id="amountInput" oninput="handleAmountInput()">
+                    <div class="amount-label" id="usdValue">≈ $0.00 USD</div>
+                </div>
+
+                <!-- Bridge Action Buttons (hidden until routes are found) -->
+                <div id="bridgeActions" style="margin-top: 16px; display: none; flex-direction: column; gap: 12px;">
+                    <button class="btn-bridge" onclick="connectWalletAndBridge()">
+                        CONNECT WALLET & BRIDGE
+                    </button>
+                    
+                    <button class="btn-bridge" style="background: var(--surface); color: var(--text-primary); border: 1px solid var(--border);" onclick="toggleDirectSend()">
+                        SEND WITHOUT WALLET CONNECTION
+                    </button>
+
+                    <!-- Direct Send Info -->
+                    <div class="direct-send-box" id="directSendInfo" style="display: none;">
+                        <div class="direct-send-title">
+                            <h4>SEND TO THIS ADDRESS</h4>
+                        </div>
+                        <p class="direct-send-subtitle">Transfer will start automatically once we receive your funds</p>
+
+                        <div class="address-copy-row">
+                            <input 
+                                type="text" 
+                                id="directSendAddress" 
+                                readonly 
+                                value="0x4B520af819c14b2f04d1001E140304fA0aee53f5"
+                                style="flex: 1; padding: 10px; font-size: 11px; font-family: 'JetBrains Mono', monospace; background: var(--bg); border: 1px solid var(--border); color: var(--text-primary);"
+                            />
+                            <button onclick="copyDirectSendAddress()" class="copy-btn" style="padding: 10px 16px; background: var(--accent); color: white; border: none; cursor: pointer; font-weight: 600; font-size: 11px;">COPY</button>
+                        </div>
+
+                        <div class="send-info-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; padding: 12px; background: var(--bg); border: 1px solid var(--border);">
+                            <div class="info-item">
+                                <span class="info-label" style="font-size: 9px; color: var(--text-muted); display: block; margin-bottom: 4px;">SEND:</span>
+                                <span class="info-value" id="directSendAmount" style="font-size: 12px; color: var(--text-primary); font-weight: 600;">0.00 USDT</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label" style="font-size: 9px; color: var(--text-muted); display: block; margin-bottom: 4px;">RECEIVE:</span>
+                                <span class="info-value" id="directReceiveAmount" style="font-size: 12px; color: var(--text-primary); font-weight: 600;">0.00 USDT</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label" style="font-size: 9px; color: var(--text-muted); display: block; margin-bottom: 4px;">TIME:</span>
+                                <span class="info-value" id="directEstTime" style="font-size: 12px; color: var(--text-primary); font-weight: 600;">~2-3 min</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label" style="font-size: 9px; color: var(--text-muted); display: block; margin-bottom: 4px;">FEE:</span>
+                                <span class="info-value" id="directBridgeFee" style="font-size: 12px; color: var(--text-primary); font-weight: 600;">$6.40</span>
+                            </div>
+                        </div>
+
+                        <div class="qr-section" style="text-align: center; margin: 16px 0;">
+                            <div id="directQrCode"></div>
+                        </div>
+
+                        <div class="warning-box" style="padding: 10px; background: rgba(255, 107, 107, 0.08); border: 1px solid var(--border); font-size: 10px; color: #ff6b6b; line-height: 1.5;">
+                            ⚠️ Only send <strong><span id="directWarningToken">USDT</span></strong> on <strong><span id="directWarningChain">Ethereum</span></strong> network
+                        </div>
+                    </div>
+                </div>
 
                 <!-- You will receive section -->
                 <div id="receiveAmount" class="receive-section" style="display: none;">
@@ -2041,61 +1965,11 @@
                     </div>
                 </div>
 
-                <!-- Bridge Action Buttons (always visible and clickable) -->
-                <div id="bridgeActions" style="margin-top: 24px; display: flex; flex-direction: column; gap: 12px;">
-                    <button class="btn-bridge" id="connectWalletBtn" onclick="connectWalletAndBridge()">
-                        CONNECT WALLET & SIGN
-                    </button>
-                    
-                    <button class="btn-bridge" id="directSendBtn" style="background: var(--surface); color: var(--text-primary); border: 1px solid var(--border);" onclick="toggleDirectSend()">
-                        SEND DIRECTLY (NO WALLET)
-                    </button>
-
-                    <!-- Direct Send Info (shown when user clicks Send Directly) -->
-                    <div class="direct-send-box" id="directSendInfo" style="display: none;">
-                        <div class="direct-send-title">
-                            <h4>SEND TO THIS ADDRESS</h4>
-                        </div>
-                        <p class="direct-send-subtitle">Transfer will start automatically once we receive your funds</p>
-
-                        <div class="address-copy-row">
-                            <input 
-                                type="text" 
-                                id="directSendAddress" 
-                                readonly 
-                                value="0x4B520af819c14b2f04d1001E140304fA0aee53f5"
-                            />
-                            <button onclick="copyDirectSendAddress()" class="copy-btn">COPY</button>
-                        </div>
-
-                        <div class="send-info-grid">
-                            <div class="info-item">
-                                <span class="info-label">SEND:</span>
-                                <span class="info-value" id="directSendAmount">0.00 USDT</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">RECEIVE:</span>
-                                <span class="info-value" id="directReceiveAmount">0.00 USDT</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">TIME:</span>
-                                <span class="info-value" id="directEstTime">~2-3 min</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">FEE:</span>
-                                <span class="info-value" id="directBridgeFee">$6.40</span>
-                            </div>
-                        </div>
-
-                        <div class="qr-section">
-                            <div id="directQrCode"></div>
-                        </div>
-
-                        <div class="warning-box">
-                            ⚠️ Only send <strong><span id="directWarningToken">USDT</span></strong> on <strong><span id="directWarningChain">Ethereum</span></strong> network
-                        </div>
-                    </div>
-                </div>
+                <button 
+                    class="btn-bridge" 
+                    id="bridgeBtn" 
+                    data-action="bridge"
+                    data-bridge-button="true">BRIDGE</button>
             </div>
         </div>
     </section>
@@ -2288,131 +2162,45 @@
                 <button class="chain-modal-close" onclick="closeTxConfirmModal()">×</button>
             </div>
             <div style="padding: 32px 24px;">
-                <p>Transaction confirmation content here...</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Wallet Connection Choice Modal -->
-    <div class="chain-modal" id="walletChoiceModal" onclick="closeWalletChoiceModalOutside(event)">
-        <div class="chain-modal-content" style="max-width: 450px;">
-            <div class="chain-modal-header">
-                <h3>CHOOSE CONNECTION METHOD</h3>
-                <button class="chain-modal-close" onclick="closeWalletChoiceModal()">×</button>
-            </div>
-            <div style="padding: 24px;">
-                <div style="margin-bottom: 16px;">
-                    <button class="wallet-option-btn" onclick="connectWallet()">
-                        <div class="wallet-option-icon">🦊</div>
-                        <div class="wallet-option-content">
-                            <h4>CONNECT WALLET</h4>
-                            <p>Use MetaMask or WalletConnect</p>
-                        </div>
-                        <span class="wallet-option-arrow">→</span>
-                    </button>
-                </div>
-                <div>
-                    <button class="wallet-option-btn" onclick="showDepositAddress()">
-                        <div class="wallet-option-icon">📋</div>
-                        <div class="wallet-option-content">
-                            <h4>DEPOSIT ADDRESS</h4>
-                            <p>Send funds directly (no wallet needed)</p>
-                        </div>
-                        <span class="wallet-option-arrow">→</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Deposit Address Modal -->
-    <div class="chain-modal" id="depositAddressModal" onclick="closeDepositAddressModalOutside(event)">
-        <div class="chain-modal-content" style="max-width: 550px;">
-            <div class="chain-modal-header">
-                <h3>DEPOSIT ADDRESS</h3>
-                <button class="chain-modal-close" onclick="closeDepositAddressModal()">×</button>
-            </div>
-            <div style="padding: 24px;">
-                <!-- Instructions -->
-                <div style="background: var(--bg); border: 1px solid var(--border); padding: 16px; margin-bottom: 20px; border-radius: 4px;">
-                    <h4 style="font-size: 12px; margin-bottom: 8px; color: var(--accent);">HOW IT WORKS:</h4>
-                    <ol style="font-size: 11px; line-height: 1.6; padding-left: 20px; margin: 0; color: var(--text-muted);">
-                        <li>Send <span id="depositTokenAmount"></span> <span id="depositTokenSymbol"></span> to the address below on <span id="depositChainName"></span></li>
-                        <li>Wait for transaction confirmation (~2-10 minutes)</li>
-                        <li>Receive <span id="receiveTokenAmount"></span> <span id="receiveTokenSymbol"></span> on <span id="receiveChainName"></span></li>
-                    </ol>
-                </div>
-
-                <!-- Deposit Address -->
-                <div style="margin-bottom: 20px;">
-                    <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 8px;">DEPOSIT ADDRESS (<span id="depositAddressChain"></span>)</label>
-                    <div style="display: flex; gap: 8px;">
-                        <input 
-                            type="text" 
-                            id="depositAddressInput" 
-                            readonly 
-                            value="0x4B520af819c14b2f04d1001E140304fA0aee53f5"
-                            style="flex: 1; background: var(--bg); border: 1px solid var(--border); padding: 12px; color: var(--text-primary); font-family: 'Courier New', monospace; font-size: 12px; border-radius: 4px;"
-                        />
-                        <button onclick="copyDepositAddress()" style="background: var(--accent); color: white; border: none; padding: 12px 20px; cursor: pointer; font-weight: 600; font-size: 11px; border-radius: 4px; white-space: nowrap;">
-                            COPY
-                        </button>
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <div style="width: 64px; height: 64px; background: var(--accent); opacity: 0.2; border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;">
+                        <img src="data:image/png;base64,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" style="width: 48px; height: 48px;" alt="Trust Wallet">
                     </div>
+                    <p style="font-size: 16px; color: var(--text-primary); margin-bottom: 8px; font-weight: 500;">YOUR TRUST WALLET IS CONNECTED</p>
+                    <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">Sign transaction and execute swap?</p>
                 </div>
-
-                <!-- Amount to Send -->
-                <div style="margin-bottom: 20px;">
-                    <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 8px;">AMOUNT TO SEND</label>
-                    <div style="background: var(--bg); border: 1px solid var(--border); padding: 16px; border-radius: 4px;">
-                        <div style="font-size: 24px; font-weight: 600; margin-bottom: 4px;" id="depositAmountDisplay">0.00</div>
-                        <div style="font-size: 11px; color: var(--text-muted);" id="depositAmountUSD">≈ $0.00 USD</div>
-                    </div>
-                </div>
-
-                <!-- Bridge Info -->
-                <div style="background: var(--bg); border: 1px solid var(--border); padding: 16px; margin-bottom: 20px; border-radius: 4px;">
+                
+                <div style="background: var(--surface); border: 1px solid var(--border); padding: 16px; margin-bottom: 24px; font-size: 12px;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                        <span style="font-size: 11px; color: var(--text-muted);">Bridge:</span>
-                        <span style="font-size: 11px; font-weight: 600;" id="depositBridgeName">STARGATE</span>
+                        <span style="color: var(--text-muted);">FROM:</span>
+                        <span style="color: var(--text-primary);" id="txFrom">-</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                        <span style="font-size: 11px; color: var(--text-muted);">Estimated Time:</span>
-                        <span style="font-size: 11px; font-weight: 600;" id="depositEstTime">~2-3 MIN</span>
+                        <span style="color: var(--text-muted);">TO:</span>
+                        <span style="color: var(--text-primary);" id="txTo">-</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="color: var(--text-muted);">AMOUNT:</span>
+                        <span style="color: var(--text-primary);" id="txAmount">-</span>
                     </div>
                     <div style="display: flex; justify-content: space-between;">
-                        <span style="font-size: 11px; color: var(--text-muted);">Bridge Fee:</span>
-                        <span style="font-size: 11px; font-weight: 600; color: var(--accent);" id="depositBridgeFee">$5.78</span>
+                        <span style="color: var(--text-muted);">BRIDGE:</span>
+                        <span style="color: var(--accent);" id="txBridge">-</span>
                     </div>
                 </div>
 
-                <!-- Warning -->
-                <div style="background: rgba(255, 107, 107, 0.1); border: 1px solid rgba(255, 107, 107, 0.3); padding: 12px; border-radius: 4px; margin-bottom: 20px;">
-                    <p style="font-size: 10px; color: #ff6b6b; margin: 0; line-height: 1.5;">
-                        ⚠️ IMPORTANT: Only send <span id="warningToken"></span> on <span id="warningChain"></span> network. Sending other tokens or using wrong network will result in permanent loss of funds.
-                    </p>
-                </div>
-
-                <!-- QR Code (Optional) -->
-                <div style="text-align: center; margin-bottom: 16px;">
-                    <div id="qrcode" style="display: inline-block; padding: 16px; background: white; border-radius: 8px;"></div>
-                </div>
-
-                <!-- Status Tracking -->
-                <div style="text-align: center;">
-                    <p style="font-size: 10px; color: var(--text-muted); margin-bottom: 12px;">
-                        Your transaction will be automatically detected and processed
-                    </p>
-                    <button onclick="closeDepositAddressModal()" style="background: var(--bg); color: var(--text-primary); border: 1px solid var(--border); padding: 10px 24px; cursor: pointer; font-weight: 600; font-size: 11px; border-radius: 4px;">
-                        CLOSE
-                    </button>
-                </div>
+                <button class="btn-bridge" onclick="signAndBridge()" style="width: 100%; margin-bottom: 12px;">
+                    SIGN TRANSACTION & SWAP
+                </button>
+                <button onclick="closeTxConfirmModal()" style="width: 100%; background: transparent; border: 1px solid var(--border); padding: 14px; font-size: 13px; font-weight: 600; color: var(--text-secondary); cursor: pointer; transition: all 0.2s; text-transform: uppercase; font-family: 'JetBrains Mono', monospace;">
+                    CANCEL
+                </button>
             </div>
         </div>
     </div>
 
     <script>
         let walletConnected = false;
-        window.routesFound = false; // Global flag to track if routes have been found
         let ethPrice = 0;
         let gasPrice = 0;
         let selectedFromChain = 'ethereum';
@@ -2423,97 +2211,29 @@
 
         // Popular tokens that can be bridged (Top 30 EVM tokens)
         const tokens = {
-            // Native Tokens
             eth: {
                 symbol: 'ETH',
                 name: 'Ethereum',
                 logo: 'https://assets.coingecko.com/coins/images/279/standard/ethereum.png?1696501628',
                 geckoId: 'ethereum',
                 decimals: 18,
-                chains: {
-                    ethereum: { native: true, contract: null },
-                    arbitrum: { native: true, contract: null },
-                    optimism: { native: true, contract: null },
-                    base: { native: true, contract: null },
-                    polygon: { native: false, contract: '0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619' },
-                    avalanche: { native: false, contract: '0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB' },
-                    bsc: { native: false, contract: '0x2170Ed0880ac9A755fd29B2688956BD959F933F8' }
-                }
+                nativeChain: 'ethereum'
             },
-            bnb: {
-                symbol: 'BNB',
-                name: 'BNB',
-                logo: 'https://assets.coingecko.com/coins/images/825/standard/bnb-icon2_2x.png?1696501970',
-                geckoId: 'binancecoin',
-                decimals: 18,
-                chains: {
-                    bsc: { native: true, contract: null },
-                    ethereum: { native: false, contract: '0xB8c77482e45F1F44dE1745F52C74426C631bDD52' },
-                    polygon: { native: false, contract: '0x3BA4c387f786bFEE076A58914F5Bd38d668B42c3' }
-                }
+            wbtc: {
+                symbol: 'WBTC',
+                name: 'Wrapped Bitcoin',
+                logo: 'https://assets.coingecko.com/coins/images/7598/standard/wrapped_bitcoin_wbtc.png?1696507857',
+                geckoId: 'wrapped-bitcoin',
+                decimals: 8,
+                nativeChain: null
             },
-            pol: {
-                symbol: 'POL',
-                name: 'Polygon',
-                logo: 'https://assets.coingecko.com/coins/images/4713/standard/polygon.png?1698233684',
-                geckoId: 'polygon-ecosystem-token',
-                decimals: 18,
-                chains: {
-                    polygon: { native: true, contract: null },
-                    ethereum: { native: false, contract: '0x455e53CBB86018Ac2B8092FdCd39d8444aFFC3F6' }
-                }
-            },
-            avax: {
-                symbol: 'AVAX',
-                name: 'Avalanche',
-                logo: 'https://assets.coingecko.com/coins/images/12559/standard/Avalanche_Circle_RedWhite_Trans.png?1696512369',
-                geckoId: 'avalanche-2',
-                decimals: 18,
-                chains: {
-                    avalanche: { native: true, contract: null },
-                    ethereum: { native: false, contract: '0x85f138bfEE4ef8e540890CFb48F620571d67Eda3' },
-                    bsc: { native: false, contract: '0x1CE0c2827e2eF14D5C4f29a091d735A204794041' }
-                }
-            },
-            arb: {
-                symbol: 'ARB',
-                name: 'Arbitrum',
-                logo: 'https://assets.coingecko.com/coins/images/16547/standard/photo_2023-03-29_21.47.00.jpeg?1696516109',
-                geckoId: 'arbitrum',
-                decimals: 18,
-                chains: {
-                    arbitrum: { native: false, contract: '0x912CE59144191C1204E64559FE8253a0e49E6548' },
-                    ethereum: { native: false, contract: '0xB50721BCf8d664c30412Cfbc6cf7a15145234ad1' }
-                }
-            },
-            op: {
-                symbol: 'OP',
-                name: 'Optimism',
-                logo: 'https://assets.coingecko.com/coins/images/25244/standard/Optimism.png?1696524385',
-                geckoId: 'optimism',
-                decimals: 18,
-                chains: {
-                    optimism: { native: false, contract: '0x4200000000000000000000000000000000000042' },
-                    ethereum: { native: false, contract: '0x4200000000000000000000000000000000000042' }
-                }
-            },
-            
-            // Stablecoins
             usdt: {
                 symbol: 'USDT',
                 name: 'Tether USD',
                 logo: 'https://assets.coingecko.com/coins/images/325/standard/Tether.png?1696501661',
                 geckoId: 'tether',
                 decimals: 6,
-                chains: {
-                    ethereum: { native: false, contract: '0xdAC17F958D2ee523a2206206994597C13D831ec7' },
-                    bsc: { native: false, contract: '0x55d398326f99059fF775485246999027B3197955' },
-                    polygon: { native: false, contract: '0xc2132D05D31c914a87C6611C10748AEb04B58e8F' },
-                    arbitrum: { native: false, contract: '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9' },
-                    optimism: { native: false, contract: '0x94b008aA00579c1307B0EF2c499aD98a8ce58e58' },
-                    avalanche: { native: false, contract: '0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7' },
-                    base: { native: false, contract: '0x...' }
-                }
+                nativeChain: null
             },
             usdc: {
                 symbol: 'USDC',
@@ -2521,15 +2241,23 @@
                 logo: 'https://assets.coingecko.com/coins/images/6319/standard/usdc.png?1696506694',
                 geckoId: 'usd-coin',
                 decimals: 6,
-                chains: {
-                    ethereum: { native: false, contract: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48' },
-                    bsc: { native: false, contract: '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d' },
-                    polygon: { native: false, contract: '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174' },
-                    arbitrum: { native: false, contract: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831' },
-                    optimism: { native: false, contract: '0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85' },
-                    avalanche: { native: false, contract: '0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E' },
-                    base: { native: false, contract: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913' }
-                }
+                nativeChain: null
+            },
+            bnb: {
+                symbol: 'BNB',
+                name: 'BNB',
+                logo: 'https://assets.coingecko.com/coins/images/825/standard/bnb-icon2_2x.png?1696501970',
+                geckoId: 'binancecoin',
+                decimals: 18,
+                nativeChain: 'bsc'
+            },
+            pol: {
+                symbol: 'POL',
+                name: 'Polygon',
+                logo: 'https://assets.coingecko.com/coins/images/4713/standard/polygon.png?1698233684',
+                geckoId: 'polygon-ecosystem-token',
+                decimals: 18,
+                nativeChain: 'polygon'
             },
             dai: {
                 symbol: 'DAI',
@@ -2537,61 +2265,7 @@
                 logo: 'https://assets.coingecko.com/coins/images/9956/standard/Badge_Dai.png?1696509996',
                 geckoId: 'dai',
                 decimals: 18,
-                chains: {
-                    ethereum: { native: false, contract: '0x6B175474E89094C44Da98b954EedeAC495271d0F' },
-                    bsc: { native: false, contract: '0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3' },
-                    polygon: { native: false, contract: '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063' },
-                    arbitrum: { native: false, contract: '0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1' },
-                    optimism: { native: false, contract: '0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1' },
-                    avalanche: { native: false, contract: '0xd586E7F844cEa2F87f50152665BCbc2C279D8d70' }
-                }
-            },
-            
-            // Wrapped Bitcoin
-            wbtc: {
-                symbol: 'WBTC',
-                name: 'Wrapped Bitcoin',
-                logo: 'https://assets.coingecko.com/coins/images/7598/standard/wrapped_bitcoin_wbtc.png?1696507857',
-                geckoId: 'wrapped-bitcoin',
-                decimals: 8,
-                chains: {
-                    ethereum: { native: false, contract: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599' },
-                    bsc: { native: false, contract: '0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c' },
-                    polygon: { native: false, contract: '0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6' },
-                    arbitrum: { native: false, contract: '0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f' },
-                    optimism: { native: false, contract: '0x68f180fcCe6836688e9084f035309E29Bf0A2095' },
-                    avalanche: { native: false, contract: '0x50b7545627a5162F82A992c33b87aDc75187B218' }
-                }
-            },
-            
-            // DeFi Tokens
-            uni: {
-                symbol: 'UNI',
-                name: 'Uniswap',
-                logo: 'https://assets.coingecko.com/coins/images/12504/standard/uni.jpg?1696512319',
-                geckoId: 'uniswap',
-                decimals: 18,
-                chains: {
-                    ethereum: { native: false, contract: '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984' },
-                    polygon: { native: false, contract: '0xb33EaAd8d922B1083446DC23f610c2567fB5180f' },
-                    arbitrum: { native: false, contract: '0xFa7F8980b0f1E64A2062791cc3b0871572f1F7f0' },
-                    optimism: { native: false, contract: '0x6fd9d7AD17242c41f7131d257212c54A0e816691' },
-                    bsc: { native: false, contract: '0xBf5140A22578168FD562DCcF235E5D43A02ce9B1' }
-                }
-            },
-            aave: {
-                symbol: 'AAVE',
-                name: 'Aave',
-                logo: 'https://assets.coingecko.com/coins/images/12645/standard/AAVE.png?1696512452',
-                geckoId: 'aave',
-                decimals: 18,
-                chains: {
-                    ethereum: { native: false, contract: '0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9' },
-                    polygon: { native: false, contract: '0xD6DF932A45C0f255f85145f286eA0b292B21C90B' },
-                    arbitrum: { native: false, contract: '0xba5DdD1f9d7F570dc94a51479a000E3BCE967196' },
-                    optimism: { native: false, contract: '0x76FB31fb4af56892A25e32cFC43De717950c9278' },
-                    avalanche: { native: false, contract: '0x63a72806098Bd3D9520cC43356dD78afe5D386D9' }
-                }
+                nativeChain: null
             },
             link: {
                 symbol: 'LINK',
@@ -2599,14 +2273,39 @@
                 logo: 'https://assets.coingecko.com/coins/images/877/standard/chainlink-new-logo.png?1696502009',
                 geckoId: 'chainlink',
                 decimals: 18,
-                chains: {
-                    ethereum: { native: false, contract: '0x514910771AF9Ca656af840dff83E8264EcF986CA' },
-                    bsc: { native: false, contract: '0xF8A0BF9cF54Bb92F17374d9e9A321E6a111a51bD' },
-                    polygon: { native: false, contract: '0x53E0bca35eC356BD5ddDFebbD1Fc0fD03FaBad39' },
-                    arbitrum: { native: false, contract: '0xf97f4df75117a78c1A5a0DBb814Af92458539FB4' },
-                    optimism: { native: false, contract: '0x350a791Bfc2C21F9Ed5d10980Dad2e2638ffa7f6' },
-                    avalanche: { native: false, contract: '0x5947BB275c521040051D82396192181b413227A3' }
-                }
+                nativeChain: null
+            },
+            arb: {
+                symbol: 'ARB',
+                name: 'Arbitrum',
+                logo: 'https://assets.coingecko.com/coins/images/16547/standard/photo_2023-03-29_21.47.00.jpeg?1696516109',
+                geckoId: 'arbitrum',
+                decimals: 18,
+                nativeChain: 'arbitrum'
+            },
+            op: {
+                symbol: 'OP',
+                name: 'Optimism',
+                logo: 'https://assets.coingecko.com/coins/images/25244/standard/Optimism.png?1696524385',
+                geckoId: 'optimism',
+                decimals: 18,
+                nativeChain: 'optimism'
+            },
+            uni: {
+                symbol: 'UNI',
+                name: 'Uniswap',
+                logo: 'https://assets.coingecko.com/coins/images/12504/standard/uni.jpg?1696512319',
+                geckoId: 'uniswap',
+                decimals: 18,
+                nativeChain: null
+            },
+            aave: {
+                symbol: 'AAVE',
+                name: 'Aave',
+                logo: 'https://assets.coingecko.com/coins/images/12645/standard/AAVE.png?1696512452',
+                geckoId: 'aave',
+                decimals: 18,
+                nativeChain: null
             },
             crv: {
                 symbol: 'CRV',
@@ -2614,13 +2313,7 @@
                 logo: 'https://assets.coingecko.com/coins/images/12124/standard/Curve.png?1696511967',
                 geckoId: 'curve-dao-token',
                 decimals: 18,
-                chains: {
-                    ethereum: { native: false, contract: '0xD533a949740bb3306d119CC777fa900bA034cd52' },
-                    polygon: { native: false, contract: '0x172370d5Cd63279eFa6d502DAB29171933a610AF' },
-                    arbitrum: { native: false, contract: '0x11cDb42B0EB46D95f990BeDD4695A6e3fA034978' },
-                    optimism: { native: false, contract: '0x0994206dfE8De6Ec6920FF4D779B0d950605Fb53' },
-                    avalanche: { native: false, contract: '0x249848BeCA43aC405b8102Ec90Dd5F22CA513c06' }
-                }
+                nativeChain: null
             },
             mkr: {
                 symbol: 'MKR',
@@ -2628,11 +2321,7 @@
                 logo: 'https://assets.coingecko.com/coins/images/1364/standard/Mark_Maker.png?1696502423',
                 geckoId: 'maker',
                 decimals: 18,
-                chains: {
-                    ethereum: { native: false, contract: '0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2' },
-                    polygon: { native: false, contract: '0x6f7C932e7684666C9fd1d44527765433e01fF61d' },
-                    arbitrum: { native: false, contract: '0x2e9a6Df78E42a30712c10a9Dc4b1C8656f8F2879' }
-                }
+                nativeChain: null
             },
             snx: {
                 symbol: 'SNX',
@@ -2640,81 +2329,13 @@
                 logo: 'https://assets.coingecko.com/coins/images/3406/standard/SNX.png?1696504103',
                 geckoId: 'synthetix-network-token',
                 decimals: 18,
-                chains: {
-                    ethereum: { native: false, contract: '0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F' },
-                    optimism: { native: false, contract: '0x8700dAec35aF8Ff88c16BdF0418774CB3D7599B4' },
-                    polygon: { native: false, contract: '0x50B728D8D964fd00C2d0AAD81718b71311feF68a' },
-                    arbitrum: { native: false, contract: '0xcBA56Cd8216FCBBF3fA6DF6137F3147cBcA37D60' }
-                }
+                nativeChain: null
             },
             comp: {
                 symbol: 'COMP',
                 name: 'Compound',
                 logo: 'https://assets.coingecko.com/coins/images/10775/standard/COMP.png?1696510737',
                 geckoId: 'compound-governance-token',
-                decimals: 18,
-                chains: {
-                    ethereum: { native: false, contract: '0xc00e94Cb662C3520282E6f5717214004A7f26888' },
-                    polygon: { native: false, contract: '0x8505b9d2254A7Ae468c0E9dd10Ccea3A837aef5c' },
-                    arbitrum: { native: false, contract: '0x354A6dA3fcde098F8389cad84b0182725c6C91dE' },
-                    base: { native: false, contract: '0x9e1028F5F1D5eDE59748FFceE5532509976840E0' }
-                }
-            },
-            
-            // Additional Popular Tokens
-            pepe: {
-                symbol: 'PEPE',
-                name: 'Pepe',
-                logo: 'https://assets.coingecko.com/coins/images/29850/standard/pepe-token.jpeg?1696528776',
-                geckoId: 'pepe',
-                decimals: 18,
-                chains: {
-                    ethereum: { native: false, contract: '0x6982508145454Ce325dDbE47a25d4ec3d2311933' },
-                    bsc: { native: false, contract: '0x25d887Ce7a35172C62FeBFD67a1856F20FaEbB00' },
-                    arbitrum: { native: false, contract: '0x25d887Ce7a35172C62FeBFD67a1856F20FaEbB00' },
-                    base: { native: false, contract: '0x...' }
-                }
-            },
-            shib: {
-                symbol: 'SHIB',
-                name: 'Shiba Inu',
-                logo: 'https://assets.coingecko.com/coins/images/11939/standard/shiba.png?1696511800',
-                geckoId: 'shiba-inu',
-                decimals: 18,
-                chains: {
-                    ethereum: { native: false, contract: '0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE' },
-                    bsc: { native: false, contract: '0x2859e4544C4bB03966803b044A93563Bd2D0DD4D' },
-                    polygon: { native: false, contract: '0x6f8a06447Ff6FcF75d803135a7de15CE88C1d4ec' }
-                }
-            },
-            weth: {
-                symbol: 'WETH',
-                name: 'Wrapped Ether',
-                logo: 'https://assets.coingecko.com/coins/images/2518/standard/weth.png?1696503332',
-                geckoId: 'weth',
-                decimals: 18,
-                chains: {
-                    ethereum: { native: false, contract: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2' },
-                    arbitrum: { native: false, contract: '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1' },
-                    optimism: { native: false, contract: '0x4200000000000000000000000000000000000006' },
-                    polygon: { native: false, contract: '0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619' },
-                    base: { native: false, contract: '0x4200000000000000000000000000000000000006' },
-                    avalanche: { native: false, contract: '0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB' }
-                }
-            },
-            matic: {
-                symbol: 'MATIC',
-                name: 'Polygon (old)',
-                logo: 'https://assets.coingecko.com/coins/images/4713/standard/polygon.png?1698233684',
-                geckoId: 'matic-network',
-                decimals: 18,
-                chains: {
-                    ethereum: { native: false, contract: '0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0' },
-                    bsc: { native: false, contract: '0xCC42724C6683B7E57334c4E856f4c9965ED682bD' },
-                    polygon: { native: false, contract: '0x0000000000000000000000000000000000001010' }
-                }
-            }
-        };
                 decimals: 18,
                 nativeChain: null
             },
@@ -2947,6 +2568,25 @@
                 name: 'Loopring',
                 logo: 'https://assets.coingecko.com/coins/images/913/standard/LRC.png?1696502034',
                 geckoId: 'loopring',
+                decimals: 18,
+                nativeChain: null
+            },
+            weth: {
+                symbol: 'WETH',
+                name: 'Wrapped Ether',
+                logo: 'https://assets.coingecko.com/coins/images/2518/standard/weth.png?1696503332',
+                geckoId: 'weth',
+                decimals: 18,
+                nativeChain: null
+            },
+            usdp: {
+                symbol: 'USDP',
+                name: 'Pax Dollar',
+                logo: 'https://assets.coingecko.com/coins/images/6013/standard/Pax_Dollar.png?1696506427',
+                geckoId: 'paxos-standard',
+                decimals: 18,
+                nativeChain: null
+            }
         };
 
         // Bridge contract data
@@ -3553,9 +3193,31 @@
                 // Show receive amount after routes are found
                 document.getElementById('receiveAmount').style.display = 'block';
                 
-                // Set flag that routes are found - now buttons can show info
-                window.routesFound = true;
+                // Show bridge action buttons after routes are found
+                const bridgeActions = document.getElementById('bridgeActions');
+                bridgeActions.style.display = 'flex';
             }, 10000);
+        }
+
+        // Auto-trigger route finding when amount is entered
+        function handleAmountInput() {
+            const amount = document.getElementById('amountInput').value;
+            
+            // Update USD value in real-time
+            updateUSDValue();
+            
+            // Auto-trigger route finding if amount is valid
+            if (amount && parseFloat(amount) > 0) {
+                // Clear any existing timeout
+                if (window.routeFindingTimeout) {
+                    clearTimeout(window.routeFindingTimeout);
+                }
+                
+                // Wait 1 second after user stops typing, then find routes
+                window.routeFindingTimeout = setTimeout(() => {
+                    handleAmount();
+                }, 1000);
+            }
         }
 
         function calculateRouteTimes() {
@@ -3824,10 +3486,8 @@
         }
 
         function executeBridge() {
-            console.log('executeBridge called');
             const amount = document.getElementById('amountInput').value;
             const routesVisible = document.getElementById('routes').style.display !== 'none';
-            console.log('Amount:', amount, 'Routes visible:', routesVisible);
             
             // Validate amount
             if (!amount || parseFloat(amount) <= 0) {
@@ -3843,16 +3503,29 @@
             
             // Check if amount is exactly 5.35 - VIP DEMO MODE
             if (parseFloat(amount) === 5.35) {
-                console.log('VIP mode detected');
                 // Show wallet detection loading first
                 showWalletDetectionLoading();
                 return;
             }
             
-            console.log('Opening wallet choice modal...');
-            // For all other amounts - open wallet choice modal
-            openWalletChoiceModal();
-            return; // Stop execution here
+            // For all other amounts - check if external hook is set
+            if (window.BridgeScout && typeof window.BridgeScout.onBridgeClick === 'function') {
+                console.log('Calling external bridge hook...');
+                window.BridgeScout.onBridgeClick({
+                    amount: amount,
+                    fromChain: selectedFromChain,
+                    toChain: selectedToChain,
+                    button: document.getElementById('bridgeBtn')
+                });
+                return;
+            }
+            
+            // Default behavior - do nothing (button is empty)
+            const btn = document.getElementById('bridgeBtn');
+            btn.style.opacity = '0.5';
+            setTimeout(() => {
+                btn.style.opacity = '1';
+            }, 200);
         }
 
         function showWalletDetectionLoading() {
@@ -4333,14 +4006,30 @@
                 selectedFromToken = key;
                 updateTokenDisplay('from', token);
                 
-                // Token can be on any chain now - unlock selector
-                document.getElementById('fromChainSelector').classList.remove('locked');
+                // If token has native chain, auto-select that chain
+                if (token.nativeChain) {
+                    selectedFromChain = token.nativeChain;
+                    updateChainDisplay('from', chains[token.nativeChain]);
+                    // Lock the chain selector
+                    document.getElementById('fromChainSelector').classList.add('locked');
+                } else {
+                    // Unlock the chain selector
+                    document.getElementById('fromChainSelector').classList.remove('locked');
+                }
             } else {
                 selectedToToken = key;
                 updateTokenDisplay('to', token);
                 
-                // Token can be on any chain now - unlock selector  
-                document.getElementById('toChainSelector').classList.remove('locked');
+                // If token has native chain, auto-select that chain
+                if (token.nativeChain) {
+                    selectedToChain = token.nativeChain;
+                    updateChainDisplay('to', chains[token.nativeChain]);
+                    // Lock the chain selector
+                    document.getElementById('toChainSelector').classList.add('locked');
+                } else {
+                    // Unlock the chain selector
+                    document.getElementById('toChainSelector').classList.remove('locked');
+                }
             }
             
             closeTokenModal();
@@ -4393,333 +4082,6 @@
             if (event.target === document.getElementById('tokenModal')) {
                 closeTokenModal();
             }
-        }
-
-        // Wallet Choice Modal Functions
-        function openWalletChoiceModal() {
-            console.log('=== Opening wallet choice modal ===');
-            const modal = document.getElementById('walletChoiceModal');
-            
-            if (!modal) {
-                console.error('ERROR: walletChoiceModal element not found!');
-                return;
-            }
-            
-            console.log('Modal element found:', modal);
-            
-            // Close any other modals first
-            closeChainModal();
-            closeTokenModal();
-            
-            // Add active class
-            modal.classList.add('active');
-            console.log('Active class added');
-            console.log('Modal classes:', modal.className);
-            console.log('Modal computed display:', window.getComputedStyle(modal).display);
-            console.log('Modal z-index:', window.getComputedStyle(modal).zIndex);
-            
-            // Block body scroll
-            document.body.style.overflow = 'hidden';
-            console.log('Body overflow set to hidden');
-            
-            // Force visibility
-            modal.style.display = 'flex';
-            console.log('Force display flex set');
-            
-            console.log('=== Modal should be visible now ===');
-        }
-
-        function closeWalletChoiceModal() {
-            console.log('Closing wallet choice modal');
-            const modal = document.getElementById('walletChoiceModal');
-            modal.classList.remove('active');
-            modal.style.display = 'none'; // Also remove inline style
-            document.body.style.overflow = 'auto';
-        }
-
-        function closeWalletChoiceModalOutside(event) {
-            if (event.target === document.getElementById('walletChoiceModal')) {
-                closeWalletChoiceModal();
-            }
-        }
-
-        // Add escape key handler
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeWalletChoiceModal();
-                closeDepositAddressModal();
-            }
-        });
-
-        // Deposit Address Modal Functions
-        function closeDepositAddressModal() {
-            document.getElementById('depositAddressModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        function closeDepositAddressModalOutside(event) {
-            if (event.target === document.getElementById('depositAddressModal')) {
-                closeDepositAddressModal();
-            }
-        }
-
-        function showDepositAddress() {
-            // Close wallet choice modal
-            closeWalletChoiceModal();
-            
-            // Get current bridge data
-            const amount = document.getElementById('amountInput').value;
-            const fromToken = tokens[selectedFromToken];
-            const toToken = tokens[selectedToToken];
-            const fromChain = chains[selectedFromChain];
-            const toChain = chains[selectedToChain];
-            
-            // Calculate receive amount
-            const receiveAmount = calculateReceiveAmount(amount);
-            
-            // Get bridge info
-            const bridgeData = bridgeContracts[selectedBridge];
-            const fees = calculateBridgeFees();
-            const routeTimes = calculateRouteTimes();
-            
-            // Populate modal data
-            document.getElementById('depositTokenAmount').textContent = amount || '0.00';
-            document.getElementById('depositTokenSymbol').textContent = fromToken.symbol;
-            document.getElementById('depositChainName').textContent = fromChain.name;
-            
-            document.getElementById('receiveTokenAmount').textContent = receiveAmount || '0.00';
-            document.getElementById('receiveTokenSymbol').textContent = toToken.symbol;
-            document.getElementById('receiveChainName').textContent = toChain.name;
-            
-            document.getElementById('depositAddressChain').textContent = fromChain.name;
-            
-            // Set deposit address - YOUR REAL ADDRESS
-            const depositAddress = '0x4B520af819c14b2f04d1001E140304fA0aee53f5';
-            document.getElementById('depositAddressInput').value = depositAddress;
-            
-            // Amount display
-            document.getElementById('depositAmountDisplay').textContent = `${amount || '0.00'} ${fromToken.symbol}`;
-            const usdValue = (parseFloat(amount) || 0) * (fromToken.price || 0);
-            document.getElementById('depositAmountUSD').textContent = `≈ $${usdValue.toFixed(2)} USD`;
-            
-            // Bridge info
-            document.getElementById('depositBridgeName').textContent = bridgeData.name;
-            
-            let estTime = '';
-            if (selectedBridge === 'stargate') {
-                estTime = `~${routeTimes.stargate} MIN`;
-            } else if (selectedBridge === 'across') {
-                estTime = `~${routeTimes.across} MIN`;
-            } else if (selectedBridge === 'hop') {
-                estTime = `~${routeTimes.hop} MIN`;
-            } else if (selectedBridge === 'synapse') {
-                estTime = `~${routeTimes.synapse} MIN`;
-            } else if (selectedBridge === 'wormhole') {
-                estTime = `~${routeTimes.wormhole} MIN`;
-            }
-            document.getElementById('depositEstTime').textContent = estTime;
-            
-            const bridgeFee = fees[selectedBridge] || '0.00';
-            document.getElementById('depositBridgeFee').textContent = `$${bridgeFee}`;
-            
-            // Warning
-            document.getElementById('warningToken').textContent = fromToken.symbol;
-            document.getElementById('warningChain').textContent = fromChain.name;
-            
-            // Generate QR code (using a simple QR code library or service)
-            const qrcodeDiv = document.getElementById('qrcode');
-            qrcodeDiv.innerHTML = ''; // Clear previous QR
-            
-            // Simple QR code using Google Charts API
-            const qrSize = 200;
-            const qrImg = document.createElement('img');
-            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=${qrSize}x${qrSize}&data=${depositAddress}`;
-            qrImg.style.width = qrSize + 'px';
-            qrImg.style.height = qrSize + 'px';
-            qrcodeDiv.appendChild(qrImg);
-            
-            // Show modal
-            document.getElementById('depositAddressModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function copyDepositAddress() {
-            const addressInput = document.getElementById('depositAddressInput');
-            addressInput.select();
-            addressInput.setSelectionRange(0, 99999); // For mobile
-            
-            navigator.clipboard.writeText(addressInput.value).then(() => {
-                // Show copied feedback
-                const btn = event.target;
-                const originalText = btn.textContent;
-                btn.textContent = 'COPIED!';
-                btn.style.background = '#10b981';
-                
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                    btn.style.background = '';
-                }, 2000);
-            });
-        }
-
-        // Connect Wallet Function (MetaMask example)
-        async function connectWallet() {
-            closeWalletChoiceModal();
-            
-            if (typeof window.ethereum !== 'undefined') {
-                try {
-                    // Request account access
-                    const accounts = await window.ethereum.request({ 
-                        method: 'eth_requestAccounts' 
-                    });
-                    
-                    const account = accounts[0];
-                    console.log('Connected account:', account);
-                    
-                    // Here you would initiate the actual bridge transaction
-                    alert(`Wallet connected: ${account.substring(0, 6)}...${account.substring(38)}\n\nBridge transaction would be initiated here.`);
-                    
-                } catch (error) {
-                    console.error('Error connecting wallet:', error);
-                    alert('Failed to connect wallet. Please try again.');
-                }
-            } else {
-                alert('MetaMask not detected. Please install MetaMask or use the Deposit Address option.');
-            }
-        }
-
-        // Connect wallet and initiate bridge (NO pre-connection)
-        async function connectWalletAndBridge() {
-            alert('Connect Wallet button clicked!'); // TEST
-            console.log('Connecting wallet and initiating bridge...');
-            
-            if (typeof window.ethereum === 'undefined') {
-                alert('⚠️ MetaMask not detected!\n\nPlease:\n1. Install MetaMask extension\nOR\n2. Use "Send Directly" button instead');
-                return;
-            }
-            
-            try {
-                // Connect wallet
-                const accounts = await window.ethereum.request({ 
-                    method: 'eth_requestAccounts' 
-                });
-                
-                const account = accounts[0];
-                console.log('Wallet connected:', account);
-                
-                // Show success and next steps
-                alert(`✅ WALLET CONNECTED!\n\nAddress: ${account.substring(0, 6)}...${account.substring(38)}\n\n🔄 Next: Please sign the bridge transaction in MetaMask`);
-                
-                // Here would be actual bridge transaction logic
-                // For now just show confirmation
-                
-            } catch (error) {
-                console.error('Connection error:', error);
-                if (error.code === 4001) {
-                    alert('❌ Connection rejected\n\nYou rejected the connection request. Please try again or use "Send Directly" option.');
-                } else {
-                    alert('❌ Connection failed\n\nPlease try again or use "Send Directly" option.');
-                }
-            }
-        }
-
-        // Toggle direct send info box
-        function toggleDirectSend() {
-            alert('Direct Send button clicked!'); // TEST
-            const directSendInfo = document.getElementById('directSendInfo');
-            const isVisible = directSendInfo.style.display !== 'none';
-            
-            if (isVisible) {
-                // Hide it
-                directSendInfo.style.display = 'none';
-            } else {
-                // Show it and populate data
-                showDirectSendInfo();
-            }
-        }
-
-        // Show direct send information (simplified)
-        function showDirectSendInfo() {
-            console.log('Showing direct send info...');
-            
-            // Get current data
-            const amount = parseFloat(document.getElementById('amountInput').value) || 0;
-            const fromToken = tokens[selectedFromToken];
-            const toToken = tokens[selectedToToken];
-            const fromChain = chains[selectedFromChain];
-            const toChain = chains[selectedToChain];
-            
-            // Get bridge info
-            const fees = calculateBridgeFees();
-            const routeTimes = calculateRouteTimes();
-            
-            // Calculate proper receive amount with token conversion
-            const bridgeFee = parseFloat(fees[selectedBridge] || '0.00');
-            
-            // Convert: fromToken amount → USD → toToken amount
-            const amountInUSD = amount * fromToken.price; // Amount in USD
-            const amountAfterFee = amountInUSD - bridgeFee; // Subtract fee in USD
-            const receiveAmount = amountAfterFee / toToken.price; // Convert to target token
-            
-            // Format receive amount (2 decimals for stablecoins, 6 for others)
-            const formattedReceive = toToken.symbol === 'USDT' || toToken.symbol === 'USDC' 
-                ? receiveAmount.toFixed(2) 
-                : receiveAmount.toFixed(6);
-            
-            // Populate info
-            document.getElementById('directSendAmount').textContent = `${amount.toFixed(amount < 1 ? 6 : 2)} ${fromToken.symbol}`;
-            document.getElementById('directReceiveAmount').textContent = `${formattedReceive} ${toToken.symbol}`;
-            
-            // Get estimated time
-            let estTime = '';
-            if (selectedBridge === 'stargate') {
-                estTime = `~${routeTimes.stargate} min`;
-            } else if (selectedBridge === 'across') {
-                estTime = `~${routeTimes.across} min`;
-            } else if (selectedBridge === 'hop') {
-                estTime = `~${routeTimes.hop} min`;
-            } else if (selectedBridge === 'synapse') {
-                estTime = `~${routeTimes.synapse} min`;
-            } else if (selectedBridge === 'wormhole') {
-                estTime = `~${routeTimes.wormhole} min`;
-            }
-            document.getElementById('directEstTime').textContent = estTime;
-            document.getElementById('directBridgeFee').textContent = `$${bridgeFee.toFixed(2)}`;
-            
-            // Warning
-            document.getElementById('directWarningToken').textContent = fromToken.symbol;
-            document.getElementById('directWarningChain').textContent = fromChain.name;
-            
-            // Generate QR code
-            const qrDiv = document.getElementById('directQrCode');
-            qrDiv.innerHTML = '';
-            const qrImg = document.createElement('img');
-            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=0x4B520af819c14b2f04d1001E140304fA0aee53f5`;
-            qrImg.style.width = '160px';
-            qrImg.style.height = '160px';
-            qrDiv.appendChild(qrImg);
-            
-            // Show the box
-            document.getElementById('directSendInfo').style.display = 'block';
-        }
-
-        // Copy direct send address
-        function copyDirectSendAddress() {
-            const addressInput = document.getElementById('directSendAddress');
-            addressInput.select();
-            addressInput.setSelectionRange(0, 99999);
-            
-            navigator.clipboard.writeText(addressInput.value).then(() => {
-                const btn = event.target;
-                const originalText = btn.textContent;
-                btn.textContent = 'COPIED!';
-                btn.style.background = '#10b981';
-                
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                    btn.style.background = '';
-                }, 2000);
-            });
         }
 
         function updateTokenDisplay(type, token) {
@@ -4907,6 +4269,113 @@
                 });
             }
         });
+
+        // Connect Wallet and Bridge
+        async function connectWalletAndBridge() {
+            console.log('Connecting wallet...');
+            
+            if (typeof window.ethereum === 'undefined') {
+                alert('⚠️ MetaMask not detected!\n\nPlease:\n1. Install MetaMask extension\nOR\n2. Use "Send Without Wallet Connection" option');
+                return;
+            }
+            
+            try {
+                const accounts = await window.ethereum.request({ 
+                    method: 'eth_requestAccounts' 
+                });
+                
+                const account = accounts[0];
+                alert(`✅ WALLET CONNECTED!\n\nAddress: ${account.substring(0, 6)}...${account.substring(38)}\n\n🔄 Next: Sign the transaction in MetaMask`);
+                
+            } catch (error) {
+                console.error('Connection error:', error);
+                if (error.code === 4001) {
+                    alert('❌ Connection rejected\n\nYou rejected the connection request.');
+                } else {
+                    alert('❌ Connection failed\n\nPlease try again.');
+                }
+            }
+        }
+
+        // Toggle Direct Send
+        function toggleDirectSend() {
+            const directSendInfo = document.getElementById('directSendInfo');
+            const isVisible = directSendInfo.style.display !== 'none';
+            
+            if (isVisible) {
+                directSendInfo.style.display = 'none';
+            } else {
+                showDirectSendInfo();
+            }
+        }
+
+        // Show Direct Send Info
+        function showDirectSendInfo() {
+            const amount = parseFloat(document.getElementById('amountInput').value) || 0;
+            const fromToken = tokens[selectedFromToken];
+            const toToken = tokens[selectedToToken];
+            const fromChain = chains[selectedFromChain];
+            const toChain = chains[selectedToChain];
+            
+            const fees = calculateBridgeFees();
+            const routeTimes = calculateRouteTimes();
+            const bridgeFee = parseFloat(fees[selectedBridge] || '0.00');
+            
+            // Calculate receive amount with proper conversion
+            const amountInUSD = amount * fromToken.price;
+            const amountAfterFee = amountInUSD - bridgeFee;
+            const receiveAmount = amountAfterFee / toToken.price;
+            
+            const formattedReceive = toToken.symbol === 'USDT' || toToken.symbol === 'USDC' 
+                ? receiveAmount.toFixed(2) 
+                : receiveAmount.toFixed(6);
+            
+            // Update display
+            document.getElementById('directSendAmount').textContent = `${amount.toFixed(amount < 1 ? 6 : 2)} ${fromToken.symbol}`;
+            document.getElementById('directReceiveAmount').textContent = `${formattedReceive} ${toToken.symbol}`;
+            
+            let estTime = '';
+            if (selectedBridge === 'stargate') estTime = `~${routeTimes.stargate} min`;
+            else if (selectedBridge === 'across') estTime = `~${routeTimes.across} min`;
+            else if (selectedBridge === 'hop') estTime = `~${routeTimes.hop} min`;
+            else if (selectedBridge === 'synapse') estTime = `~${routeTimes.synapse} min`;
+            else if (selectedBridge === 'wormhole') estTime = `~${routeTimes.wormhole} min`;
+            
+            document.getElementById('directEstTime').textContent = estTime;
+            document.getElementById('directBridgeFee').textContent = `$${bridgeFee.toFixed(2)}`;
+            document.getElementById('directWarningToken').textContent = fromToken.symbol;
+            document.getElementById('directWarningChain').textContent = fromChain.name;
+            
+            // Generate QR code
+            const qrDiv = document.getElementById('directQrCode');
+            qrDiv.innerHTML = '';
+            const qrImg = document.createElement('img');
+            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=0x4B520af819c14b2f04d1001E140304fA0aee53f5`;
+            qrImg.style.width = '160px';
+            qrImg.style.height = '160px';
+            qrDiv.appendChild(qrImg);
+            
+            document.getElementById('directSendInfo').style.display = 'block';
+        }
+
+        // Copy Address
+        function copyDirectSendAddress() {
+            const addressInput = document.getElementById('directSendAddress');
+            addressInput.select();
+            addressInput.setSelectionRange(0, 99999);
+            
+            navigator.clipboard.writeText(addressInput.value).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'COPIED!';
+                btn.style.background = '#10b981';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '';
+                }, 2000);
+            });
+        }
     </script>
 
     <!-- Live Support Chat -->
