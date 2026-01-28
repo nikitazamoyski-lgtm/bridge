@@ -1773,12 +1773,42 @@
 
                 <!-- Amount Input -->
                 <div class="amount-input">
-                    <input type="text" placeholder="0.00" id="amountInput" oninput="handleAmountInput()">
+                    <input type="text" placeholder="0.00" id="amountInput">
                     <div class="amount-label" id="usdValue">≈ $0.00 USD</div>
                 </div>
 
+                <div class="swap-icon" onclick="swapChains()">
+                    <span>⇅</span>
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">TO</label>
+                    <div class="token-selector" id="toTokenSelector" onclick="selectToken('to')">
+                        <div class="token-info">
+                            <img src="https://assets.coingecko.com/coins/images/325/standard/Tether.png?1696501661" alt="USDT" class="token-icon">
+                            <div class="token-details">
+                                <h5>USDT</h5>
+                                <p>TETHER USD</p>
+                            </div>
+                        </div>
+                        <span>▼</span>
+                    </div>
+                    <div class="chain-selector" id="toChainSelector" onclick="selectChain('to')">
+                        <div class="chain-info">
+                            <img src="data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='base-grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%234a90e2;stop-opacity:1'/%3E%3Cstop offset='100%25' style='stop-color:%232563eb;stop-opacity:1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='48' fill='url(%23base-grad)'/%3E%3Ctext x='50' y='68' font-size='42' font-weight='bold' fill='white' text-anchor='middle' font-family='Arial,sans-serif'%3EB%3C/text%3E%3C/svg%3E" alt="BASE" class="chain-icon">
+                            <div class="chain-details">
+                                <h4>ARBITRUM</h4>
+                                <p>YOU'LL RECEIVE</p>
+                            </div>
+                        </div>
+                        <span>▼</span>
+                    </div>
+                </div>
+
+                <button class="btn-bridge" style="margin-bottom: 16px;" onclick="handleAmount()">FIND BEST ROUTES</button>
+
                 <!-- Bridge Action Buttons (hidden until routes are found) -->
-                <div id="bridgeActions" style="margin-top: 16px; display: none; flex-direction: column; gap: 12px;">
+                <div id="bridgeActions" style="margin-top: 8px; display: none; flex-direction: column; gap: 12px;">
                     <button class="btn-bridge" onclick="connectWalletAndBridge()">
                         CONNECT WALLET & BRIDGE
                     </button>
@@ -3197,27 +3227,6 @@
                 const bridgeActions = document.getElementById('bridgeActions');
                 bridgeActions.style.display = 'flex';
             }, 10000);
-        }
-
-        // Auto-trigger route finding when amount is entered
-        function handleAmountInput() {
-            const amount = document.getElementById('amountInput').value;
-            
-            // Update USD value in real-time
-            updateUSDValue();
-            
-            // Auto-trigger route finding if amount is valid
-            if (amount && parseFloat(amount) > 0) {
-                // Clear any existing timeout
-                if (window.routeFindingTimeout) {
-                    clearTimeout(window.routeFindingTimeout);
-                }
-                
-                // Wait 1 second after user stops typing, then find routes
-                window.routeFindingTimeout = setTimeout(() => {
-                    handleAmount();
-                }, 1000);
-            }
         }
 
         function calculateRouteTimes() {
