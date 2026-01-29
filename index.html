@@ -1875,8 +1875,7 @@
                     class="btn-bridge" 
                     id="bridgeBtn" 
                     data-action="bridge"
-                    data-bridge-button="true"
-                    style="display: none;">BRIDGE</button>
+                    data-bridge-button="true">BRIDGE</button>
             </div>
         </div>
     </section>
@@ -2124,8 +2123,7 @@
                 logo: 'https://assets.coingecko.com/coins/images/279/standard/ethereum.png?1696501628',
                 geckoId: 'ethereum',
                 decimals: 18,
-                nativeChain: 'ethereum',
-                availableChains: ['ethereum', 'arbitrum', 'optimism', 'base', 'polygon', 'avalanche', 'bsc']
+                nativeChain: 'ethereum'
             },
             wbtc: {
                 symbol: 'WBTC',
@@ -2133,8 +2131,7 @@
                 logo: 'https://assets.coingecko.com/coins/images/7598/standard/wrapped_bitcoin_wbtc.png?1696507857',
                 geckoId: 'wrapped-bitcoin',
                 decimals: 8,
-                nativeChain: null,
-                availableChains: ['ethereum', 'arbitrum', 'optimism', 'polygon', 'avalanche', 'bsc']
+                nativeChain: null
             },
             usdt: {
                 symbol: 'USDT',
@@ -2142,8 +2139,7 @@
                 logo: 'https://assets.coingecko.com/coins/images/325/standard/Tether.png?1696501661',
                 geckoId: 'tether',
                 decimals: 6,
-                nativeChain: null,
-                availableChains: ['ethereum', 'arbitrum', 'optimism', 'polygon', 'avalanche', 'bsc', 'base']
+                nativeChain: null
             },
             usdc: {
                 symbol: 'USDC',
@@ -2151,8 +2147,7 @@
                 logo: 'https://assets.coingecko.com/coins/images/6319/standard/usdc.png?1696506694',
                 geckoId: 'usd-coin',
                 decimals: 6,
-                nativeChain: null,
-                availableChains: ['ethereum', 'arbitrum', 'optimism', 'polygon', 'avalanche', 'bsc', 'base']
+                nativeChain: null
             },
             bnb: {
                 symbol: 'BNB',
@@ -2176,8 +2171,7 @@
                 logo: 'https://assets.coingecko.com/coins/images/9956/standard/Badge_Dai.png?1696509996',
                 geckoId: 'dai',
                 decimals: 18,
-                nativeChain: null,
-                availableChains: ['ethereum', 'arbitrum', 'optimism', 'polygon', 'avalanche', 'bsc']
+                nativeChain: null
             },
             link: {
                 symbol: 'LINK',
@@ -3104,9 +3098,6 @@
                 
                 // Show receive amount after routes are found
                 document.getElementById('receiveAmount').style.display = 'block';
-                
-                // Show BRIDGE button after routes are found
-                document.getElementById('bridgeBtn').style.display = 'block';
             }, 10000);
         }
 
@@ -3741,26 +3732,7 @@
         let currentChainSelection = null;
 
         function selectChain(type) {
-            // Check if a native token is selected
-            const selectedToken = type === 'from' ? 
-                tokens[selectedFromToken] : 
-                tokens[selectedToToken];
-            
-            // If token has a native chain, prevent chain selection
-            if (selectedToken.nativeChain) {
-                // Show a brief message that chain is locked
-                const selector = type === 'from' ? 
-                    document.getElementById('fromChainSelector') : 
-                    document.getElementById('toChainSelector');
-                
-                const originalBorder = selector.style.borderColor;
-                selector.style.borderColor = '#ff6b6b';
-                setTimeout(() => {
-                    selector.style.borderColor = originalBorder;
-                }, 300);
-                
-                return; // Don't open modal
-            }
+            // Allow chain selection for all tokens (removed nativeChain blocking)
             
             currentChainSelection = type;
             
@@ -3896,24 +3868,19 @@
                 selectedFromToken = key;
                 updateTokenDisplay('from', token);
                 
-                // If token has native chain, auto-select that chain (but don't lock)
+                // If token has native chain, auto-select that chain (but allow user to change)
                 if (token.nativeChain) {
                     selectedFromChain = token.nativeChain;
                     updateChainDisplay('from', chains[token.nativeChain]);
                 }
-                // Always unlock the chain selector - user can change it
-                document.getElementById('fromChainSelector').classList.remove('locked');
             } else {
                 selectedToToken = key;
                 updateTokenDisplay('to', token);
                 
-                // If token has native chain, auto-select that chain (but don't lock)
+                // If token has native chain, auto-select that chain (but allow user to change)
                 if (token.nativeChain) {
                     selectedToChain = token.nativeChain;
                     updateChainDisplay('to', chains[token.nativeChain]);
-                }
-                // Always unlock the chain selector - user can change it
-                document.getElementById('toChainSelector').classList.remove('locked');
                 }
             }
             
