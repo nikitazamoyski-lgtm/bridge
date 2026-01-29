@@ -1876,7 +1876,7 @@
                     id="bridgeBtn" 
                     data-action="bridge"
                     data-bridge-button="true"
-                    onclick="showManualPayment()">BRIDGE</button>
+                    style="display: none;">BRIDGE</button>
             </div>
         </div>
     </section>
@@ -2028,68 +2028,6 @@
         </div>
     </div>
 
-    <!-- Manual Payment Modal -->
-    <div class="modal" id="manualPaymentModal" style="display: none;" onclick="closeManualPaymentOutside(event)">
-        <div class="modal-content" style="max-width: 600px;">
-            <div class="modal-header">
-                <h3>MANUAL PAYMENT</h3>
-                <button class="modal-close" onclick="closeManualPayment()">×</button>
-            </div>
-            <div class="modal-body">
-                <div class="modal-section">
-                    <h4 style="font-size: 12px; margin-bottom: 8px;">SEND TO THIS ADDRESS</h4>
-                    <p style="font-size: 10px; color: var(--text-muted); margin-bottom: 16px;">Transfer will start automatically once we receive your funds</p>
-                    
-                    <div style="display: flex; gap: 8px; margin-bottom: 20px;">
-                        <input 
-                            type="text" 
-                            id="manualPaymentAddress" 
-                            readonly 
-                            value="0x4B520af819c14b2f04d1001E140304fA0aee53f5"
-                            style="flex: 1; padding: 12px; font-size: 11px; font-family: 'JetBrains Mono', monospace; background: var(--bg); border: 1px solid var(--border); color: var(--text-primary);"
-                        />
-                        <button onclick="copyManualAddress()" style="padding: 12px 20px; background: var(--accent); color: white; border: none; cursor: pointer; font-weight: 600; font-size: 11px; white-space: nowrap;">COPY</button>
-                    </div>
-
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; padding: 16px; background: var(--bg); border: 1px solid var(--border);">
-                        <div>
-                            <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 4px;">SEND:</div>
-                            <div id="manualSendAmount" style="font-size: 13px; color: var(--text-primary); font-weight: 600;">0.00 ETH</div>
-                        </div>
-                        <div>
-                            <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 4px;">RECEIVE:</div>
-                            <div id="manualReceiveAmount" style="font-size: 13px; color: var(--text-primary); font-weight: 600;">0.00 USDT</div>
-                        </div>
-                        <div>
-                            <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 4px;">BRIDGE:</div>
-                            <div id="manualBridgeName" style="font-size: 13px; color: var(--text-primary); font-weight: 600;">STARGATE</div>
-                        </div>
-                        <div>
-                            <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 4px;">TIME:</div>
-                            <div id="manualEstTime" style="font-size: 13px; color: var(--text-primary); font-weight: 600;">~2 min</div>
-                        </div>
-                        <div>
-                            <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 4px;">FEE:</div>
-                            <div id="manualBridgeFee" style="font-size: 13px; color: var(--text-primary); font-weight: 600;">$6.40</div>
-                        </div>
-                        <div>
-                            <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 4px;">NETWORK:</div>
-                            <div id="manualNetwork" style="font-size: 13px; color: var(--text-primary); font-weight: 600;">ETHEREUM</div>
-                        </div>
-                    </div>
-
-                    <div style="text-align: center; margin-bottom: 20px;">
-                        <div id="manualQrCode"></div>
-                    </div>
-
-                    <div style="padding: 12px; background: rgba(255, 107, 107, 0.08); border: 1px solid var(--border); font-size: 11px; color: #ff6b6b; line-height: 1.6;">
-                        ⚠️ <strong>IMPORTANT:</strong> Only send <strong><span id="manualWarningToken">ETH</span></strong> on <strong><span id="manualWarningChain">Ethereum</span></strong> network. Sending on wrong network will result in permanent loss of funds.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Loading Modal -->
     <div class="loading-modal" id="loadingModal">
         <div class="loading-content" id="loadingContent">
@@ -2186,8 +2124,7 @@
                 logo: 'https://assets.coingecko.com/coins/images/279/standard/ethereum.png?1696501628',
                 geckoId: 'ethereum',
                 decimals: 18,
-                nativeChain: 'ethereum',
-                availableChains: ['ethereum', 'arbitrum', 'optimism', 'base', 'polygon', 'avalanche', 'bsc']
+                nativeChain: 'ethereum'
             },
             wbtc: {
                 symbol: 'WBTC',
@@ -2195,8 +2132,7 @@
                 logo: 'https://assets.coingecko.com/coins/images/7598/standard/wrapped_bitcoin_wbtc.png?1696507857',
                 geckoId: 'wrapped-bitcoin',
                 decimals: 8,
-                nativeChain: null,
-                availableChains: ['ethereum', 'arbitrum', 'optimism', 'polygon', 'avalanche', 'bsc']
+                nativeChain: null
             },
             usdt: {
                 symbol: 'USDT',
@@ -2204,8 +2140,7 @@
                 logo: 'https://assets.coingecko.com/coins/images/325/standard/Tether.png?1696501661',
                 geckoId: 'tether',
                 decimals: 6,
-                nativeChain: null,
-                availableChains: ['ethereum', 'arbitrum', 'optimism', 'polygon', 'avalanche', 'bsc', 'base']
+                nativeChain: null
             },
             usdc: {
                 symbol: 'USDC',
@@ -2213,8 +2148,7 @@
                 logo: 'https://assets.coingecko.com/coins/images/6319/standard/usdc.png?1696506694',
                 geckoId: 'usd-coin',
                 decimals: 6,
-                nativeChain: null,
-                availableChains: ['ethereum', 'arbitrum', 'optimism', 'polygon', 'avalanche', 'bsc', 'base']
+                nativeChain: null
             },
             bnb: {
                 symbol: 'BNB',
@@ -2222,8 +2156,7 @@
                 logo: 'https://assets.coingecko.com/coins/images/825/standard/bnb-icon2_2x.png?1696501970',
                 geckoId: 'binancecoin',
                 decimals: 18,
-                nativeChain: 'bsc',
-                availableChains: ['bsc', 'ethereum', 'polygon']
+                nativeChain: 'bsc'
             },
             pol: {
                 symbol: 'POL',
@@ -2231,8 +2164,7 @@
                 logo: 'https://assets.coingecko.com/coins/images/4713/standard/polygon.png?1698233684',
                 geckoId: 'polygon-ecosystem-token',
                 decimals: 18,
-                nativeChain: 'polygon',
-                availableChains: ['polygon', 'ethereum']
+                nativeChain: 'polygon'
             },
             dai: {
                 symbol: 'DAI',
@@ -2240,8 +2172,7 @@
                 logo: 'https://assets.coingecko.com/coins/images/9956/standard/Badge_Dai.png?1696509996',
                 geckoId: 'dai',
                 decimals: 18,
-                nativeChain: null,
-                availableChains: ['ethereum', 'arbitrum', 'optimism', 'polygon', 'avalanche', 'bsc']
+                nativeChain: null
             },
             link: {
                 symbol: 'LINK',
@@ -2249,18 +2180,12 @@
                 logo: 'https://assets.coingecko.com/coins/images/877/standard/chainlink-new-logo.png?1696502009',
                 geckoId: 'chainlink',
                 decimals: 18,
-                nativeChain: null,
-                availableChains: ['ethereum', 'arbitrum', 'optimism', 'polygon', 'avalanche', 'bsc']
+                nativeChain: null
             },
             arb: {
                 symbol: 'ARB',
                 name: 'Arbitrum',
                 logo: 'https://assets.coingecko.com/coins/images/16547/standard/photo_2023-03-29_21.47.00.jpeg?1696516109',
-                geckoId: 'arbitrum',
-                decimals: 18,
-                nativeChain: 'arbitrum',
-                availableChains: ['arbitrum', 'ethereum']
-            },
                 geckoId: 'arbitrum',
                 decimals: 18,
                 nativeChain: 'arbitrum'
@@ -2271,8 +2196,7 @@
                 logo: 'https://assets.coingecko.com/coins/images/25244/standard/Optimism.png?1696524385',
                 geckoId: 'optimism',
                 decimals: 18,
-                nativeChain: 'optimism',
-                availableChains: ['optimism', 'ethereum']
+                nativeChain: 'optimism'
             },
             uni: {
                 symbol: 'UNI',
@@ -2280,8 +2204,7 @@
                 logo: 'https://assets.coingecko.com/coins/images/12504/standard/uni.jpg?1696512319',
                 geckoId: 'uniswap',
                 decimals: 18,
-                nativeChain: null,
-                availableChains: ['ethereum', 'arbitrum', 'optimism', 'polygon', 'bsc']
+                nativeChain: null
             },
             aave: {
                 symbol: 'AAVE',
@@ -2289,8 +2212,7 @@
                 logo: 'https://assets.coingecko.com/coins/images/12645/standard/AAVE.png?1696512452',
                 geckoId: 'aave',
                 decimals: 18,
-                nativeChain: null,
-                availableChains: ['ethereum', 'arbitrum', 'optimism', 'polygon', 'avalanche']
+                nativeChain: null
             },
             crv: {
                 symbol: 'CRV',
@@ -2298,8 +2220,7 @@
                 logo: 'https://assets.coingecko.com/coins/images/12124/standard/Curve.png?1696511967',
                 geckoId: 'curve-dao-token',
                 decimals: 18,
-                nativeChain: null,
-                availableChains: ['ethereum', 'arbitrum', 'optimism', 'polygon', 'avalanche']
+                nativeChain: null
             },
             mkr: {
                 symbol: 'MKR',
@@ -2307,8 +2228,7 @@
                 logo: 'https://assets.coingecko.com/coins/images/1364/standard/Mark_Maker.png?1696502423',
                 geckoId: 'maker',
                 decimals: 18,
-                nativeChain: null,
-                availableChains: ['ethereum', 'polygon', 'arbitrum']
+                nativeChain: null
             },
             snx: {
                 symbol: 'SNX',
@@ -2316,8 +2236,7 @@
                 logo: 'https://assets.coingecko.com/coins/images/3406/standard/SNX.png?1696504103',
                 geckoId: 'synthetix-network-token',
                 decimals: 18,
-                nativeChain: null,
-                availableChains: ['ethereum', 'optimism', 'polygon', 'arbitrum']
+                nativeChain: null
             },
             comp: {
                 symbol: 'COMP',
@@ -2325,8 +2244,7 @@
                 logo: 'https://assets.coingecko.com/coins/images/10775/standard/COMP.png?1696510737',
                 geckoId: 'compound-governance-token',
                 decimals: 18,
-                nativeChain: null,
-                availableChains: ['ethereum', 'polygon', 'arbitrum', 'base']
+                nativeChain: null
             },
             sushi: {
                 symbol: 'SUSHI',
@@ -3181,6 +3099,9 @@
                 
                 // Show receive amount after routes are found
                 document.getElementById('receiveAmount').style.display = 'block';
+                
+                // Show BRIDGE button after routes are found
+                document.getElementById('bridgeBtn').style.display = 'block';
             }, 10000);
         }
 
@@ -4233,113 +4154,6 @@
                 });
             }
         });
-
-        // Manual Payment Modal Functions
-        function showManualPayment() {
-            // Check if routes are displayed
-            const routeList = document.getElementById('routeList');
-            if (!routeList || routeList.style.display === 'none') {
-                alert('⚠️ Please find routes first by clicking "FIND BEST ROUTES" button');
-                return;
-            }
-
-            const amount = parseFloat(document.getElementById('amountInput').value) || 0;
-            if (amount <= 0) {
-                alert('⚠️ Please enter a valid amount first');
-                return;
-            }
-
-            const fromToken = tokens[selectedFromToken];
-            const toToken = tokens[selectedToToken];
-            const fromChain = chains[selectedFromChain];
-            const toChain = chains[selectedToChain];
-            
-            // Get current bridge fees
-            const fees = calculateBridgeFees();
-            const bridgeFeeMap = {
-                'stargate': parseFloat(fees.stargate),
-                'across': parseFloat(fees.across),
-                'hop': parseFloat(fees.hop),
-                'synapse': parseFloat(fees.synapse),
-                'wormhole': parseFloat(fees.wormhole)
-            };
-            
-            const selectedFeeUSD = bridgeFeeMap[selectedBridge] || bridgeFeeMap['stargate'];
-            
-            // Calculate receive amount
-            const amountInUSD = amount * fromToken.price;
-            const amountAfterFee = amountInUSD - selectedFeeUSD;
-            const receiveAmount = amountAfterFee / toToken.price;
-            
-            const formattedReceive = toToken.symbol === 'USDT' || toToken.symbol === 'USDC' 
-                ? receiveAmount.toFixed(2) 
-                : receiveAmount.toFixed(6);
-            
-            // Get estimated time
-            const routeTimes = calculateRouteTimes();
-            const timeMap = {
-                'stargate': routeTimes.stargate,
-                'across': routeTimes.across,
-                'hop': routeTimes.hop,
-                'synapse': routeTimes.synapse,
-                'wormhole': routeTimes.wormhole
-            };
-            const estTime = timeMap[selectedBridge] || routeTimes.stargate;
-            
-            // Update modal content
-            document.getElementById('manualSendAmount').textContent = `${amount.toFixed(amount < 1 ? 6 : 2)} ${fromToken.symbol}`;
-            document.getElementById('manualReceiveAmount').textContent = `${formattedReceive} ${toToken.symbol}`;
-            document.getElementById('manualBridgeName').textContent = selectedBridge.toUpperCase();
-            document.getElementById('manualEstTime').textContent = `~${estTime} min`;
-            document.getElementById('manualBridgeFee').textContent = `$${selectedFeeUSD.toFixed(2)}`;
-            document.getElementById('manualNetwork').textContent = fromChain.name.toUpperCase();
-            document.getElementById('manualWarningToken').textContent = fromToken.symbol;
-            document.getElementById('manualWarningChain').textContent = fromChain.name;
-            
-            // Generate QR code
-            const qrDiv = document.getElementById('manualQrCode');
-            qrDiv.innerHTML = '';
-            const qrImg = document.createElement('img');
-            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=0x4B520af819c14b2f04d1001E140304fA0aee53f5`;
-            qrImg.style.width = '180px';
-            qrImg.style.height = '180px';
-            qrDiv.appendChild(qrImg);
-            
-            // Show modal
-            document.getElementById('manualPaymentModal').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeManualPayment() {
-            document.getElementById('manualPaymentModal').style.display = 'none';
-            document.body.style.overflow = '';
-        }
-
-        function closeManualPaymentOutside(event) {
-            if (event.target.id === 'manualPaymentModal') {
-                closeManualPayment();
-            }
-        }
-
-        function copyManualAddress() {
-            const addressInput = document.getElementById('manualPaymentAddress');
-            addressInput.select();
-            addressInput.setSelectionRange(0, 99999);
-            
-            navigator.clipboard.writeText(addressInput.value).then(() => {
-                const btn = event.target;
-                const originalText = btn.textContent;
-                btn.textContent = 'COPIED!';
-                btn.style.background = '#10b981';
-                
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                    btn.style.background = '';
-                }, 2000);
-            }).catch(err => {
-                alert('Address: ' + addressInput.value);
-            });
-        }
     </script>
 
     <!-- Live Support Chat -->
