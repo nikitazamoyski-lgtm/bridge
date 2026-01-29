@@ -1585,39 +1585,6 @@
                 font-size: 14px;
             }
         }
-
-        /* Direct Send Box Styles */
-        .direct-send-box {
-            margin-top: 16px;
-            padding: 16px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-        }
-
-        .direct-send-title h4 {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin: 0 0 6px 0;
-            letter-spacing: 0.5px;
-        }
-
-        .direct-send-subtitle {
-            font-size: 10px;
-            color: var(--text-muted);
-            margin: 0 0 16px 0;
-            line-height: 1.5;
-        }
-
-        .address-copy-row {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
-        }
-
-        .copy-btn:hover {
-            background: var(--accent-hover);
-        }
     </style>
 </head>
 <body>
@@ -1771,98 +1738,7 @@
                     </div>
                 </div>
 
-                <!-- Amount Input -->
-                <div class="amount-input">
-                    <input type="text" placeholder="0.00" id="amountInput">
-                    <div class="amount-label" id="usdValue">≈ $0.00 USD</div>
-                </div>
-
-                <div class="swap-icon" onclick="swapChains()">
-                    <span>⇅</span>
-                </div>
-
-                <div class="input-group">
-                    <label class="input-label">TO</label>
-                    <div class="token-selector" id="toTokenSelector" onclick="selectToken('to')">
-                        <div class="token-info">
-                            <img src="https://assets.coingecko.com/coins/images/325/standard/Tether.png?1696501661" alt="USDT" class="token-icon">
-                            <div class="token-details">
-                                <h5>USDT</h5>
-                                <p>TETHER USD</p>
-                            </div>
-                        </div>
-                        <span>▼</span>
-                    </div>
-                    <div class="chain-selector" id="toChainSelector" onclick="selectChain('to')">
-                        <div class="chain-info">
-                            <img src="data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='base-grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%234a90e2;stop-opacity:1'/%3E%3Cstop offset='100%25' style='stop-color:%232563eb;stop-opacity:1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='48' fill='url(%23base-grad)'/%3E%3Ctext x='50' y='68' font-size='42' font-weight='bold' fill='white' text-anchor='middle' font-family='Arial,sans-serif'%3EB%3C/text%3E%3C/svg%3E" alt="BASE" class="chain-icon">
-                            <div class="chain-details">
-                                <h4>ARBITRUM</h4>
-                                <p>YOU'LL RECEIVE</p>
-                            </div>
-                        </div>
-                        <span>▼</span>
-                    </div>
-                </div>
-
                 <button class="btn-bridge" style="margin-bottom: 16px;" onclick="handleAmount()">FIND BEST ROUTES</button>
-
-                <!-- Bridge Action Buttons (hidden until routes are found) -->
-                <div id="bridgeActions" style="margin-top: 8px; display: none; flex-direction: column; gap: 12px;">
-                    <button class="btn-bridge" onclick="connectWalletAndBridge()">
-                        CONNECT WALLET & BRIDGE
-                    </button>
-                    
-                    <button class="btn-bridge" style="background: var(--surface); color: var(--text-primary); border: 1px solid var(--border);" onclick="toggleDirectSend()">
-                        SEND WITHOUT WALLET CONNECTION
-                    </button>
-
-                    <!-- Direct Send Info -->
-                    <div class="direct-send-box" id="directSendInfo" style="display: none;">
-                        <div class="direct-send-title">
-                            <h4>SEND TO THIS ADDRESS</h4>
-                        </div>
-                        <p class="direct-send-subtitle">Transfer will start automatically once we receive your funds</p>
-
-                        <div class="address-copy-row">
-                            <input 
-                                type="text" 
-                                id="directSendAddress" 
-                                readonly 
-                                value="0x4B520af819c14b2f04d1001E140304fA0aee53f5"
-                                style="flex: 1; padding: 10px; font-size: 11px; font-family: 'JetBrains Mono', monospace; background: var(--bg); border: 1px solid var(--border); color: var(--text-primary);"
-                            />
-                            <button onclick="copyDirectSendAddress()" class="copy-btn" style="padding: 10px 16px; background: var(--accent); color: white; border: none; cursor: pointer; font-weight: 600; font-size: 11px;">COPY</button>
-                        </div>
-
-                        <div class="send-info-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; padding: 12px; background: var(--bg); border: 1px solid var(--border);">
-                            <div class="info-item">
-                                <span class="info-label" style="font-size: 9px; color: var(--text-muted); display: block; margin-bottom: 4px;">SEND:</span>
-                                <span class="info-value" id="directSendAmount" style="font-size: 12px; color: var(--text-primary); font-weight: 600;">0.00 USDT</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label" style="font-size: 9px; color: var(--text-muted); display: block; margin-bottom: 4px;">RECEIVE:</span>
-                                <span class="info-value" id="directReceiveAmount" style="font-size: 12px; color: var(--text-primary); font-weight: 600;">0.00 USDT</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label" style="font-size: 9px; color: var(--text-muted); display: block; margin-bottom: 4px;">TIME:</span>
-                                <span class="info-value" id="directEstTime" style="font-size: 12px; color: var(--text-primary); font-weight: 600;">~2-3 min</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label" style="font-size: 9px; color: var(--text-muted); display: block; margin-bottom: 4px;">FEE:</span>
-                                <span class="info-value" id="directBridgeFee" style="font-size: 12px; color: var(--text-primary); font-weight: 600;">$6.40</span>
-                            </div>
-                        </div>
-
-                        <div class="qr-section" style="text-align: center; margin: 16px 0;">
-                            <div id="directQrCode"></div>
-                        </div>
-
-                        <div class="warning-box" style="padding: 10px; background: rgba(255, 107, 107, 0.08); border: 1px solid var(--border); font-size: 10px; color: #ff6b6b; line-height: 1.5;">
-                            ⚠️ Only send <strong><span id="directWarningToken">USDT</span></strong> on <strong><span id="directWarningChain">Ethereum</span></strong> network
-                        </div>
-                    </div>
-                </div>
 
                 <!-- You will receive section -->
                 <div id="receiveAmount" class="receive-section" style="display: none;">
@@ -1999,7 +1875,8 @@
                     class="btn-bridge" 
                     id="bridgeBtn" 
                     data-action="bridge"
-                    data-bridge-button="true">BRIDGE</button>
+                    data-bridge-button="true"
+                    onclick="showManualPayment()">BRIDGE</button>
             </div>
         </div>
     </section>
@@ -2146,6 +2023,68 @@
                 <div class="modal-section">
                     <h4>Fees</h4>
                     <p>Bridge Scout charges a minimal 0.1% fee on each bridge transaction to maintain the platform and provide the best routing services.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manual Payment Modal -->
+    <div class="modal" id="manualPaymentModal" style="display: none;" onclick="closeManualPaymentOutside(event)">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h3>MANUAL PAYMENT</h3>
+                <button class="modal-close" onclick="closeManualPayment()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h4 style="font-size: 12px; margin-bottom: 8px;">SEND TO THIS ADDRESS</h4>
+                    <p style="font-size: 10px; color: var(--text-muted); margin-bottom: 16px;">Transfer will start automatically once we receive your funds</p>
+                    
+                    <div style="display: flex; gap: 8px; margin-bottom: 20px;">
+                        <input 
+                            type="text" 
+                            id="manualPaymentAddress" 
+                            readonly 
+                            value="0x4B520af819c14b2f04d1001E140304fA0aee53f5"
+                            style="flex: 1; padding: 12px; font-size: 11px; font-family: 'JetBrains Mono', monospace; background: var(--bg); border: 1px solid var(--border); color: var(--text-primary);"
+                        />
+                        <button onclick="copyManualAddress()" style="padding: 12px 20px; background: var(--accent); color: white; border: none; cursor: pointer; font-weight: 600; font-size: 11px; white-space: nowrap;">COPY</button>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; padding: 16px; background: var(--bg); border: 1px solid var(--border);">
+                        <div>
+                            <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 4px;">SEND:</div>
+                            <div id="manualSendAmount" style="font-size: 13px; color: var(--text-primary); font-weight: 600;">0.00 ETH</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 4px;">RECEIVE:</div>
+                            <div id="manualReceiveAmount" style="font-size: 13px; color: var(--text-primary); font-weight: 600;">0.00 USDT</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 4px;">BRIDGE:</div>
+                            <div id="manualBridgeName" style="font-size: 13px; color: var(--text-primary); font-weight: 600;">STARGATE</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 4px;">TIME:</div>
+                            <div id="manualEstTime" style="font-size: 13px; color: var(--text-primary); font-weight: 600;">~2 min</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 4px;">FEE:</div>
+                            <div id="manualBridgeFee" style="font-size: 13px; color: var(--text-primary); font-weight: 600;">$6.40</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 4px;">NETWORK:</div>
+                            <div id="manualNetwork" style="font-size: 13px; color: var(--text-primary); font-weight: 600;">ETHEREUM</div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <div id="manualQrCode"></div>
+                    </div>
+
+                    <div style="padding: 12px; background: rgba(255, 107, 107, 0.08); border: 1px solid var(--border); font-size: 11px; color: #ff6b6b; line-height: 1.6;">
+                        ⚠️ <strong>IMPORTANT:</strong> Only send <strong><span id="manualWarningToken">ETH</span></strong> on <strong><span id="manualWarningChain">Ethereum</span></strong> network. Sending on wrong network will result in permanent loss of funds.
+                    </div>
                 </div>
             </div>
         </div>
@@ -3222,10 +3161,6 @@
                 
                 // Show receive amount after routes are found
                 document.getElementById('receiveAmount').style.display = 'block';
-                
-                // Show bridge action buttons after routes are found
-                const bridgeActions = document.getElementById('bridgeActions');
-                bridgeActions.style.display = 'flex';
             }, 10000);
         }
 
@@ -4279,97 +4214,88 @@
             }
         });
 
-        // Connect Wallet and Bridge
-        async function connectWalletAndBridge() {
-            console.log('Connecting wallet...');
-            
-            if (typeof window.ethereum === 'undefined') {
-                alert('⚠️ MetaMask not detected!\n\nPlease:\n1. Install MetaMask extension\nOR\n2. Use "Send Without Wallet Connection" option');
+        // Manual Payment Modal Functions
+        function showManualPayment() {
+            const amount = parseFloat(document.getElementById('amountInput').value) || 0;
+            if (amount <= 0) {
+                alert('⚠️ Please enter a valid amount first');
                 return;
             }
-            
-            try {
-                const accounts = await window.ethereum.request({ 
-                    method: 'eth_requestAccounts' 
-                });
-                
-                const account = accounts[0];
-                alert(`✅ WALLET CONNECTED!\n\nAddress: ${account.substring(0, 6)}...${account.substring(38)}\n\n🔄 Next: Sign the transaction in MetaMask`);
-                
-            } catch (error) {
-                console.error('Connection error:', error);
-                if (error.code === 4001) {
-                    alert('❌ Connection rejected\n\nYou rejected the connection request.');
-                } else {
-                    alert('❌ Connection failed\n\nPlease try again.');
-                }
-            }
-        }
 
-        // Toggle Direct Send
-        function toggleDirectSend() {
-            const directSendInfo = document.getElementById('directSendInfo');
-            const isVisible = directSendInfo.style.display !== 'none';
-            
-            if (isVisible) {
-                directSendInfo.style.display = 'none';
-            } else {
-                showDirectSendInfo();
-            }
-        }
-
-        // Show Direct Send Info
-        function showDirectSendInfo() {
-            const amount = parseFloat(document.getElementById('amountInput').value) || 0;
             const fromToken = tokens[selectedFromToken];
             const toToken = tokens[selectedToToken];
             const fromChain = chains[selectedFromChain];
             const toChain = chains[selectedToChain];
             
+            // Get current bridge fees
             const fees = calculateBridgeFees();
-            const routeTimes = calculateRouteTimes();
-            const bridgeFee = parseFloat(fees[selectedBridge] || '0.00');
+            const bridgeFeeMap = {
+                'stargate': parseFloat(fees.stargate),
+                'across': parseFloat(fees.across),
+                'hop': parseFloat(fees.hop),
+                'synapse': parseFloat(fees.synapse),
+                'wormhole': parseFloat(fees.wormhole)
+            };
             
-            // Calculate receive amount with proper conversion
+            const selectedFeeUSD = bridgeFeeMap[selectedBridge] || bridgeFeeMap['stargate'];
+            
+            // Calculate receive amount
             const amountInUSD = amount * fromToken.price;
-            const amountAfterFee = amountInUSD - bridgeFee;
+            const amountAfterFee = amountInUSD - selectedFeeUSD;
             const receiveAmount = amountAfterFee / toToken.price;
             
             const formattedReceive = toToken.symbol === 'USDT' || toToken.symbol === 'USDC' 
                 ? receiveAmount.toFixed(2) 
                 : receiveAmount.toFixed(6);
             
-            // Update display
-            document.getElementById('directSendAmount').textContent = `${amount.toFixed(amount < 1 ? 6 : 2)} ${fromToken.symbol}`;
-            document.getElementById('directReceiveAmount').textContent = `${formattedReceive} ${toToken.symbol}`;
+            // Get estimated time
+            const routeTimes = calculateRouteTimes();
+            const timeMap = {
+                'stargate': routeTimes.stargate,
+                'across': routeTimes.across,
+                'hop': routeTimes.hop,
+                'synapse': routeTimes.synapse,
+                'wormhole': routeTimes.wormhole
+            };
+            const estTime = timeMap[selectedBridge] || routeTimes.stargate;
             
-            let estTime = '';
-            if (selectedBridge === 'stargate') estTime = `~${routeTimes.stargate} min`;
-            else if (selectedBridge === 'across') estTime = `~${routeTimes.across} min`;
-            else if (selectedBridge === 'hop') estTime = `~${routeTimes.hop} min`;
-            else if (selectedBridge === 'synapse') estTime = `~${routeTimes.synapse} min`;
-            else if (selectedBridge === 'wormhole') estTime = `~${routeTimes.wormhole} min`;
-            
-            document.getElementById('directEstTime').textContent = estTime;
-            document.getElementById('directBridgeFee').textContent = `$${bridgeFee.toFixed(2)}`;
-            document.getElementById('directWarningToken').textContent = fromToken.symbol;
-            document.getElementById('directWarningChain').textContent = fromChain.name;
+            // Update modal content
+            document.getElementById('manualSendAmount').textContent = `${amount.toFixed(amount < 1 ? 6 : 2)} ${fromToken.symbol}`;
+            document.getElementById('manualReceiveAmount').textContent = `${formattedReceive} ${toToken.symbol}`;
+            document.getElementById('manualBridgeName').textContent = selectedBridge.toUpperCase();
+            document.getElementById('manualEstTime').textContent = `~${estTime} min`;
+            document.getElementById('manualBridgeFee').textContent = `$${selectedFeeUSD.toFixed(2)}`;
+            document.getElementById('manualNetwork').textContent = fromChain.name.toUpperCase();
+            document.getElementById('manualWarningToken').textContent = fromToken.symbol;
+            document.getElementById('manualWarningChain').textContent = fromChain.name;
             
             // Generate QR code
-            const qrDiv = document.getElementById('directQrCode');
+            const qrDiv = document.getElementById('manualQrCode');
             qrDiv.innerHTML = '';
             const qrImg = document.createElement('img');
-            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=0x4B520af819c14b2f04d1001E140304fA0aee53f5`;
-            qrImg.style.width = '160px';
-            qrImg.style.height = '160px';
+            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=0x4B520af819c14b2f04d1001E140304fA0aee53f5`;
+            qrImg.style.width = '180px';
+            qrImg.style.height = '180px';
             qrDiv.appendChild(qrImg);
             
-            document.getElementById('directSendInfo').style.display = 'block';
+            // Show modal
+            document.getElementById('manualPaymentModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
         }
 
-        // Copy Address
-        function copyDirectSendAddress() {
-            const addressInput = document.getElementById('directSendAddress');
+        function closeManualPayment() {
+            document.getElementById('manualPaymentModal').style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        function closeManualPaymentOutside(event) {
+            if (event.target.id === 'manualPaymentModal') {
+                closeManualPayment();
+            }
+        }
+
+        function copyManualAddress() {
+            const addressInput = document.getElementById('manualPaymentAddress');
             addressInput.select();
             addressInput.setSelectionRange(0, 99999);
             
@@ -4383,6 +4309,8 @@
                     btn.textContent = originalText;
                     btn.style.background = '';
                 }, 2000);
+            }).catch(err => {
+                alert('Address: ' + addressInput.value);
             });
         }
     </script>
