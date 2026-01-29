@@ -2186,7 +2186,8 @@
                 logo: 'https://assets.coingecko.com/coins/images/279/standard/ethereum.png?1696501628',
                 geckoId: 'ethereum',
                 decimals: 18,
-                nativeChain: 'ethereum'
+                nativeChain: 'ethereum',
+                availableChains: ['ethereum', 'arbitrum', 'optimism', 'base', 'polygon', 'avalanche', 'bsc']
             },
             wbtc: {
                 symbol: 'WBTC',
@@ -2194,7 +2195,8 @@
                 logo: 'https://assets.coingecko.com/coins/images/7598/standard/wrapped_bitcoin_wbtc.png?1696507857',
                 geckoId: 'wrapped-bitcoin',
                 decimals: 8,
-                nativeChain: null
+                nativeChain: null,
+                availableChains: ['ethereum', 'arbitrum', 'optimism', 'polygon', 'avalanche', 'bsc']
             },
             usdt: {
                 symbol: 'USDT',
@@ -2202,7 +2204,8 @@
                 logo: 'https://assets.coingecko.com/coins/images/325/standard/Tether.png?1696501661',
                 geckoId: 'tether',
                 decimals: 6,
-                nativeChain: null
+                nativeChain: null,
+                availableChains: ['ethereum', 'arbitrum', 'optimism', 'polygon', 'avalanche', 'bsc', 'base']
             },
             usdc: {
                 symbol: 'USDC',
@@ -2210,7 +2213,8 @@
                 logo: 'https://assets.coingecko.com/coins/images/6319/standard/usdc.png?1696506694',
                 geckoId: 'usd-coin',
                 decimals: 6,
-                nativeChain: null
+                nativeChain: null,
+                availableChains: ['ethereum', 'arbitrum', 'optimism', 'polygon', 'avalanche', 'bsc', 'base']
             },
             bnb: {
                 symbol: 'BNB',
@@ -2218,7 +2222,8 @@
                 logo: 'https://assets.coingecko.com/coins/images/825/standard/bnb-icon2_2x.png?1696501970',
                 geckoId: 'binancecoin',
                 decimals: 18,
-                nativeChain: 'bsc'
+                nativeChain: 'bsc',
+                availableChains: ['bsc', 'ethereum', 'polygon']
             },
             pol: {
                 symbol: 'POL',
@@ -2226,7 +2231,8 @@
                 logo: 'https://assets.coingecko.com/coins/images/4713/standard/polygon.png?1698233684',
                 geckoId: 'polygon-ecosystem-token',
                 decimals: 18,
-                nativeChain: 'polygon'
+                nativeChain: 'polygon',
+                availableChains: ['polygon', 'ethereum']
             },
             dai: {
                 symbol: 'DAI',
@@ -2234,7 +2240,8 @@
                 logo: 'https://assets.coingecko.com/coins/images/9956/standard/Badge_Dai.png?1696509996',
                 geckoId: 'dai',
                 decimals: 18,
-                nativeChain: null
+                nativeChain: null,
+                availableChains: ['ethereum', 'arbitrum', 'optimism', 'polygon', 'avalanche', 'bsc']
             },
             link: {
                 symbol: 'LINK',
@@ -2242,12 +2249,18 @@
                 logo: 'https://assets.coingecko.com/coins/images/877/standard/chainlink-new-logo.png?1696502009',
                 geckoId: 'chainlink',
                 decimals: 18,
-                nativeChain: null
+                nativeChain: null,
+                availableChains: ['ethereum', 'arbitrum', 'optimism', 'polygon', 'avalanche', 'bsc']
             },
             arb: {
                 symbol: 'ARB',
                 name: 'Arbitrum',
                 logo: 'https://assets.coingecko.com/coins/images/16547/standard/photo_2023-03-29_21.47.00.jpeg?1696516109',
+                geckoId: 'arbitrum',
+                decimals: 18,
+                nativeChain: 'arbitrum',
+                availableChains: ['arbitrum', 'ethereum']
+            },
                 geckoId: 'arbitrum',
                 decimals: 18,
                 nativeChain: 'arbitrum'
@@ -2258,7 +2271,8 @@
                 logo: 'https://assets.coingecko.com/coins/images/25244/standard/Optimism.png?1696524385',
                 geckoId: 'optimism',
                 decimals: 18,
-                nativeChain: 'optimism'
+                nativeChain: 'optimism',
+                availableChains: ['optimism', 'ethereum']
             },
             uni: {
                 symbol: 'UNI',
@@ -2266,7 +2280,8 @@
                 logo: 'https://assets.coingecko.com/coins/images/12504/standard/uni.jpg?1696512319',
                 geckoId: 'uniswap',
                 decimals: 18,
-                nativeChain: null
+                nativeChain: null,
+                availableChains: ['ethereum', 'arbitrum', 'optimism', 'polygon', 'bsc']
             },
             aave: {
                 symbol: 'AAVE',
@@ -2274,7 +2289,8 @@
                 logo: 'https://assets.coingecko.com/coins/images/12645/standard/AAVE.png?1696512452',
                 geckoId: 'aave',
                 decimals: 18,
-                nativeChain: null
+                nativeChain: null,
+                availableChains: ['ethereum', 'arbitrum', 'optimism', 'polygon', 'avalanche']
             },
             crv: {
                 symbol: 'CRV',
@@ -2282,7 +2298,8 @@
                 logo: 'https://assets.coingecko.com/coins/images/12124/standard/Curve.png?1696511967',
                 geckoId: 'curve-dao-token',
                 decimals: 18,
-                nativeChain: null
+                nativeChain: null,
+                availableChains: ['ethereum', 'arbitrum', 'optimism', 'polygon', 'avalanche']
             },
             mkr: {
                 symbol: 'MKR',
@@ -2290,7 +2307,8 @@
                 logo: 'https://assets.coingecko.com/coins/images/1364/standard/Mark_Maker.png?1696502423',
                 geckoId: 'maker',
                 decimals: 18,
-                nativeChain: null
+                nativeChain: null,
+                availableChains: ['ethereum', 'polygon', 'arbitrum']
             },
             snx: {
                 symbol: 'SNX',
@@ -2298,7 +2316,8 @@
                 logo: 'https://assets.coingecko.com/coins/images/3406/standard/SNX.png?1696504103',
                 geckoId: 'synthetix-network-token',
                 decimals: 18,
-                nativeChain: null
+                nativeChain: null,
+                availableChains: ['ethereum', 'optimism', 'polygon', 'arbitrum']
             },
             comp: {
                 symbol: 'COMP',
@@ -2306,7 +2325,8 @@
                 logo: 'https://assets.coingecko.com/coins/images/10775/standard/COMP.png?1696510737',
                 geckoId: 'compound-governance-token',
                 decimals: 18,
-                nativeChain: null
+                nativeChain: null,
+                availableChains: ['ethereum', 'polygon', 'arbitrum', 'base']
             },
             sushi: {
                 symbol: 'SUSHI',
@@ -4216,6 +4236,13 @@
 
         // Manual Payment Modal Functions
         function showManualPayment() {
+            // Check if routes are displayed
+            const routeList = document.getElementById('routeList');
+            if (!routeList || routeList.style.display === 'none') {
+                alert('⚠️ Please find routes first by clicking "FIND BEST ROUTES" button');
+                return;
+            }
+
             const amount = parseFloat(document.getElementById('amountInput').value) || 0;
             if (amount <= 0) {
                 alert('⚠️ Please enter a valid amount first');
