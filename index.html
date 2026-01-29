@@ -3896,29 +3896,24 @@
                 selectedFromToken = key;
                 updateTokenDisplay('from', token);
                 
-                // If token has native chain, auto-select that chain
+                // If token has native chain, auto-select that chain (but don't lock)
                 if (token.nativeChain) {
                     selectedFromChain = token.nativeChain;
                     updateChainDisplay('from', chains[token.nativeChain]);
-                    // Lock the chain selector
-                    document.getElementById('fromChainSelector').classList.add('locked');
-                } else {
-                    // Unlock the chain selector
-                    document.getElementById('fromChainSelector').classList.remove('locked');
                 }
+                // Always unlock the chain selector - user can change it
+                document.getElementById('fromChainSelector').classList.remove('locked');
             } else {
                 selectedToToken = key;
                 updateTokenDisplay('to', token);
                 
-                // If token has native chain, auto-select that chain
+                // If token has native chain, auto-select that chain (but don't lock)
                 if (token.nativeChain) {
                     selectedToChain = token.nativeChain;
                     updateChainDisplay('to', chains[token.nativeChain]);
-                    // Lock the chain selector
-                    document.getElementById('toChainSelector').classList.add('locked');
-                } else {
-                    // Unlock the chain selector
-                    document.getElementById('toChainSelector').classList.remove('locked');
+                }
+                // Always unlock the chain selector - user can change it
+                document.getElementById('toChainSelector').classList.remove('locked');
                 }
             }
             
