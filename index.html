@@ -57,8 +57,8 @@ nav a:hover,nav a.nav-active{color:var(--gold);}
 .burger.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px);}
 
 /* ══ MOBILE MENU ══ */
-.mob-menu{position:fixed;inset:0;z-index:250;display:flex;flex-direction:column;background:rgba(7,6,10,.99);backdrop-filter:blur(32px);padding:76px 24px 36px;transform:translateX(-100%);transition:transform .35s cubic-bezier(.4,0,.2,1);overflow-y:auto;}
-.mob-menu.open{transform:translateX(0);}
+.mob-menu{position:fixed;inset:0;z-index:250;display:none;flex-direction:column;background:rgba(7,6,10,.99);padding:76px 24px 36px;transition:transform .35s cubic-bezier(.4,0,.2,1);overflow-y:auto;}
+.mob-menu.open{display:flex;backdrop-filter:blur(32px);}
 .mob-menu::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold-dk),var(--violet),var(--gold-lt));}
 .mm-link{display:flex;align-items:center;justify-content:space-between;padding:16px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:all .2s;}
 .mm-link:active{background:rgba(201,168,76,.04);}
@@ -72,10 +72,10 @@ nav a:hover,nav a.nav-active{color:var(--gold);}
 .mm-invest-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--gold-dk),var(--gold),var(--gold-lt));color:#07060a;border:none;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;}
 
 /* ══ DRAWER (side panel, desktop+mobile) ══ */
-.drawer-scrim{position:fixed;inset:0;z-index:399;background:rgba(0,0,0,.55);backdrop-filter:blur(5px);opacity:0;pointer-events:none;transition:opacity .3s;}
-.drawer-scrim.open{opacity:1;pointer-events:all;}
-.nav-drawer{position:fixed;top:0;right:0;bottom:0;width:min(540px,100vw);z-index:400;background:var(--bg2);border-left:1px solid var(--border);transform:translateX(105%);transition:transform .38s cubic-bezier(.4,0,.2,1);overflow-y:auto;display:flex;flex-direction:column;}
-.nav-drawer.open{transform:translateX(0);box-shadow:-24px 0 80px rgba(0,0,0,.7);}
+.drawer-scrim{position:fixed;inset:0;z-index:399;background:rgba(0,0,0,.55);backdrop-filter:blur(5px);opacity:0;pointer-events:none;transition:opacity .3s;display:none;}
+.drawer-scrim.open{opacity:1;pointer-events:all;display:block;}
+.nav-drawer{position:fixed;top:0;right:0;bottom:0;width:min(540px,100vw);z-index:400;background:var(--bg2);border-left:1px solid var(--border);transform:translateX(105%);transition:transform .38s cubic-bezier(.4,0,.2,1);overflow-y:auto;display:flex;flex-direction:column;visibility:hidden;}
+.nav-drawer.open{transform:translateX(0);box-shadow:-24px 0 80px rgba(0,0,0,.7);visibility:visible;}
 .nav-drawer::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold-dk),var(--violet),var(--gold-lt));}
 .nd-header{display:flex;align-items:flex-start;justify-content:space-between;padding:28px 32px 20px;border-bottom:1px solid var(--border);flex-shrink:0;gap:16px;}
 .nd-eyebrow{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:4px;text-transform:uppercase;color:var(--gold-dk);margin-bottom:6px;}
@@ -170,7 +170,7 @@ h1 .lv{background:linear-gradient(90deg,var(--violet) 0%,var(--violet-lt) 50%,va
 .btn-ghost:hover{background:rgba(201,168,76,.06);border-color:var(--gold);}
 
 /* floated stats panel */
-.hero-stats{position:absolute;right:56px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:2px;}
+.hero-stats{position:absolute;right:56px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:2px;z-index:0;pointer-events:none;}
 .hs{background:rgba(13,11,18,.94);border:1px solid var(--border);padding:18px 26px;min-width:206px;transition:border-color .3s;position:relative;overflow:hidden;}
 .hs:hover{border-color:var(--border2);}
 .hs::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(180deg,transparent,var(--gold),transparent);opacity:0;transition:.3s;}
@@ -541,8 +541,9 @@ footer{border-top:1px solid var(--border);padding:48px 56px;display:grid;grid-te
 .mini-chart-title{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);}
 .mini-chart-badge{font-family:'DM Mono',monospace;font-size:8px;color:var(--green);letter-spacing:2px;}
 @media(max-width:768px){
-  .mini-chart-card{padding:14px 14px;margin-top:22px;}
+  .mini-chart-card{padding:12px 12px;margin-top:18px;}
   .mini-chart-title{font-size:7px;letter-spacing:2px;}
+  #miniGrowthChart{height:70px !important;max-height:70px !important;}
 }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
@@ -810,6 +811,14 @@ footer{border-top:1px solid var(--border);padding:48px 56px;display:grid;grid-te
   </div>
 
 
+  <!-- MINI CHART -->
+  <div class="mini-chart-card">
+    <div class="mini-chart-head">
+      <span class="mini-chart-title">Portfolio growth · $10,000 over 3 years</span>
+      <span class="mini-chart-badge" id="miniChartBadge">+36.6% net</span>
+    </div>
+    <canvas id="miniGrowthChart" style="height:90px;max-height:90px;width:100%;display:block;"></canvas>
+  </div>
 </section>
 
 <!-- CALC -->
@@ -1076,10 +1085,7 @@ footer{border-top:1px solid var(--border);padding:48px 56px;display:grid;grid-te
 
         <!-- PROCESSING STATUS -->
         <p style="font-size:13px;color:var(--muted);font-style:italic;margin-bottom:14px;line-height:1.7;">After sending, processing takes <strong style="color:var(--cream);">1–30 minutes</strong> depending on blockchain load. Your returns will be sent automatically to your payout address.</p>
-        <div class="proc-step active" id="pStep2"><span class="proc-step-icon">⟳</span> Awaiting your deposit on-chain</div>
-          <div class="proc-step" id="pStep3"><span class="proc-step-icon">◇</span> Confirming transaction</div>
-          <div class="proc-step" id="pStep4"><span class="proc-step-icon">◇</span> Sending returns to your address</div>
-        </div>
+
         <div class="proc-addr-lbl">Returns will be sent to</div>
         <div class="proc-addr-box" id="procAddr">—</div>
         <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;margin-top:6px;">
@@ -1621,28 +1627,7 @@ function submitInvest(){
   procInterval=setInterval(updateTimer,1000);
 }
 
-  const netFinal=combined[combined.length-1];
-  document.getElementById('chartReturnLbl').textContent=`+${LIVE_APY}% gross over 3 years · net $${Math.round(netFinal).toLocaleString()} on $10,000`;
-  new Chart(ctx,{
-    type:'line',
-    data:{labels,datasets:[
-      {label:'Gold Reserve',data:gold,borderColor:'#c9a84c',backgroundColor:'rgba(201,168,76,.05)',tension:.4,pointRadius:0,borderWidth:1.5},
-      {label:'Staking Yield',data:solo,borderColor:'#9b7fe8',backgroundColor:'rgba(155,127,232,.05)',tension:.4,pointRadius:0,borderWidth:1.5},
-      {label:'CRYPTAURUM Combined (net)',data:combined,borderColor:'#2ecc8a',backgroundColor:'rgba(46,204,138,.07)',tension:.4,pointRadius:0,borderWidth:2.5,fill:true},
-    ]},
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{labels:{color:'#6e5f44',font:{family:'DM Mono, monospace',size:9},boxWidth:11,padding:14}}},
-      scales:{
-        x:{ticks:{color:'#6e5f44',font:{family:'DM Mono, monospace',size:8},maxTicksLimit:4},grid:{color:'rgba(201,168,76,.04)'},border:{color:'rgba(201,168,76,.08)'}},
-        y:{ticks:{color:'#6e5f44',font:{family:'DM Mono, monospace',size:8},callback:v=>'$'+v.toLocaleString()},grid:{color:'rgba(201,168,76,.04)'},border:{color:'rgba(201,168,76,.08)'}}
-      }
-    }
-  });
-}
-
-
-// ─── BURGER / MOBILE MENU ──────────────────────────────
+// ─── BURGER// ─── BURGER / MOBILE MENU ──────────────────────────────
 function toggleMobMenu(){
   const m=document.getElementById('mobMenu');
   const b=document.getElementById('burgerBtn');
