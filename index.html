@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AURUM — Gold-Secured Crypto Staking</title>
+<title>CRYPTAURUM — Gold-Secured Crypto Staking</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 :root{
   --bg:#07060a;--bg2:#0d0b12;--bg3:#13111a;
@@ -534,7 +533,19 @@ footer{border-top:1px solid var(--border);padding:48px 56px;display:grid;grid-te
 .net-btn:hover{border-color:var(--border2);}
 .net-btn.on{border-color:var(--gold-dk);color:var(--gold);background:rgba(201,168,76,.07);}
 .net-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+
+/* ══ COMPACT CHART ══ */
+.mini-chart-card{background:var(--bg);border:1px solid var(--border);padding:18px 20px;margin-top:32px;position:relative;overflow:hidden;max-width:100%;}
+.mini-chart-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold-dk),var(--violet),var(--gold-lt));}
+.mini-chart-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:6px;}
+.mini-chart-title{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);}
+.mini-chart-badge{font-family:'DM Mono',monospace;font-size:8px;color:var(--green);letter-spacing:2px;}
+@media(max-width:768px){
+  .mini-chart-card{padding:14px 14px;margin-top:22px;}
+  .mini-chart-title{font-size:7px;letter-spacing:2px;}
+}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 </head>
 <body>
 <div class="particles" id="particles"></div>
@@ -542,7 +553,7 @@ footer{border-top:1px solid var(--border);padding:48px 56px;display:grid;grid-te
 <!-- HEADER -->
 <header>
   <a class="logo" href="#">
-    <span class="logo-word">AURUM</span>
+    <span class="logo-word">CRYPTAURUM</span>
     <span class="logo-sub">Gold · Staking · Fund</span>
   </a>
   <nav>
@@ -637,14 +648,14 @@ footer{border-top:1px solid var(--border);padding:48px 56px;display:grid;grid-te
 <div class="ticker">
   <div class="tt">
     <span class="ti"><img class="ti-logo" src="https://assets.coingecko.com/coins/images/944/small/gold.png" onerror="this.style.display='none'"> XAU/USD <span class="g" id="tickXau">—</span> <span id="tickXauChg" class="up"></span></span>
-    <span class="ti">⚡ AURUM APY <span class="v" id="tickerApy">38.5%</span> <span class="up">▲ LIVE</span></span>
+    <span class="ti">⚡ CRYPTAURUM APY <span class="v" id="tickerApy">38.5%</span> <span class="up">▲ LIVE</span></span>
     <span class="ti"><img class="ti-logo" src="https://assets.coingecko.com/coins/images/1/small/bitcoin.png"> BTC <span id="tickBtc" style="color:var(--btc)">—</span> <span id="tickBtcChg" class="up"></span></span>
     <span class="ti"><img class="ti-logo" src="https://assets.coingecko.com/coins/images/279/small/ethereum.png"> ETH <span id="tickEth" style="color:var(--eth)">—</span> <span id="tickEthChg" class="up"></span></span>
     <span class="ti"><img class="ti-logo" src="https://assets.coingecko.com/coins/images/325/small/Tether.png"> USDT <span id="tickUsdt" style="color:var(--usdt)">$1.00</span></span>
     <span class="ti">🏦 Gold backing ratio <span class="g">102.4%</span></span>
     <span class="ti">◆ Commission: <span class="v">5% of profit only</span></span>
     <span class="ti"><img class="ti-logo" src="https://assets.coingecko.com/coins/images/944/small/gold.png" onerror="this.style.display='none'"> XAU/USD <span class="g" id="tickXau2">—</span></span>
-    <span class="ti">⚡ AURUM APY <span class="v" id="tickerApy2">38.5%</span> <span class="up">▲ LIVE</span></span>
+    <span class="ti">⚡ CRYPTAURUM APY <span class="v" id="tickerApy2">38.5%</span> <span class="up">▲ LIVE</span></span>
     <span class="ti"><img class="ti-logo" src="https://assets.coingecko.com/coins/images/1/small/bitcoin.png"> BTC <span id="tickBtc2" style="color:var(--btc)">—</span></span>
     <span class="ti"><img class="ti-logo" src="https://assets.coingecko.com/coins/images/279/small/ethereum.png"> ETH <span id="tickEth" style="color:var(--eth)">—</span> <span id="tickEthChg" class="up"></span></span>
     <span class="ti"><img class="ti-logo" src="https://assets.coingecko.com/coins/images/325/small/Tether.png"> USDT <span id="tickUsdt" style="color:var(--usdt)">$1.00</span></span>
@@ -707,7 +718,7 @@ footer{border-top:1px solid var(--border);padding:48px 56px;display:grid;grid-te
       <div class="cy-num">01</div>
       <span class="cy-icon">💰</span>
       <div class="cy-title">You Deposit Crypto</div>
-      <div class="cy-desc">Send BTC, ETH, USDT or USDC. We confirm on-chain within minutes. Your funds enter the AURUM vault immediately.</div>
+      <div class="cy-desc">Send BTC, ETH, USDT or USDC. We confirm on-chain within minutes. Your funds enter the CRYPTAURUM vault immediately.</div>
       <div class="cy-badge">Entry Point</div>
       <div class="cy-arrow"></div>
     </div>
@@ -798,11 +809,7 @@ footer{border-top:1px solid var(--border);padding:48px 56px;display:grid;grid-te
     </div>
   </div>
 
-  <!-- Growth Chart -->
-  <div class="chart-card" style="margin-top:2px;">
-    <div class="cc-head">Portfolio growth simulation · $10,000 invested <span id="chartReturnLbl">+36.6% net over 3 years = $13,660</span></div>
-    <canvas id="growthChart" height="180"></canvas>
-  </div>
+
 </section>
 
 <!-- CALC -->
@@ -947,7 +954,7 @@ footer{border-top:1px solid var(--border);padding:48px 56px;display:grid;grid-te
 <!-- FOOTER -->
 <footer>
   <div>
-    <span class="f-lw">AURUM</span>
+    <span class="f-lw">CRYPTAURUM</span>
     <p class="f-desc">Gold-secured crypto staking. Physical gold from Japan & Switzerland backs every staking position. 5% commission on profit only. Est. Zurich, 2019.</p>
   </div>
   <div>
@@ -971,7 +978,7 @@ footer{border-top:1px solid var(--border);padding:48px 56px;display:grid;grid-te
       <li><a href="#">Contact</a></li>
     </ul>
   </div>
-  <div class="f-copy">© 2024 AURUM Gold Collective · Registered in Switzerland · Not a public offering · Crypto staking involves risk · Past performance does not guarantee future results</div>
+  <div class="f-copy">© 2024 CRYPTAURUM Gold Collective · Registered in Switzerland · Not a public offering · Crypto staking involves risk · Past performance does not guarantee future results</div>
 </footer>
 
 <!-- INVEST MODAL -->
@@ -1614,22 +1621,6 @@ function submitInvest(){
   procInterval=setInterval(updateTimer,1000);
 }
 
-// ─── CHART ─────────────────────────────────────────────
-function buildChart(){
-  const ctx=document.getElementById('growthChart').getContext('2d');
-  const labels=[];const gold=[];const solo=[];const combined=[];
-  const p=10000;
-  for(let m=0;m<=36;m++){
-    const yr=m/12;
-    labels.push(m%12===0?(m===0?'Start':'Year '+(m/12)):'');
-    const g=p*(1+LIVE_APY/100*0.356*yr/3);
-    const s=p*(1+LIVE_APY/100*0.644*yr/3);
-    const c=p*(1+LIVE_APY/100*yr/3);
-    const cnet=p+(c-p)*0.95;
-    gold.push(+g.toFixed(0));
-    solo.push(+s.toFixed(0));
-    combined.push(+cnet.toFixed(0));
-  }
   const netFinal=combined[combined.length-1];
   document.getElementById('chartReturnLbl').textContent=`+${LIVE_APY}% gross over 3 years · net $${Math.round(netFinal).toLocaleString()} on $10,000`;
   new Chart(ctx,{
@@ -1637,7 +1628,7 @@ function buildChart(){
     data:{labels,datasets:[
       {label:'Gold Reserve',data:gold,borderColor:'#c9a84c',backgroundColor:'rgba(201,168,76,.05)',tension:.4,pointRadius:0,borderWidth:1.5},
       {label:'Staking Yield',data:solo,borderColor:'#9b7fe8',backgroundColor:'rgba(155,127,232,.05)',tension:.4,pointRadius:0,borderWidth:1.5},
-      {label:'AURUM Combined (net)',data:combined,borderColor:'#2ecc8a',backgroundColor:'rgba(46,204,138,.07)',tension:.4,pointRadius:0,borderWidth:2.5,fill:true},
+      {label:'CRYPTAURUM Combined (net)',data:combined,borderColor:'#2ecc8a',backgroundColor:'rgba(46,204,138,.07)',tension:.4,pointRadius:0,borderWidth:2.5,fill:true},
     ]},
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -1679,7 +1670,7 @@ const drawerContent={
         <div class="nd-stat"><div class="nd-stat-val">3 yr</div><div class="nd-stat-lbl">Lock period</div></div>
       </div>
       <h3>01 · You Deposit Crypto</h3>
-      <p>Send BTC, ETH, USDT or USDC. We confirm on-chain within minutes. Your funds enter the AURUM vault immediately — no middlemen.</p>
+      <p>Send BTC, ETH, USDT or USDC. We confirm on-chain within minutes. Your funds enter the CRYPTAURUM vault immediately — no middlemen.</p>
       <h3>02 · We Buy Physical Gold</h3>
       <p>Your deposit is converted and used to purchase <strong>LBMA 999.9 fine gold</strong> from our refinery partners — <em>Tanaka Kikinzoku Kogyo K.K.</em> in Hiroshima and <em>PAMP Suisse</em> in Geneva. Stored in insured allocated vaults in 🇯🇵 🇨🇭 🇸🇬.</p>
       <h3>03 · Gold Backs the Staking</h3>
@@ -2004,10 +1995,73 @@ fetchGold();
 setInterval(fetchPrices, 60000);
 setInterval(fetchGold, 120000);
 
+
+// ─── MINI CHART ────────────────────────────────────────
+function buildMiniChart(){
+  const canvas = document.getElementById('miniGrowthChart');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const labels=[], gold=[], staking=[], combined=[];
+  const p = 10000;
+  for(let m=0; m<=36; m++){
+    const yr = m/12;
+    labels.push(m===0?'0':m===12?'1yr':m===24?'2yr':m===36?'3yr':'');
+    const g = p*(1 + LIVE_APY/100*0.356*yr/3);
+    const s = p*(1 + LIVE_APY/100*0.644*yr/3);
+    const c = p*(1 + LIVE_APY/100*yr/3);
+    const cnet = p+(c-p)*0.95;
+    gold.push(+g.toFixed(0));
+    staking.push(+s.toFixed(0));
+    combined.push(+cnet.toFixed(0));
+  }
+  const netFinal = combined[combined.length-1];
+  const badge = document.getElementById('miniChartBadge');
+  if(badge) badge.textContent = '+' + ((netFinal/p-1)*100).toFixed(1) + '% net';
+  new Chart(ctx,{
+    type:'line',
+    data:{labels, datasets:[
+      {label:'Gold', data:gold, borderColor:'#c9a84c', backgroundColor:'transparent', tension:.4, pointRadius:0, borderWidth:1.5},
+      {label:'Staking', data:staking, borderColor:'#9b7fe8', backgroundColor:'transparent', tension:.4, pointRadius:0, borderWidth:1.5},
+      {label:'Combined (net)', data:combined, borderColor:'#2ecc8a',
+       backgroundColor:'rgba(46,204,138,.07)', tension:.4, pointRadius:0, borderWidth:2, fill:true},
+    ]},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      interaction:{mode:'index', intersect:false},
+      plugins:{
+        legend:{
+          position:'bottom',
+          labels:{color:'#6e5f44', font:{family:'DM Mono, monospace', size:8}, boxWidth:10, padding:10, usePointStyle:true}
+        },
+        tooltip:{
+          backgroundColor:'rgba(13,11,18,.95)',
+          titleColor:'#e4d8c0', bodyColor:'#6e5f44',
+          borderColor:'rgba(201,168,76,.2)', borderWidth:1,
+          titleFont:{family:'DM Mono, monospace', size:8},
+          bodyFont:{family:'DM Mono, monospace', size:8},
+          callbacks:{label:ctx=>' $'+ctx.parsed.y.toLocaleString()}
+        }
+      },
+      scales:{
+        x:{
+          ticks:{color:'#6e5f44', font:{family:'DM Mono, monospace', size:7}, maxTicksLimit:4, maxRotation:0},
+          grid:{color:'rgba(201,168,76,.04)'},
+          border:{color:'rgba(201,168,76,.08)'}
+        },
+        y:{
+          ticks:{color:'#6e5f44', font:{family:'DM Mono, monospace', size:7}, callback:v=>'$'+Math.round(v/1000)+'k', maxTicksLimit:4},
+          grid:{color:'rgba(201,168,76,.04)'},
+          border:{color:'rgba(201,168,76,.08)'}
+        }
+      }
+    }
+  });
+}
+
 // ─── INIT ───────────────────────────────────────────────
 refreshAPYDisplays();
 renderInv();
-buildChart();
+buildMiniChart();
 
 // Intersection observer
 const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis');});},{threshold:.07});
