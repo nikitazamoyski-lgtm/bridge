@@ -845,9 +845,7 @@ footer{border-top:1px solid var(--border);padding:48px 56px;display:grid;grid-te
       </div>
       <label class="f-lbl">Lock Period</label>
       <div class="lock-row">
-        <button class="lb" onclick="setLock(this,1)">1 Year</button>
         <button class="lb on" onclick="setLock(this,3)">3 Years</button>
-        <button class="lb" onclick="setLock(this,5)">5 Years</button>
       </div>
       <label class="f-lbl">Deposit Coin</label>
       <div class="coin-pick">
@@ -879,6 +877,79 @@ footer{border-top:1px solid var(--border);padding:48px 56px;display:grid;grid-te
   </div>
 </section>
 
+
+<!-- TIERS -->
+<section class="sec alt fu" id="tiers">
+  <div class="eyebrow">Investment Plans</div>
+  <h2>Choose your <em>strategy</em></h2>
+  <div class="tiers">
+    <div class="tier" onclick="openModalTier(5000)">
+      <div class="tg"></div>
+      <span class="t-medal">🥉</span>
+      <div class="t-level">Bronze Plan</div>
+      <div class="t-name">Starter</div>
+      <div class="t-range">$500 — $9,999</div>
+      <div class="t-sep"></div>
+      <div class="t-apys">
+        <div class="t-apy"><div class="t-apy-lbl">3yr Return</div><div class="t-apy-val" id="t1Apy">38.5%</div></div>
+        <div class="t-lock"><div class="t-lock-lbl">Lock</div><div class="t-lock-val">3 yr</div></div>
+      </div>
+      <ul class="t-perks">
+        <li>Full gold-backed staking position</li>
+        <li>Monthly staking reward payouts</li>
+        <li>5% commission on profit only</li>
+        <li>Personal investor dashboard</li>
+        <li>BTC, ETH, USDT, USDC accepted</li>
+        <li>Quarterly performance reports</li>
+      </ul>
+      <button class="t-cta">Start Staking →</button>
+    </div>
+    <div class="tier hl" onclick="openModalTier(25000)">
+      <div class="tg"></div>
+      <span class="t-medal">🥇</span>
+      <div class="t-level">Gold Plan</div>
+      <div class="t-name">Growth</div>
+      <div class="t-range">$10,000 — $49,999</div>
+      <div class="t-sep"></div>
+      <div class="t-apys">
+        <div class="t-apy"><div class="t-apy-lbl">3yr Return</div><div class="t-apy-val" id="t2Apy">38.5%</div></div>
+        <div class="t-lock"><div class="t-lock-lbl">Lock</div><div class="t-lock-val">3 yr</div></div>
+      </div>
+      <ul class="t-perks">
+        <li>Everything in Starter</li>
+        <li>Priority gold allocation queue</li>
+        <li>Dedicated account manager</li>
+        <li>Auto-compound staking rewards</li>
+        <li>Private refinery audit access</li>
+        <li>+0.5% bonus on re-investment</li>
+        <li>Quarterly vault visits 🇯🇵 🇨🇭</li>
+      </ul>
+      <button class="t-cta">Invest in Growth →</button>
+    </div>
+    <div class="tier" onclick="openModalTier(60000)">
+      <div class="tg"></div>
+      <span class="t-medal">💎</span>
+      <div class="t-level">Platinum Plan</div>
+      <div class="t-name">Wealth</div>
+      <div class="t-range">$50,000 and above</div>
+      <div class="t-sep"></div>
+      <div class="t-apys">
+        <div class="t-apy"><div class="t-apy-lbl">3yr Return</div><div class="t-apy-val" id="t3Apy">38.5%</div></div>
+        <div class="t-lock"><div class="t-lock-lbl">Lock</div><div class="t-lock-val">3 yr</div></div>
+      </div>
+      <ul class="t-perks">
+        <li>Everything in Growth</li>
+        <li>Named allocated gold bars in your account</li>
+        <li>VIP relationship manager 24/7</li>
+        <li>Notarized custody agreement</li>
+        <li>Annual Tanaka KK factory visit Japan</li>
+        <li>Private Telegram with fund directors</li>
+        <li>Custom staking strategy consultation</li>
+      </ul>
+      <button class="t-cta">Enter Wealth Tier →</button>
+    </div>
+  </div>
+</section>
 
 <!-- INVESTORS TABLE -->
 <section class="sec fu" id="investors" style="padding-bottom:64px;">
@@ -1718,7 +1789,7 @@ const drawerContent={
       <p>All plans earn the same daily APY rate. The difference is lock period, payout speed, and premium perks.</p>
       <div class="nd-divider"></div>
       <h3>🥉 Bronze · Starter</h3>
-      <p style="margin-bottom:8px;"><strong>$500 — $9,999 · 1-year lock</strong></p>
+      <p style="margin-bottom:8px;"><strong>$500 — $9,999 · 3-year lock</strong></p>
       <ul class="nd-list">
         <li>Full gold-backed staking position</li>
         <li>Monthly staking reward payouts</li>
@@ -1743,7 +1814,7 @@ const drawerContent={
       <button class="nd-cta" style="margin-bottom:10px;" onclick="openModalTier(25000);closeDrawer()">Invest in Growth →</button>
       <div class="nd-divider"></div>
       <h3>💎 Platinum · Wealth</h3>
-      <p style="margin-bottom:8px;"><strong>$50,000+ · 3–5 year lock</strong></p>
+      <p style="margin-bottom:8px;"><strong>$50,000+ · 3-year lock</strong></p>
       <ul class="nd-list">
         <li>Everything in Growth</li>
         <li>Named allocated gold bars in your account</li>
@@ -2004,10 +2075,38 @@ function buildMiniChart(){
   });
 }
 
+
+// ─── VISITOR COUNTER (CountAPI) ───────────────────────────────────────────
+const COUNTER_BASE = 1198000; // displayed base so counter starts high
+const COUNTER_NAMESPACE = 'cryptaurum';
+const COUNTER_KEY = 'visitors-v1';
+
+async function fetchAndUpdateCounter(){
+  try{
+    const r = await fetch(
+      `https://api.countapi.xyz/hit/${COUNTER_NAMESPACE}/${COUNTER_KEY}`,
+      {cache:'no-store'}
+    );
+    if(!r.ok) throw new Error();
+    const d = await r.json();
+    const realCount = d.value || 1;
+    // Add base so it looks like we have existing visitors
+    const displayCount = COUNTER_BASE + realCount;
+    const formatted = displayCount.toLocaleString('en-US');
+    // Update only hero Active Investors counter
+    const el1 = document.getElementById('hsTInv');
+    if(el1) el1.textContent = formatted;
+  } catch(e){
+    // CountAPI unavailable - keep existing static value
+    console.log('Counter unavailable:', e);
+  }
+}
+
 // ─── INIT ───────────────────────────────────────────────
 refreshAPYDisplays();
 renderInv();
 buildMiniChart();
+fetchAndUpdateCounter();
 
 // Auto-refresh investor table every 60s
 setInterval(renderInv, 60000);
