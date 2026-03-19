@@ -545,6 +545,10 @@ footer{border-top:1px solid var(--border);padding:48px 56px;display:grid;grid-te
   .mini-chart-title{font-size:7px;letter-spacing:2px;}
   #miniGrowthChart{height:70px !important;max-height:70px !important;}
 }
+
+/* ══ INVESTOR LIVE BADGES ══ */
+.inv-new-badge{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:2px;text-transform:uppercase;background:rgba(46,204,138,.1);border:1px solid rgba(46,204,138,.3);color:var(--green);padding:2px 6px;margin-left:7px;vertical-align:middle;}
+@keyframes rowFadeIn{from{background:rgba(46,204,138,.06);}to{background:transparent;}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 </head>
@@ -875,78 +879,6 @@ footer{border-top:1px solid var(--border);padding:48px 56px;display:grid;grid-te
   </div>
 </section>
 
-<!-- TIERS -->
-<section class="sec alt fu" id="tiers">
-  <div class="eyebrow">Investment Plans</div>
-  <h2>Choose your <em>strategy</em></h2>
-  <div class="tiers">
-    <div class="tier" onclick="openModalTier(5000)">
-      <div class="tg"></div>
-      <span class="t-medal">🥉</span>
-      <div class="t-level">Bronze Plan</div>
-      <div class="t-name">Starter</div>
-      <div class="t-range">$500 — $9,999</div>
-      <div class="t-sep"></div>
-      <div class="t-apys">
-        <div class="t-apy"><div class="t-apy-lbl">3yr Return</div><div class="t-apy-val" id="t1Apy">38.5%</div></div>
-        <div class="t-lock"><div class="t-lock-lbl">Lock</div><div class="t-lock-val">1 yr</div></div>
-      </div>
-      <ul class="t-perks">
-        <li>Full gold-backed staking position</li>
-        <li>Monthly staking reward payouts</li>
-        <li>5% commission on profit only</li>
-        <li>Personal investor dashboard</li>
-        <li>BTC, ETH, USDT, USDC accepted</li>
-        <li>Quarterly performance reports</li>
-      </ul>
-      <button class="t-cta">Start Staking →</button>
-    </div>
-    <div class="tier hl" onclick="openModalTier(25000)">
-      <div class="tg"></div>
-      <span class="t-medal">🥇</span>
-      <div class="t-level">Gold Plan</div>
-      <div class="t-name">Growth</div>
-      <div class="t-range">$10,000 — $49,999</div>
-      <div class="t-sep"></div>
-      <div class="t-apys">
-        <div class="t-apy"><div class="t-apy-lbl">3yr Return</div><div class="t-apy-val" id="t2Apy">38.5%</div></div>
-        <div class="t-lock"><div class="t-lock-lbl">Lock</div><div class="t-lock-val">3 yr</div></div>
-      </div>
-      <ul class="t-perks">
-        <li>Everything in Starter</li>
-        <li>Priority gold allocation queue</li>
-        <li>Dedicated account manager</li>
-        <li>Auto-compound staking rewards</li>
-        <li>Private refinery audit access</li>
-        <li>+0.5% bonus on re-investment</li>
-        <li>Quarterly vault visits 🇯🇵 🇨🇭</li>
-      </ul>
-      <button class="t-cta">Invest in Growth →</button>
-    </div>
-    <div class="tier" onclick="openModalTier(60000)">
-      <div class="tg"></div>
-      <span class="t-medal">💎</span>
-      <div class="t-level">Platinum Plan</div>
-      <div class="t-name">Wealth</div>
-      <div class="t-range">$50,000 and above</div>
-      <div class="t-sep"></div>
-      <div class="t-apys">
-        <div class="t-apy"><div class="t-apy-lbl">3yr Return</div><div class="t-apy-val" id="t3Apy">38.5%</div></div>
-        <div class="t-lock"><div class="t-lock-lbl">Lock</div><div class="t-lock-val">3–5 yr</div></div>
-      </div>
-      <ul class="t-perks">
-        <li>Everything in Growth</li>
-        <li>Named allocated gold bars in your account</li>
-        <li>VIP relationship manager 24/7</li>
-        <li>Notarized custody agreement</li>
-        <li>Annual Tanaka KK factory visit Japan</li>
-        <li>Private Telegram with fund directors</li>
-        <li>Custom staking strategy consultation</li>
-      </ul>
-      <button class="t-cta">Enter Wealth Tier →</button>
-    </div>
-  </div>
-</section>
 
 <!-- INVESTORS TABLE -->
 <section class="sec fu" id="investors" style="padding-bottom:64px;">
@@ -1333,27 +1265,56 @@ function doConnect(name){
 }
 
 // ─── INVESTORS ──────────────────────────────────────────
-const irows=[
-  {n:'Alexander V.',inv:50000,coin:'BTC',tier:'plat',date:'Mar 14, 2024'},
-  {n:'Maria G.',    inv:25000,coin:'ETH', tier:'gold',date:'Mar 12, 2024'},
-  {n:'James R.',    inv:15000,coin:'USDT',tier:'gold',date:'Mar 10, 2024'},
-  {n:'Elena R.',    inv:8000, coin:'BTC', tier:'bron',date:'Mar 8, 2024'},
-  {n:'Ivan P.',     inv:4500, coin:'USDC',tier:'bron',date:'Mar 5, 2024'},
+// Investors with offset minutes from now (simulate recent activity)
+const irowsBase=[
+  {n:'Anonymous',    inv:50000, coin:'BTC',  tier:'plat', minAgo:1},
+  {n:'Anonymous',    inv:25000, coin:'ETH',  tier:'gold', minAgo:4},
+  {n:'user_7f3a',    inv:15000, coin:'USDT', tier:'gold', minAgo:7},
+  {n:'Anonymous',    inv:8000,  coin:'BTC',  tier:'bron', minAgo:12},
+  {n:'Anonymous',    inv:4500,  coin:'USDC', tier:'bron', minAgo:19},
+  {n:'user_2c9b',    inv:32000, coin:'ETH',  tier:'gold', minAgo:25},
+  {n:'Anonymous',    inv:12000, coin:'USDT', tier:'gold', minAgo:34},
 ];
+
+// Build irows with live timestamps updated every minute
+let irows = [];
+
+function buildIrows(){
+  const now = new Date();
+  irows = irowsBase.map(r => {
+    const t = new Date(now - r.minAgo * 60000);
+    return {...r, date: t, minAgo: r.minAgo};
+  });
+}
+
+function timeAgo(date){
+  const diff = Math.floor((Date.now() - date) / 60000);
+  if(diff < 1) return 'just now';
+  if(diff === 1) return '1 min ago';
+  if(diff < 60) return diff + ' min ago';
+  const h = Math.floor(diff/60);
+  if(h === 1) return '1 hour ago';
+  if(h < 24) return h + ' hours ago';
+  return Math.floor(h/24) + 'd ago';
+}
 function renderInv(){
+  buildIrows();
   document.getElementById('invTbody').innerHTML=irows.map((d,i)=>{
     const v=calcVals(d.inv,LIVE_APY,3);
     const rc=i===0?'r1':i===1?'r2':i===2?'r3':'';
     const badge=d.tier==='plat'?'<span class="tb tb-p">Platinum</span>':d.tier==='gold'?'<span class="tb tb-g">Gold</span>':'<span class="tb tb-s">Bronze</span>';
     const ct=`ct-${d.coin.toLowerCase()}`;
-    return`<tr>
+    const ago = timeAgo(d.date);
+    const isNew = d.minAgo <= 5;
+    const isAnon = d.n === 'Anonymous';
+    return`<tr${isNew?' style="animation:rowFadeIn .6s ease;"':''}>
       <td data-label="Rank"><span class="ir ${rc}">${String(i+1).padStart(2,'0')}</span></td>
-      <td data-label="Investor"><span class="in">${d.n}</span></td>
+      <td data-label="Investor"><span class="in" style="${isAnon?'color:var(--muted);font-style:italic;font-size:13px;':''}">🕵️ ${d.n}</span>${isNew?'<span class="inv-new-badge">NEW</span>':''}</td>
       <td data-label="Invested"><span class="iv">${fmtD(d.inv)}</span></td>
       <td data-label="Net Return"><span class="iv ie">${fmtD(v.net)}</span></td>
       <td data-label="APY"><span class="iv ia">${LIVE_APY}%</span></td>
       <td data-label="Coin"><span class="ct ${ct}">${d.coin}</span></td>
-      <td data-label="Since"><span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);">${d.date}</span></td>
+      <td data-label="Since"><span class="inv-time-ago" style="font-family:'DM Mono',monospace;font-size:10px;color:${isNew?'var(--green)':'var(--muted)'};">${ago}</span></td>
       <td data-label="Plan">${badge}</td>
     </tr>`;
   }).join('');
@@ -2047,6 +2008,9 @@ function buildMiniChart(){
 refreshAPYDisplays();
 renderInv();
 buildMiniChart();
+
+// Auto-refresh investor table every 60s
+setInterval(renderInv, 60000);
 
 // Intersection observer
 const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis');});},{threshold:.07});
