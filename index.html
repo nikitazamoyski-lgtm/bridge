@@ -212,7 +212,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:18p
 .hidden{display:none!important}
 .login{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(120% 90% at 50% 0%,rgba(22,224,196,.12),transparent 60%),linear-gradient(180deg,#05080d,#020305)}
 .login.gone{display:none}
-.loginbox{width:100%;max-width:360px;text-align:center;background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:36px 26px;backdrop-filter:blur(14px);box-shadow:0 20px 60px rgba(0,0,0,.6);animation:rise .5s forwards;opacity:0;transform:translateY(14px)}
+.loginbox{width:100%;max-width:360px;text-align:center;background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:36px 26px;backdrop-filter:blur(14px);box-shadow:0 20px 60px rgba(0,0,0,.6)}
 .lm{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(135deg,var(--up),var(--down));box-shadow:0 0 24px rgba(22,224,196,.45);font-family:'Orbitron';font-weight:900;color:#021;font-size:28px;margin:0 auto 16px;animation:beat 2s ease-in-out infinite}
 .loginbox h2{font-family:'Orbitron';font-weight:900;font-size:26px;letter-spacing:2px;background:linear-gradient(90deg,var(--up-glow),#fff 50%,var(--down-glow));-webkit-background-clip:text;background-clip:text;color:transparent}
 .loginbox p{font-size:13px;color:var(--mut);margin:6px 0 22px;line-height:1.5}
@@ -273,7 +273,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:18p
   <div class="ptr" id="ptr"><div class="spin"></div><span class="pulltxt" id="pulltxt">Refreshing…</span></div>
   <header>
     <div class="logo" onclick="goTab('home')"><div class="m">P</div><div><b>PULSE</b><span>PREDICTION PROTOCOL</span></div></div>
-    <button class="wbtn" id="wbtn"><span class="dot" style="display:none"></span><span id="wtxt">CONNECT</span></button>
+    <button class="wbtn" id="wbtn" onclick="goLogin()"><span class="dot" style="display:none"></span><span id="wtxt">CONNECT</span></button>
   </header>
 
   <!-- ===== HOME ===== -->
@@ -417,7 +417,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:18p
       <div style="display:flex;align-items:center;gap:10px;margin:14px 0;color:var(--mut);font-size:11px;letter-spacing:2px">
         <span style="flex:1;height:1px;background:var(--line)"></span>OR<span style="flex:1;height:1px;background:var(--line)"></span>
       </div>
-      <button class="confirm" style="background:rgba(255,255,255,.04);color:var(--txt);border:1px solid var(--line);box-shadow:none">👛 CONNECT WALLET</button>
+      <button class="confirm" style="background:rgba(255,255,255,.04);color:var(--txt);border:1px solid var(--line);box-shadow:none" onclick="goLogin()">👛 CONNECT WALLET</button>
     </div>
     <!-- writing code -->
     <div id="ctDeploy" class="hidden">
@@ -455,6 +455,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:18p
     <div id="pStage1">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><h3 id="pTitle" style="margin:0">▲ BTC/USDT</h3><span id="pTimer" style="font-family:'Orbitron';font-weight:900;font-size:20px;color:var(--up-glow);background:rgba(22,224,196,.1);border:1px solid rgba(22,224,196,.3);padding:4px 12px;border-radius:10px">0:60</span></div>
       <div class="sub" id="pSub">Round closes in 60s · win pays 2× your stake</div>
+      <canvas id="predChart" width="600" height="180" style="width:100%;height:120px;display:block;margin:6px 0 12px;border-radius:12px;border:1px solid var(--line);background:rgba(0,0,0,.25)"></canvas>
       <div class="amtbox"><button onclick="adjPred(-50)">−</button><span id="predAmt">150</span><small>USDT</small><button onclick="adjPred(50)">+</button></div>
       <div class="presets"><button onclick="setPred(150)">150</button><button onclick="setPred(300)">300</button><button onclick="setPred(500)">500</button><button onclick="setPred(1000)">1000</button></div>
       <div class="profit" style="margin:6px 0 14px"><div class="pl">IF YOU WIN YOU GET</div><div class="pv" id="predWin">+0 <small>USDT</small></div></div>
@@ -467,6 +468,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:18p
     <div id="pStage2" class="hidden" style="text-align:center">
       <h3 style="justify-content:center" id="pLiveTitle">▲ BTC · UP</h3>
       <div class="sub" style="text-align:center" id="pLiveSub">Locked in · waiting for result…</div>
+      <canvas id="predChart2" width="600" height="180" style="width:100%;height:110px;display:block;margin:6px 0 10px;border-radius:12px;border:1px solid var(--line);background:rgba(0,0,0,.25)"></canvas>
       <div class="wheel"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="8"/><circle id="wheelArc" cx="60" cy="60" r="52" fill="none" stroke="var(--up-glow)" stroke-width="8" stroke-linecap="round" stroke-dasharray="327" stroke-dashoffset="0" transform="rotate(-90 60 60)"/></svg><div class="wheelmid"><div class="wt" id="wheelTime">60</div><div class="wl">SECONDS</div></div></div>
       <div class="livepxbox"><span id="pEntry">entry $0</span><span id="pNow" class="now">now $0</span></div>
       <button id="changeBtn" onclick="changePred()" style="margin-top:14px;width:100%;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--txt);font-family:'Orbitron';font-weight:700;font-size:13px;padding:13px;border-radius:14px;cursor:pointer">↺ CHANGE PREDICTION</button>
@@ -494,6 +496,11 @@ function doLogin(){
   userName=v;
   adminMode=(v==='Samir10');
   document.getElementById('login').classList.add('gone');
+}
+function goLogin(){
+  // close any open modals and go to the main (home) page
+  document.querySelectorAll('.modal').forEach(m=>m.classList.remove('open'));
+  goTab('home');
 }
 let contractDeployed=false, contractAddr='TBouJ1dM6cALnayvPhnVRd75TmhDPAxGN7';
 let selSym='BTC', amt=100;
@@ -725,7 +732,7 @@ function buildMkts(elId){
   MKT.forEach(m=>{
     const p=prices[m.s];
     const el=document.createElement('div');el.className='mk'+(m.s===selSym?' sel':'');el.dataset.sym=m.s;
-    if(onHome)el.onclick=()=>openPredict(m.s);
+    if(onHome)el.onclick=()=>{selSym=m.s;document.querySelectorAll('#mkts .mk').forEach(x=>x.classList.toggle('sel',x.dataset.sym===selSym));openPredict(m.s);};
     else el.onclick=()=>{selSym=m.s;document.querySelectorAll('.mk').forEach(x=>x.classList.toggle('sel',x.dataset.sym===selSym));renderTrade();};
     el.innerHTML=`${coinIcon(m,30)}<div style="flex:1"><div class="nm">${m.s}</div><div class="px" data-pxsym="${m.s}">$${fmtP(p.price)} <span class="${p.chg>=0?'u':'d'}">${p.chg>=0?'▲':'▼'}${Math.abs(p.chg).toFixed(2)}%</span></div></div>`;
     wrap.appendChild(el);
@@ -809,8 +816,45 @@ function openPredict(sym){
   document.getElementById('pStage2').classList.add('hidden');
   document.getElementById('pStage3').classList.add('hidden');
   document.getElementById('pTitle').textContent=predSym+'/USDT';
-  updPredSub();
+  if(!chartData[sym]||chartData[sym].length<2)seedChart(sym);
+  updPredSub();drawChart('predChart',null);
   updPred();document.getElementById('predModal').classList.add('open');
+}
+// ===== live mini chart =====
+let chartData={};
+function seedChart(sym){
+  const base=prices[sym].price;const arr=[];
+  for(let i=0;i<40;i++)arr.push(base*(1+(Math.random()*0.004-0.002)));
+  arr.push(base);chartData[sym]=arr;
+}
+function pushChart(sym){
+  if(!chartData[sym])seedChart(sym);
+  chartData[sym].push(prices[sym].price);
+  if(chartData[sym].length>60)chartData[sym].shift();
+}
+function drawChart(canvasId,entry){
+  const cv=document.getElementById(canvasId);if(!cv)return;
+  const ctx=cv.getContext('2d');const W=cv.width,H=cv.height;
+  ctx.clearRect(0,0,W,H);
+  const data=chartData[predSym]||[];if(data.length<2)return;
+  const min=Math.min(...data),max=Math.max(...data),rng=(max-min)||1;
+  const x=i=>i/(data.length-1)*W, y=v=>H-8-((v-min)/rng)*(H-16);
+  const up=data[data.length-1]>=data[0];
+  const col=up?'#16e0c4':'#ff2330';
+  // area
+  ctx.beginPath();ctx.moveTo(0,H);
+  data.forEach((v,i)=>ctx.lineTo(x(i),y(v)));
+  ctx.lineTo(W,H);ctx.closePath();
+  const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,col+'44');g.addColorStop(1,col+'00');
+  ctx.fillStyle=g;ctx.fill();
+  // line
+  ctx.beginPath();data.forEach((v,i)=>{i?ctx.lineTo(x(i),y(v)):ctx.moveTo(x(i),y(v));});
+  ctx.strokeStyle=col;ctx.lineWidth=2.5;ctx.shadowColor=col;ctx.shadowBlur=8;ctx.stroke();ctx.shadowBlur=0;
+  // entry line
+  if(entry!=null){const ey=y(entry);ctx.beginPath();ctx.setLineDash([4,4]);ctx.moveTo(0,ey);ctx.lineTo(W,ey);ctx.strokeStyle='rgba(255,255,255,.4)';ctx.lineWidth=1;ctx.stroke();ctx.setLineDash([]);}
+  // last dot
+  const lx=x(data.length-1),ly=y(data[data.length-1]);
+  ctx.beginPath();ctx.arc(lx,ly,4,0,7);ctx.fillStyle=col;ctx.fill();
 }
 function updPredSub(){
   const sub=document.getElementById('pSub');if(!sub)return;
@@ -835,15 +879,16 @@ function placePred(dir){
   if(!roundOpen()){toast('🔒 Round locked — bets closed for last 10s','down');return;}
   stats.wagered+=predAmt;
   const entry=prices[predSym].price;
-  predLive={dir,entry,total:roundLeft};
+  const rec={sym:predSym,dir,amt:predAmt,round:roundNo,status:'live',entry};
+  history.unshift(rec);
+  predLive={dir,entry,total:roundLeft,rec,sym:predSym,amt:predAmt};
   document.getElementById('pStage1').classList.add('hidden');
   document.getElementById('pStage2').classList.remove('hidden');
   document.getElementById('pLiveTitle').textContent=(dir==='up'?'▲ ':'▼ ')+predSym+' · '+dir.toUpperCase();
   document.getElementById('pLiveSub').textContent='Prediction placed · result at round close';
   document.getElementById('pEntry').textContent='entry $'+fmtP(entry);
   const arc=document.getElementById('wheelArc');arc.style.stroke=dir==='up'?'var(--up-glow)':'var(--down-glow)';
-  paintWheel();
-  history.unshift({sym:predSym,dir,amt:predAmt,round:roundNo,status:'live',entry});
+  paintWheel();drawChart('predChart2',entry);
 }
 function paintWheel(){
   if(!predLive)return;
@@ -866,23 +911,21 @@ function changePred(){
   updPredSub();updPred();
 }
 function finishPred(dir,entry){
-  const exit=prices[predSym].price;
+  const sym=predLive?predLive.sym:predSym, amt=predLive?predLive.amt:predAmt, rec=predLive?predLive.rec:null;
+  const exit=prices[sym].price;
   const wentUp=exit>entry,tie=exit===entry;
   const win=!tie && ((dir==='up')===wentUp);
-  // update history record — balance does NOT change (display only)
-  const h=history.find(x=>x.status==='live'&&x.sym===predSym&&x.dir===dir&&x.amt===predAmt);
-  let payout=predAmt; // shown as 2× equivalent for display
-  if(tie){if(h){h.status='tie';h.pnl=0;}}
-  else if(win){stats.wins++;if(h){h.status='won';h.pnl=predAmt;}}
-  else{stats.losses++;if(h){h.status='lost';h.pnl=-predAmt;}}
+  if(tie){if(rec){rec.status='tie';rec.pnl=0;}}
+  else if(win){stats.wins++;if(rec){rec.status='won';rec.pnl=amt;}}
+  else{stats.losses++;if(rec){rec.status='lost';rec.pnl=-amt;}}
   updWinLoss();
   // result stage
   document.getElementById('pStage2').classList.add('hidden');
   document.getElementById('pStage3').classList.remove('hidden');
   const big=document.getElementById('resBig'),amtEl=document.getElementById('resAmt'),meta=document.getElementById('resMeta');
   if(tie){big.className='resbig';big.textContent='TIE';amtEl.className='resamt';amtEl.textContent='no change';meta.textContent='Price didn\'t move';}
-  else if(win){big.className='resbig win';big.textContent='YOU WON 🎉';amtEl.className='resamt win';amtEl.textContent='+'+fmt(predAmt)+' USDT';meta.innerHTML=predSym+' '+dir.toUpperCase()+' · entry $'+fmtP(entry)+' → close $'+fmtP(exit);}
-  else{big.className='resbig lose';big.textContent='YOU LOST';amtEl.className='resamt lose';amtEl.textContent='−'+fmt(predAmt)+' USDT';meta.innerHTML=predSym+' '+dir.toUpperCase()+' · entry $'+fmtP(entry)+' → close $'+fmtP(exit);}
+  else if(win){big.className='resbig win';big.textContent='YOU WON 🎉';amtEl.className='resamt win';amtEl.textContent='+'+fmt(amt)+' USDT';meta.innerHTML=sym+' '+dir.toUpperCase()+' · entry $'+fmtP(entry)+' → close $'+fmtP(exit);}
+  else{big.className='resbig lose';big.textContent='YOU LOST';amtEl.className='resamt lose';amtEl.textContent='−'+fmt(amt)+' USDT';meta.innerHTML=sym+' '+dir.toUpperCase()+' · entry $'+fmtP(entry)+' → close $'+fmtP(exit);}
   document.getElementById('scoreW').textContent=stats.wins+' W';
   document.getElementById('scoreL').textContent=stats.losses+' L';
 }
@@ -993,7 +1036,14 @@ window.addEventListener('touchend',()=>{ptrPulling=false;});
 let wa=0,wt=null;window.addEventListener('wheel',e=>{if(!atTop()||ptrRefreshing){wa=0;return;}if(e.deltaY<0){wa+=Math.abs(e.deltaY);clearTimeout(wt);wt=setTimeout(()=>wa=0,300);if(wa>180){wa=0;doRefresh();}}},{passive:true});
 
 // ============ LOOPS ============
-setInterval(()=>{tickRound();patchPrices();if(tab==='trade'){renderPoolBars();}if(tab==='portfolio')renderPortfolio();},1000);
+setInterval(()=>{tickRound();patchPrices();if(tab==='trade'){renderPoolBars();}if(tab==='portfolio')renderPortfolio();
+  // live chart in predict modal
+  if(document.getElementById('predModal').classList.contains('open')){
+    pushChart(predSym);
+    if(!document.getElementById('pStage1').classList.contains('hidden'))drawChart('predChart',null);
+    if(predLive&&!document.getElementById('pStage2').classList.contains('hidden'))drawChart('predChart2',predLive.entry);
+  }
+},1000);
 async function priceLoop(){await fetchPrices();patchPrices();if(tab==='trade')renderTrade();setTimeout(priceLoop,5000);}
 setInterval(()=>{ // simulated crowd joining the pool
   if(roundOpen()){pool.up+=Math.floor(Math.random()*120);pool.down+=Math.floor(Math.random()*120);if(tab!=='portfolio'&&tab!=='leaders')renderPoolBars();}
