@@ -337,8 +337,8 @@ header{display:flex;align-items:center;justify-content:space-between;padding:18p
       <div class="profit"><div><div class="pl">POTENTIAL PROFIT IF YOU WIN</div></div><div class="pv" id="profit">+0 <small>USDT</small></div></div>
       <div id="dirWrap">
         <div class="dirbtns">
-          <button class="dir up" onclick="predict('up')"><span class="arr">▲</span>UP<small>price higher in 60s</small></button>
-          <button class="dir down" onclick="predict('down')"><span class="arr">▼</span>DOWN<small>price lower in 60s</small></button>
+          <button class="dir up" onclick="predict('up')"><span class="arr">▲</span>UP<small>price higher in 40s</small></button>
+          <button class="dir down" onclick="predict('down')"><span class="arr">▼</span>DOWN<small>price lower in 40s</small></button>
         </div>
       </div>
       <div id="lockWrap" class="hidden"><div class="lockmsg">🔒 Round locked — settling. New round opens shortly.</div></div>
@@ -454,14 +454,14 @@ header{display:flex;align-items:center;justify-content:space-between;padding:18p
     <!-- STAGE 1: choose -->
     <div id="pStage1">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><h3 id="pTitle" style="margin:0">▲ BTC/USDT</h3><span id="pTimer" style="font-family:'Orbitron';font-weight:900;font-size:20px;color:var(--up-glow);background:rgba(22,224,196,.1);border:1px solid rgba(22,224,196,.3);padding:4px 12px;border-radius:10px">0:60</span></div>
-      <div class="sub" id="pSub">Round closes in 60s · win pays 2× your stake</div>
+      <div class="sub" id="pSub">Round closes in 40s · win pays 2× your stake</div>
       <canvas id="predChart" width="600" height="180" style="width:100%;height:120px;display:block;margin:6px 0 12px;border-radius:12px;border:1px solid var(--line);background:rgba(0,0,0,.25)"></canvas>
       <div class="amtbox"><button onclick="adjPred(-50)">−</button><span id="predAmt">150</span><small>USDT</small><button onclick="adjPred(50)">+</button></div>
       <div class="presets"><button onclick="setPred(150)">150</button><button onclick="setPred(300)">300</button><button onclick="setPred(500)">500</button><button onclick="setPred(1000)">1000</button></div>
       <div class="profit" style="margin:6px 0 14px"><div class="pl">IF YOU WIN YOU GET</div><div class="pv" id="predWin">+0 <small>USDT</small></div></div>
       <div class="dirbtns">
-        <button class="dir up" onclick="placePred('up')"><span class="arr">▲</span>UP<small>higher in 60s</small></button>
-        <button class="dir down" onclick="placePred('down')"><span class="arr">▼</span>DOWN<small>lower in 60s</small></button>
+        <button class="dir up" onclick="placePred('up')"><span class="arr">▲</span>UP<small>higher in 40s</small></button>
+        <button class="dir down" onclick="placePred('down')"><span class="arr">▼</span>DOWN<small>lower in 40s</small></button>
       </div>
     </div>
     <!-- STAGE 2: live wheel -->
@@ -528,7 +528,7 @@ let stats={wins:0,losses:0,wagered:0,pnl:0};
 // pool per round (simulated crowd)
 let pool={up:0,down:0};
 // round
-const ROUND_LEN=60; let roundLeft=ROUND_LEN, roundNo=1, roundEntry=null, roundBets=[];
+const ROUND_LEN=40; let roundLeft=ROUND_LEN, roundNo=1, roundEntry=null, roundBets=[];
 function roundOpen(){return roundLeft>10;}
 
 function fmtP(n){n=+n;return n>=1000?n.toLocaleString('en-US',{maximumFractionDigits:0}):n>=1?n.toFixed(2):n.toFixed(4);}
@@ -913,7 +913,10 @@ function changePred(){
 function finishPred(dir,entry){
   const sym=predLive?predLive.sym:predSym, amt=predLive?predLive.amt:predAmt, rec=predLive?predLive.rec:null;
   const exit=prices[sym].price;
-  const wentUp=exit>entry,tie=exit===entry;
+  let wentUp=exit>entry, tie=false;
+  if(exit===entry){ // extremely rare — decide by last tick so there's always a winner/loser
+    wentUp=(prices[sym].price>=prices[sym].prev);
+  }
   const win=!tie && ((dir==='up')===wentUp);
   if(tie){if(rec){rec.status='tie';rec.pnl=0;}}
   else if(win){stats.wins++;if(rec){rec.status='won';rec.pnl=amt;}}
@@ -1036,7 +1039,10 @@ window.addEventListener('touchend',()=>{ptrPulling=false;});
 let wa=0,wt=null;window.addEventListener('wheel',e=>{if(!atTop()||ptrRefreshing){wa=0;return;}if(e.deltaY<0){wa+=Math.abs(e.deltaY);clearTimeout(wt);wt=setTimeout(()=>wa=0,300);if(wa>180){wa=0;doRefresh();}}},{passive:true});
 
 // ============ LOOPS ============
-setInterval(()=>{tickRound();patchPrices();if(tab==='trade'){renderPoolBars();}if(tab==='portfolio')renderPortfolio();
+setInterval(()=>{
+  // per-second micro-drift so the price always moves (between 5s oracle refreshes)
+  MKT.forEach(m=>{const p=prices[m.s];p.prev=p.price;p.price=Math.max(0.0001,p.price*(1+(Math.random()*0.0016-0.0008)));});
+  tickRound();patchPrices();if(tab==='trade'){renderPoolBars();}if(tab==='portfolio')renderPortfolio();
   // live chart in predict modal
   if(document.getElementById('predModal').classList.contains('open')){
     pushChart(predSym);
